@@ -1,0 +1,1332 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Transformers로 뭘 할 수 있을까요? &#8212; NLP Book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=4ec06e9971c5264fbd345897d5258098f11cc577" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=8bf782fb4ee92b3d3646425e50f299c4e1fd152d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'TransformerModels/transformers';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Transformer 사용법" href="transformers%EC%82%AC%EC%9A%A9%EB%B2%95.html" />
+    <link rel="prev" title="Transformer models" href="introduction.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../intro.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Setup/setup.html">
+                        Setup
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../NLP/nlp.html">
+                        Natural Language Processing
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/overview/overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/text_representation/text_representation.html">
+                        Text Representation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/dl_nlp/dl_nlp.html">
+                        Deep Learning for NLP
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/LM/LM.html">
+                        Language Model
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Transformer/architecture/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Transformer/architecture/transformer_family.html">
+                        Transformer Family
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="introduction.html">
+                        Transformer models
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Exercise/introduction.html">
+                        Downstream Task
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Exercise/sentiment_analysis.html">
+                        감성분석 (Sentiment Analysis)
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Exercise/Making_Transformers_Efficient_in_Production.html">
+                        Making Transformers Efficient in Production
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Exercise/Training_Transformers_from_Scratch.html">
+                        Training Transformers from Scratch
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../LLM/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../ChatGPT/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../DevChatGPT/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Appendix/appendix.html">
+                        Appendix
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Setup/setup.html">
+                        Setup
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../NLP/nlp.html">
+                        Natural Language Processing
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/overview/overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/text_representation/text_representation.html">
+                        Text Representation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/dl_nlp/dl_nlp.html">
+                        Deep Learning for NLP
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/LM/LM.html">
+                        Language Model
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Transformer/architecture/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Transformer/architecture/transformer_family.html">
+                        Transformer Family
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="introduction.html">
+                        Transformer models
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Exercise/introduction.html">
+                        Downstream Task
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Exercise/sentiment_analysis.html">
+                        감성분석 (Sentiment Analysis)
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Exercise/Making_Transformers_Efficient_in_Production.html">
+                        Making Transformers Efficient in Production
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Exercise/Training_Transformers_from_Scratch.html">
+                        Training Transformers from Scratch
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../LLM/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../ChatGPT/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../DevChatGPT/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Appendix/appendix.html">
+                        Appendix
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item">
+  
+
+
+<a class="navbar-brand logo" href="../intro.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    </div>
+    <div class="sidebar-start-items__item">
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    들어가며
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">1장 SetUp</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Setup/setup.html">Setup</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/setup_env.html">패키지 설치 및 환경설정</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../NLP/nlp.html">Natural Language Processing</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">2장 BasicNLP</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../BasicNLP/overview/overview.html">Overview</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/overview/%ED%95%9C%EA%B8%80%EA%B3%BC%EC%9E%90%EC%97%B0%EC%96%B4%EC%B2%98%EB%A6%AC.html">한국어와 자연어처리</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/overview/%EC%9E%90%EC%97%B0%EC%96%B4%EC%B2%98%EB%A6%AC%EC%9A%A9%EC%96%B4.html">token, sentence, vector spaces, embedding</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../BasicNLP/text_representation/text_representation.html">Text Representation</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/text_representation/tf-idf.html">TF-IDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/text_representation/word2vec.html">Word2Vec &amp; GloVe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/text_representation/contextual_word_representation.html">Contextual word representation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../BasicNLP/dl_nlp/dl_nlp.html">Deep Learning for NLP</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/dl_nlp/mlp.html">MLP(Multi-Layer Perceptron)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/dl_nlp/cnn.html">CNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/dl_nlp/rnn.html">RNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/dl_nlp/attention_mechanism.html">Attention mechanism</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../BasicNLP/LM/LM.html">Language Model</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/LM/probability.html">Probability Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/LM/disc_gen_model.html">Discriminative VS Generative model</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">3장 Transformer</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Transformer/architecture/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Transformer/architecture/transformer_family.html">Transformer Family</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="introduction.html">Transformer models</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Transformers로 뭘 할 수 있을까요?</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="transformers%EC%82%AC%EC%9A%A9%EB%B2%95.html">Transformer 사용법</a></li>
+<li class="toctree-l2"><a class="reference internal" href="%EB%8B%A4%EC%96%91%ED%95%9C%EC%96%B8%EC%96%B4%EB%AA%A8%EB%8D%B8.html">언어모델의 다양한 아키텍쳐</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bias_and_limitations.html">언어모델의 편견 및 한계</a></li>
+<li class="toctree-l2"><a class="reference internal" href="%EB%A7%BA%EC%9C%BC%EB%A9%B0.html">맺으며</a></li>
+<li class="toctree-l2"><a class="reference internal" href="%ED%80%B4%EC%A6%88.html">챕터 끝 퀴즈</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">4장 Downstream Task</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Exercise/introduction.html">Downstream Task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Exercise/sentiment_analysis.html">감성분석 (Sentiment Analysis)</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../Exercise/Making_Transformers_Efficient_in_Production.html">Making Transformers Efficient in Production</a></li>
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../Exercise/Training_Transformers_from_Scratch.html">Training Transformers from Scratch</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">5장 Large Language Models(LLMs)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../LLM/introduction.html">Introduction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">6장 ChatGPT</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ChatGPT/introduction.html">Introduction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">7장 나만의 ChatGPT 만들기</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../DevChatGPT/introduction.html">Introduction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">부록</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Appendix/appendix.html">Appendix</a></li>
+</ul>
+
+    </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        <label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" data-toggle="tooltip" data-placement="right" title="Toggle primary sidebar">
+            <span class="fa-solid fa-bars"></span>
+        </label>
+    </div>
+    <div class="header-article__right">
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+  </ul>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<div class="dropdown dropdown-repository-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="https://github.com/eagle705/nlp-book" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">repository</span>
+</a>
+</a>
+      
+      <li><a href="https://github.com/eagle705/nlp-book/issues/new?title=Issue%20on%20page%20%2FTransformerModels/transformers.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">open issue</span>
+</a>
+</a>
+      
+  </ul>
+</div>
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="../_sources/TransformerModels/transformers.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</a>
+      
+      <li>
+<button onclick="printPdf(this)"
+  class="btn btn-sm dropdown-item"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</a>
+      
+  </ul>
+</div>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary" data-toggle="tooltip" data-placement="left" title="Toggle secondary sidebar">
+            <span class="fa-solid fa-list"></span>
+        </label>
+    </div>
+</div>
+            </div>
+            
+            
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Transformers로 뭘 할 수 있을까요?</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Transformers로 뭘 할 수 있을까요?
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#zero-shot-classification">
+   Zero-shot classification
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#text-generation">
+   Text generation
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-hub-pipeline">
+   Model Hub에 있는 모델로 pipeline 만들기
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inference-api">
+   Inference API
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mask-filling">
+   Mask filling
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#named-entity-recognition">
+   Named entity recognition
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#question-answering">
+   Question answering
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summarization">
+   Summarization
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#translation">
+   Translation
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+            <article class="bd-article" role="main">
+              
+  <section id="transformers">
+<h1>Transformers로 뭘 할 수 있을까요?<a class="headerlink" href="#transformers" title="Permalink to this heading">#</a></h1>
+<p>Transformers와 Datasets 라이브러리를 설치해줍니다 (-q 옵션은 로그를 생략하기 위해 사용했습니다)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>!pip install transformers[sentencepiece] datasets -q
+</pre></div>
+</div>
+</div>
+</div>
+<p>pipeline api는 inference 과정을 위해 전처리등 여러가지 과정을 압축한 high-level api입니다. 아래와 같이 사용할 수 있습니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">pipeline</span>
+
+<span class="n">classifier</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;sentiment-analysis&quot;</span><span class="p">)</span>
+<span class="n">classifier</span><span class="p">(</span><span class="s2">&quot;I&#39;ve been waiting for a HuggingFace course my whole life.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No model was supplied, defaulted to distilbert-base-uncased-finetuned-sst-2-english (https://huggingface.co/distilbert-base-uncased-finetuned-sst-2-english)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;label&#39;: &#39;POSITIVE&#39;, &#39;score&#39;: 0.9598048329353333}]
+</pre></div>
+</div>
+</div>
+</div>
+<p>리스트형 입력을 사용하면 한문장뿐만 아니라 여러문장도 처리할 수 있습니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">classifier</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;I&#39;ve been waiting for a HuggingFace course my whole life.&quot;</span><span class="p">,</span> <span class="s2">&quot;I hate this so much!&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.7/dist-packages/torch/utils/data/dataloader.py:481: UserWarning: This DataLoader will create 8 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  cpuset_checked))
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;label&#39;: &#39;POSITIVE&#39;, &#39;score&#39;: 0.9598048329353333},
+ {&#39;label&#39;: &#39;NEGATIVE&#39;, &#39;score&#39;: 0.9994558691978455}]
+</pre></div>
+</div>
+</div>
+</div>
+<p>이 파이프라인은 프리트레이닝된 모델을 감성분석 데이터셋에 파인튜닝한 모델을 사용했습니다. 모델은 classifier 객체를 생성할때 다운로드 및 캐싱되게 됩니다. 그러므로 다음번 객체를 생성할땐 추가로 다운받지 않아도 됩니다.</p>
+<p>pipeline에 텍스트를 입력으로 넣게되면 다음과 같이 크게 3가지 과정을 거치게 됩니다.</p>
+<ol class="arabic simple">
+<li><p>텍스트가 모델이 이해할 수 있는 포멧으로 전처리 됩니다</p></li>
+<li><p>전처리된 값이 모델에 입력됩니다.</p></li>
+<li><p>모델의 예측값이 인간이 이해할 수 있는 형태로 후처리됩니다.</p></li>
+</ol>
+<p>사용 가능한 형태의 pipeline은 <a class="reference external" href="https://huggingface.co/docs/transformers/main_classes/pipelines">아래</a>와 같이 여러 종류로 이루어져있습니다.</p>
+<ul class="simple">
+<li><p>feature-extraction (get the vector representation of a text)</p></li>
+<li><p>fill-mask</p></li>
+<li><p>ner (named entity recognition)</p></li>
+<li><p>question-answering</p></li>
+<li><p>sentiment-analysis</p></li>
+<li><p>summarization</p></li>
+<li><p>text-generation</p></li>
+<li><p>translation</p></li>
+<li><p>zero-shot-classification</p></li>
+</ul>
+<p>이제부터 각 pipeline을 한번 살펴보겠습니다.</p>
+</section>
+<section id="zero-shot-classification">
+<h1>Zero-shot classification<a class="headerlink" href="#zero-shot-classification" title="Permalink to this heading">#</a></h1>
+<p>조금은 도전적인 태스크부터 다뤄보겠습니다. 보통의 텍스트 분류 문제는 레이블 데이터를 모으고, 분류기를 학습해서 문제를 해결합니다. 하지만 이는 시간이 드는 문제고, 도메인 전문가의 도움이 필요할 수도 있습니다. 이러한 경우 <code class="docutils literal notranslate"><span class="pre">zero-shot-classification</span></code> pipeline은 매우 유용하게 쓰일 수 있습니다. zero-shot은 학습을 않고 바로 분류하는 경우를 말하는데요. 분류할 문장과 다양한 클래스를 모델에 입력으로 넣어주면, 문장과 클래스의 연관도를 확률로 출력해줍니다. 내부적으로는 <code class="docutils literal notranslate"><span class="pre">MNLI</span></code>데이터셋으로 파인튜닝된 모델을 사용합니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">pipeline</span>
+
+<span class="n">classifier</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;zero-shot-classification&quot;</span><span class="p">)</span>
+<span class="n">classifier</span><span class="p">(</span>
+    <span class="s2">&quot;This is a course about the Transformers library&quot;</span><span class="p">,</span>
+    <span class="n">candidate_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;education&quot;</span><span class="p">,</span> <span class="s2">&quot;politics&quot;</span><span class="p">,</span> <span class="s2">&quot;business&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No model was supplied, defaulted to facebook/bart-large-mnli (https://huggingface.co/facebook/bart-large-mnli)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;labels&#39;: [&#39;education&#39;, &#39;business&#39;, &#39;politics&#39;],
+ &#39;scores&#39;: [0.8445989489555359, 0.11197411268949509, 0.04342697188258171],
+ &#39;sequence&#39;: &#39;This is a course about the Transformers library&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<p>위와 같이 분류하고자하는 도메인 데이터에 대해서 파인튜닝할 필요가 없기 때문에 <em>zero-shot</em> 이라고 부릅니다</p>
+</section>
+<section id="text-generation">
+<h1>Text generation<a class="headerlink" href="#text-generation" title="Permalink to this heading">#</a></h1>
+<p>지금부터는 텍스트 생성을 위한 pipleline을 살펴보겠습니다. 텍스트 생성을 위한 메인 아이디어는 프롬프트(prompt; 생성될 문장 앞에 들어가는 텍스트)를 제공하는 것입니다. 프롬프트가 입력되면 모델은 남은 영역을 문장 생성을 통해 완성시키게됩니다.<br />
+텍스트 생성은 기본적으로 랜덤 속성이 있기 때문에 아래와 같은 문장이 생성되지 않더라도 정상입니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">pipeline</span>
+
+<span class="n">generator</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;text-generation&quot;</span><span class="p">)</span>
+<span class="n">generator</span><span class="p">(</span><span class="s2">&quot;In this course, we will teach you how to&quot;</span><span class="p">,</span>
+          <span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+          <span class="n">num_return_sequences</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+          <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No model was supplied, defaulted to gpt2 (https://huggingface.co/gpt2)
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;generated_text&#39;: &quot;In this course, we will teach you how to construct a user-friendly app using your existing browser experience. We&#39;ll also create custom content and design&quot;},
+ {&#39;generated_text&#39;: &#39;In this course, we will teach you how to use the Mapper to learn more. We will have a look at some more basics of Mapper&#39;}]
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">num_return_sequences</span></code>와 <code class="docutils literal notranslate"><span class="pre">max_length</span></code> 옵션을 통해 생성할 문장 개수 및 문장 길이를 조절할 수 있습니다.</p>
+</section>
+<section id="model-hub-pipeline">
+<h1>Model Hub에 있는 모델로 pipeline 만들기<a class="headerlink" href="#model-hub-pipeline" title="Permalink to this heading">#</a></h1>
+<p>위에서 나온 예제외에 다른 모델을 사용해보고 싶다면 허깅페이스의 Model hub (<a class="reference external" href="https://huggingface.co/models">https://huggingface.co/models</a>)에 있는 다른 모델을 이용해볼 수 있습니다.
+다른 text-generation 모델은 <a class="reference external" href="https://huggingface.co/models?pipeline_tag=text-generation">이곳</a>에서 확인할 수 있습니다.</p>
+<p>이번에는 <a class="reference external" href="https://huggingface.co/distilgpt2">distilgpt2</a> 모델을 사용해보겠습니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">pipeline</span>
+
+<span class="n">generator</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;text-generation&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;distilgpt2&quot;</span><span class="p">)</span>
+<span class="n">generator</span><span class="p">(</span>
+    <span class="s2">&quot;In this course, we will teach you how to&quot;</span><span class="p">,</span>
+    <span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">num_return_sequences</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;generated_text&#39;: &#39;In this course, we will teach you how to best follow the rules of the Bitcoin Blockchain.&#39;},
+ {&#39;generated_text&#39;: &quot;In this course, we will teach you how to perform these basic rules to prepare for an amazing experience. We don&#39;t have the usual rules to prepare&quot;}]
+</pre></div>
+</div>
+</div>
+</div>
+<p><a class="reference external" href="https://huggingface.co/models">모델 허브</a>에서 필터를 사용하면, 원하는 Tasks와 Languages에 맞는 모델을 찾을 수 있습니다. (한국어는 <code class="docutils literal notranslate"><span class="pre">ko</span></code> 태그를 통해 찾을 수 있습니다)</p>
+<p><img alt="model_filter" src="https://user-images.githubusercontent.com/7252598/145123053-ffea71a8-a22e-4c17-b4f0-3f28fb6b4be0.gif" /></p>
+</section>
+<section id="inference-api">
+<h1>Inference API<a class="headerlink" href="#inference-api" title="Permalink to this heading">#</a></h1>
+<p>모든 모델은 허깅페이스에서 제공하는 Inference API를 통해 웹브라우저에서 테스트해볼 수 있습니다.</p>
+<p><img alt="inference api" src="https://user-images.githubusercontent.com/7252598/145122531-3e523309-e038-4bdd-8e18-4d48174b6fe6.gif" /></p>
+</section>
+<section id="mask-filling">
+<h1>Mask filling<a class="headerlink" href="#mask-filling" title="Permalink to this heading">#</a></h1>
+<p>이번에 소개할 파이프라인은 <code class="docutils literal notranslate"><span class="pre">fill-mask</span></code>입니다. 쉽게말하면 빈칸 채우기 task입니다. 빈칸이 있는 텍스트가 주어졌을때 확률적으로 가장 적절한 단어를 채워줍니다. 빈칸은 특수 토큰인 <code class="docutils literal notranslate"><span class="pre">&lt;mask&gt;</span></code>로 표기하고, <code class="docutils literal notranslate"><span class="pre">top_k</span></code> 인자는 확률이 높은 단어를 몇개까지 출력할지를 결정합니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">pipeline</span>
+
+<span class="n">unmasker</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;fill-mask&quot;</span><span class="p">)</span>
+<span class="n">unmasker</span><span class="p">(</span><span class="s2">&quot;This course will teach you all about &lt;mask&gt; models.&quot;</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No model was supplied, defaulted to distilroberta-base (https://huggingface.co/distilroberta-base)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;score&#39;: 0.196198508143425,
+  &#39;sequence&#39;: &#39;This course will teach you all about mathematical models.&#39;,
+  &#39;token&#39;: 30412,
+  &#39;token_str&#39;: &#39; mathematical&#39;},
+ {&#39;score&#39;: 0.040527332574129105,
+  &#39;sequence&#39;: &#39;This course will teach you all about computational models.&#39;,
+  &#39;token&#39;: 38163,
+  &#39;token_str&#39;: &#39; computational&#39;}]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="named-entity-recognition">
+<h1>Named entity recognition<a class="headerlink" href="#named-entity-recognition" title="Permalink to this heading">#</a></h1>
+<p>개체명인식은 입력 텍스트에서 person(PER), location(LOC), organization(ORG)등에 대응되는 부분(토큰)을 찾아내는 태스크입니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">pipeline</span>
+
+<span class="n">ner</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">,</span> <span class="n">grouped_entities</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ner</span><span class="p">(</span><span class="s2">&quot;My name is Sylvain and I work at Hugging Face in Brooklyn.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No model was supplied, defaulted to dbmdz/bert-large-cased-finetuned-conll03-english (https://huggingface.co/dbmdz/bert-large-cased-finetuned-conll03-english)
+/usr/local/lib/python3.7/dist-packages/transformers/pipelines/token_classification.py:129: UserWarning: `grouped_entities` is deprecated and will be removed in version v5.0.0, defaulted to `aggregation_strategy=&quot;AggregationStrategy.SIMPLE&quot;` instead.
+  f&#39;`grouped_entities` is deprecated and will be removed in version v5.0.0, defaulted to `aggregation_strategy=&quot;{aggregation_strategy}&quot;` instead.&#39;
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;end&#39;: 18,
+  &#39;entity_group&#39;: &#39;PER&#39;,
+  &#39;score&#39;: 0.9981694,
+  &#39;start&#39;: 11,
+  &#39;word&#39;: &#39;Sylvain&#39;},
+ {&#39;end&#39;: 45,
+  &#39;entity_group&#39;: &#39;ORG&#39;,
+  &#39;score&#39;: 0.97960186,
+  &#39;start&#39;: 33,
+  &#39;word&#39;: &#39;Hugging Face&#39;},
+ {&#39;end&#39;: 57,
+  &#39;entity_group&#39;: &#39;LOC&#39;,
+  &#39;score&#39;: 0.99321055,
+  &#39;start&#39;: 49,
+  &#39;word&#39;: &#39;Brooklyn&#39;}]
+</pre></div>
+</div>
+</div>
+</div>
+<p>transformer 계열의 모델은 입력형태가 서브워드형태로 이루어지기 때문에 실제 엔티티는 서브워드토큰 마다 태깅되게 됩니다. <code class="docutils literal notranslate"><span class="pre">grouped_entities=True</span></code> 조건은 이러한 서브워드들을 하나의 단어 형태로 변환해줍니다.
+<code class="docutils literal notranslate"><span class="pre">grouped_entities=False</span></code>로 할 경우 <code class="docutils literal notranslate"><span class="pre">Hugging</span> <span class="pre">Face</span></code>-&gt; <code class="docutils literal notranslate"><span class="pre">Hu</span> <span class="pre">##gging</span> <span class="pre">Face</span></code> 각각에 <code class="docutils literal notranslate"><span class="pre">ORG</span></code> 클래스가 태깅되게 됩니다.</p>
+</section>
+<section id="question-answering">
+<h1>Question answering<a class="headerlink" href="#question-answering" title="Permalink to this heading">#</a></h1>
+<p>question answering은 질문과 컨텍스트를 입력으로 넣었을때, 컨텍스트내에서 질문의 답과 가장 연관이 많은 부분을 <code class="docutils literal notranslate"><span class="pre">extractive</span></code>하게 추출하는 태스크입니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">pipeline</span>
+
+<span class="n">question_answerer</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;question-answering&quot;</span><span class="p">)</span>
+<span class="n">question_answerer</span><span class="p">(</span>
+    <span class="n">question</span><span class="o">=</span><span class="s2">&quot;Where do I work?&quot;</span><span class="p">,</span>
+    <span class="n">context</span><span class="o">=</span><span class="s2">&quot;My name is Sylvain and I work at Hugging Face in Brooklyn&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No model was supplied, defaulted to distilbert-base-cased-distilled-squad (https://huggingface.co/distilbert-base-cased-distilled-squad)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;answer&#39;: &#39;Hugging Face&#39;, &#39;end&#39;: 45, &#39;score&#39;: 0.6949771046638489, &#39;start&#39;: 33}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="summarization">
+<h1>Summarization<a class="headerlink" href="#summarization" title="Permalink to this heading">#</a></h1>
+<p>요약은 주어진 본문중 중요한 부분 위주로 글을 간추리는 태스크입니다. 텍스트 생성과 같이 <code class="docutils literal notranslate"><span class="pre">max_length</span></code>, <code class="docutils literal notranslate"><span class="pre">min_length</span></code> 인자로 글의 양을 조절할 수 있습니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">pipeline</span>
+
+<span class="n">summarizer</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;summarization&quot;</span><span class="p">)</span>
+<span class="n">summarizer</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    America has changed dramatically during recent years. Not only has the number of </span>
+<span class="sd">    graduates in traditional engineering disciplines such as mechanical, civil, </span>
+<span class="sd">    electrical, chemical, and aeronautical engineering declined, but in most of </span>
+<span class="sd">    the premier American universities engineering curricula now concentrate on </span>
+<span class="sd">    and encourage largely the study of engineering science. As a result, there </span>
+<span class="sd">    are declining offerings in engineering subjects dealing with infrastructure, </span>
+<span class="sd">    the environment, and related issues, and greater concentration on high </span>
+<span class="sd">    technology subjects, largely supporting increasingly complex scientific </span>
+<span class="sd">    developments. While the latter is important, it should not be at the expense </span>
+<span class="sd">    of more traditional engineering.</span>
+
+<span class="sd">    Rapidly developing economies such as China and India, as well as other </span>
+<span class="sd">    industrial countries in Europe and Asia, continue to encourage and advance </span>
+<span class="sd">    the teaching of engineering. Both China and India, respectively, graduate </span>
+<span class="sd">    six and eight times as many traditional engineers as does the United States. </span>
+<span class="sd">    Other industrial countries at minimum maintain their output, while America </span>
+<span class="sd">    suffers an increasingly serious decline in the number of engineering graduates </span>
+<span class="sd">    and a lack of well-educated engineers.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No model was supplied, defaulted to sshleifer/distilbart-cnn-12-6 (https://huggingface.co/sshleifer/distilbart-cnn-12-6)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;summary_text&#39;: &#39; America has changed dramatically during recent years . The number of engineering graduates in the U.S. has declined in traditional engineering disciplines such as mechanical, civil,    electrical, chemical, and aeronautical engineering . Rapidly developing economies such as China and India continue to encourage and advance the teaching of engineering .&#39;}]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="translation">
+<h1>Translation<a class="headerlink" href="#translation" title="Permalink to this heading">#</a></h1>
+<p>간단하게 번역할 수 있는 파이프라인도 제공됩니다. model hub에서 번역할 언어쌍이 명시된 모델(<a class="reference external" href="https://huggingface.co/Helsinki-NLP/opus-mt-ko-en">Helsinki-NLP/opus-mt-ko-en</a>)을 선택해서 사용할 수 있습니다. 텍스트 생성과 같이 <code class="docutils literal notranslate"><span class="pre">max_length</span></code>, <code class="docutils literal notranslate"><span class="pre">min_length</span></code> 인자로 글의 양을 조절할 수 있습니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">pipeline</span>
+
+<span class="n">translator</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;translation&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;Helsinki-NLP/opus-mt-ko-en&quot;</span><span class="p">)</span>
+<span class="n">translator</span><span class="p">(</span><span class="s2">&quot;Huggingface로 배우는 NLP는 멋져&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;translation_text&#39;: &#39;The NLP that you learn with Huggingface is great.&#39;}]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./TransformerModels"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+            </article>
+            
+
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="introduction.html" title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Transformer models</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="transformers%EC%82%AC%EC%9A%A9%EB%B2%95.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Transformer 사용법</p>
+  </div>
+  <i class="fa-solid fa-angle-right"></i>
+  </a>
+</div>
+            </footer>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Transformers로 뭘 할 수 있을까요?
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#zero-shot-classification">
+   Zero-shot classification
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#text-generation">
+   Text generation
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-hub-pipeline">
+   Model Hub에 있는 모델로 pipeline 만들기
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inference-api">
+   Inference API
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mask-filling">
+   Mask filling
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#named-entity-recognition">
+   Named entity recognition
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#question-answering">
+   Question answering
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summarization">
+   Summarization
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#translation">
+   Translation
+  </a>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By JSYoon
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright 2022.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+Last updated on None.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </div>
+        </footer>
+        
+
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  </body>
+</html>

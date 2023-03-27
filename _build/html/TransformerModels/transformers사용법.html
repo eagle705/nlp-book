@@ -1,0 +1,1102 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Transformer 사용법 &#8212; NLP Book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=4ec06e9971c5264fbd345897d5258098f11cc577" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=8bf782fb4ee92b3d3646425e50f299c4e1fd152d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'TransformerModels/transformers사용법';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="언어모델의 다양한 아키텍쳐" href="%EB%8B%A4%EC%96%91%ED%95%9C%EC%96%B8%EC%96%B4%EB%AA%A8%EB%8D%B8.html" />
+    <link rel="prev" title="Transformers로 뭘 할 수 있을까요?" href="transformers.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../intro.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Setup/setup.html">
+                        Setup
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../NLP/nlp.html">
+                        Natural Language Processing
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/overview/overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/text_representation/text_representation.html">
+                        Text Representation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/dl_nlp/dl_nlp.html">
+                        Deep Learning for NLP
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/LM/LM.html">
+                        Language Model
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Transformer/architecture/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Transformer/architecture/transformer_family.html">
+                        Transformer Family
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="introduction.html">
+                        Transformer models
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Exercise/introduction.html">
+                        Downstream Task
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Exercise/sentiment_analysis.html">
+                        감성분석 (Sentiment Analysis)
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Exercise/Making_Transformers_Efficient_in_Production.html">
+                        Making Transformers Efficient in Production
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Exercise/Training_Transformers_from_Scratch.html">
+                        Training Transformers from Scratch
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../LLM/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../ChatGPT/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../DevChatGPT/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Appendix/appendix.html">
+                        Appendix
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Setup/setup.html">
+                        Setup
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../NLP/nlp.html">
+                        Natural Language Processing
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/overview/overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/text_representation/text_representation.html">
+                        Text Representation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/dl_nlp/dl_nlp.html">
+                        Deep Learning for NLP
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/LM/LM.html">
+                        Language Model
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Transformer/architecture/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Transformer/architecture/transformer_family.html">
+                        Transformer Family
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="introduction.html">
+                        Transformer models
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Exercise/introduction.html">
+                        Downstream Task
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Exercise/sentiment_analysis.html">
+                        감성분석 (Sentiment Analysis)
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Exercise/Making_Transformers_Efficient_in_Production.html">
+                        Making Transformers Efficient in Production
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Exercise/Training_Transformers_from_Scratch.html">
+                        Training Transformers from Scratch
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../LLM/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../ChatGPT/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../DevChatGPT/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Appendix/appendix.html">
+                        Appendix
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item">
+  
+
+
+<a class="navbar-brand logo" href="../intro.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    </div>
+    <div class="sidebar-start-items__item">
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    들어가며
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">1장 SetUp</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Setup/setup.html">Setup</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/setup_env.html">패키지 설치 및 환경설정</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../NLP/nlp.html">Natural Language Processing</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">2장 BasicNLP</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../BasicNLP/overview/overview.html">Overview</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/overview/%ED%95%9C%EA%B8%80%EA%B3%BC%EC%9E%90%EC%97%B0%EC%96%B4%EC%B2%98%EB%A6%AC.html">한국어와 자연어처리</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/overview/%EC%9E%90%EC%97%B0%EC%96%B4%EC%B2%98%EB%A6%AC%EC%9A%A9%EC%96%B4.html">token, sentence, vector spaces, embedding</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../BasicNLP/text_representation/text_representation.html">Text Representation</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/text_representation/tf-idf.html">TF-IDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/text_representation/word2vec.html">Word2Vec &amp; GloVe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/text_representation/contextual_word_representation.html">Contextual word representation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../BasicNLP/dl_nlp/dl_nlp.html">Deep Learning for NLP</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/dl_nlp/mlp.html">MLP(Multi-Layer Perceptron)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/dl_nlp/cnn.html">CNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/dl_nlp/rnn.html">RNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/dl_nlp/attention_mechanism.html">Attention mechanism</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../BasicNLP/LM/LM.html">Language Model</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/LM/probability.html">Probability Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/LM/disc_gen_model.html">Discriminative VS Generative model</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">3장 Transformer</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Transformer/architecture/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Transformer/architecture/transformer_family.html">Transformer Family</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="introduction.html">Transformer models</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="transformers.html">Transformers로 뭘 할 수 있을까요?</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Transformer 사용법</a></li>
+<li class="toctree-l2"><a class="reference internal" href="%EB%8B%A4%EC%96%91%ED%95%9C%EC%96%B8%EC%96%B4%EB%AA%A8%EB%8D%B8.html">언어모델의 다양한 아키텍쳐</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bias_and_limitations.html">언어모델의 편견 및 한계</a></li>
+<li class="toctree-l2"><a class="reference internal" href="%EB%A7%BA%EC%9C%BC%EB%A9%B0.html">맺으며</a></li>
+<li class="toctree-l2"><a class="reference internal" href="%ED%80%B4%EC%A6%88.html">챕터 끝 퀴즈</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">4장 Downstream Task</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Exercise/introduction.html">Downstream Task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Exercise/sentiment_analysis.html">감성분석 (Sentiment Analysis)</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../Exercise/Making_Transformers_Efficient_in_Production.html">Making Transformers Efficient in Production</a></li>
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../Exercise/Training_Transformers_from_Scratch.html">Training Transformers from Scratch</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">5장 Large Language Models(LLMs)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../LLM/introduction.html">Introduction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">6장 ChatGPT</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ChatGPT/introduction.html">Introduction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">7장 나만의 ChatGPT 만들기</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../DevChatGPT/introduction.html">Introduction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">부록</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Appendix/appendix.html">Appendix</a></li>
+</ul>
+
+    </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        <label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" data-toggle="tooltip" data-placement="right" title="Toggle primary sidebar">
+            <span class="fa-solid fa-bars"></span>
+        </label>
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<div class="dropdown dropdown-repository-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="https://github.com/eagle705/nlp-book" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">repository</span>
+</a>
+</a>
+      
+      <li><a href="https://github.com/eagle705/nlp-book/issues/new?title=Issue%20on%20page%20%2FTransformerModels/transformers사용법.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">open issue</span>
+</a>
+</a>
+      
+  </ul>
+</div>
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="../_sources/TransformerModels/transformers사용법.md" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</a>
+      
+      <li>
+<button onclick="printPdf(this)"
+  class="btn btn-sm dropdown-item"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</a>
+      
+  </ul>
+</div>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary" data-toggle="tooltip" data-placement="left" title="Toggle secondary sidebar">
+            <span class="fa-solid fa-list"></span>
+        </label>
+    </div>
+</div>
+            </div>
+            
+            
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Transformer 사용법</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   트랜스포머의 역사
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   트랜스포머 게열의 모델들은 언어모델입니다
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id3">
+   트랜스포머계열의 모델들은 빅모델입니다
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#transfer-learning">
+   전이학습 (Transfer Learning)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id4">
+   일반적인 모델 구조
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     들어가며
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#attention-layers">
+     어텐션 레이어 (Attention layers)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     본래 Transformer 모델 구조
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#architectures-vs-checkpoints">
+     Architectures vs checkpoints
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+            <article class="bd-article" role="main">
+              
+  <section class="tex2jax_ignore mathjax_ignore" id="transformer">
+<h1>Transformer 사용법<a class="headerlink" href="#transformer" title="Permalink to this heading">#</a></h1>
+<p>이번장에서는 high-level의 시각에서 트랜스포머 모델들의 구조에 대해서 살펴보겠습니다.</p>
+<section id="id1">
+<h2>트랜스포머의 역사<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<p>다음은 트랜스포머 모델들의 역사를 한장으로 요약한 사진입니다.
+<img alt="" src="https://huggingface.co/course/static/chapter1/transformers_chrono.png" /></p>
+<p><a class="reference external" href="https://arxiv.org/abs/1706.03762">Transformer 구조</a>는 2017년 6월에 발표되었습니다. 본래의 연구는 번역태스크에 초점을 맞췄었습니다. 그 후 트랜스포머 구조에 영향을 받은 여러 모델들이 발표되었고 다음과 같습니다.</p>
+<ul class="simple">
+<li><p>2018년 6월: <a class="reference external" href="https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf">GPT</a>, 트랜스포머 계열중에선 첫번째로 발표된 pretrained LM입니다. 트랜스포머의 디코더 부분을 활용했고, 다양한 NLP 태스크에 대해서 파인튜닝한 결과에 대해서 SOTA 성능을 기록했습니다.</p></li>
+<li><p>2018년 10월: <a class="reference external" href="https://arxiv.org/abs/1810.04805">BERT</a>, 또 다른 large pretrained LM로 트랜스포머의 인코더 부분만 활용했으며, 문장들에 대해서 더 좋은 representation을 생성하기 위해 설계되었습니다. (가장 많이 쓰이는 모델중 하나이며, 다음장에서 더 자세히 다룰 예정입니다)</p></li>
+<li><p>2019년 2월: <a class="reference external" href="https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf">GPT-2</a>, 개선된 버전의 GPT 모델로써 윤리적 이슈로 인해 바로 공개되진 않았었습니다.</p></li>
+<li><p>2019년 10월: <a class="reference external" href="https://arxiv.org/abs/1910.01108">DistilBERT</a>, 버트의 경량화된 버전으로 60% 빠른 속도와 40%의 메모리 절약하면서도 97%의 성능을 유지했습니다. 이때부터 대형 언어모델의 경량화 연구가 활발해졌습니다.</p></li>
+<li><p>2019년 10월: <a class="reference external" href="https://arxiv.org/abs/1910.13461">BART</a> &amp; <a class="reference external" href="https://arxiv.org/abs/1910.10683">T5</a>, 트랜스포머의 인코더 디코더 구조를 활용한 pretrained LM모델입니다.</p></li>
+<li><p>2020년 5월: <a class="reference external" href="https://arxiv.org/abs/2005.14165">GPT-3</a>, 기존 GPT-2 모델보다 훨씬 큰 버전의 pretrained LM입니다. 파인튜닝 없이(zero-shot learning) 다양한 NLP 태스크를 잘 수행할 수 있는 것으로 알려졌습니다.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>GPT 계열 (auto-regressive)</p></li>
+<li><p>BERT 계열 (auto-encoding)</p></li>
+<li><p>BART/T5 계열 (sequence-to-sequence)</p></li>
+</ul>
+</div>
+</section>
+<section id="id2">
+<h2>트랜스포머 게열의 모델들은 언어모델입니다<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<p>GPT, BERT, BART, T5 등등 위에서 언급된 모든 트랜스포머 모델들은 언어모델(Language Model)로 학습되었습니다. 대량의 말뭉치에 대해 self-supervised 방법으로 학습했습니다. self-supervised learning은 학습방법 중 하나로써 모델에 입력으로 들어오는 표현 간의 특정한 관계를 배우는 것을 목표로 학습합니다. 이는 label 데이터를 따로 사용하지 않아도 됨을 뜻합니다. (예컨데, 문장 토큰의 일부를 마스킹한 뒤 해당 토큰이 무엇인지 맞추거나, 혹은 연속된 두 문장이 연관이 있는지를 맞추는 문제등을 들 수 있습니다)</p>
+<p>이러한 모델은 통계적으로 언어에 대한 이해를 할 수 있지만 특정 태스크에 대해서는 유용하지 못할 것입니다. 이러한 이유로 보통의 사전학습 모델은 각 태스크에 맞는 <code class="docutils literal notranslate"><span class="pre">transfer</span> <span class="pre">learning</span></code>을 수행하게 됩니다. 이러한 과정에서 모델은 supervised 방법(human-annotated labels를 사용한)으로 파인튜닝됩니다.</p>
+<p>언어모델은 크게 두가지 방법으로 학습됩니다.
+첫번째 방법은 문장 내에서 <code class="docutils literal notranslate"><span class="pre">n</span></code>개의 단어들을 읽은 뒤 다음 단어가 무엇인지 맞추는 방법입니다. 이러한 방법을 <code class="docutils literal notranslate"><span class="pre">casual</span> <span class="pre">language</span> <span class="pre">modeling</span></code> 이라고 부릅니다. 왜냐하면 출력값이 과거에서부터 현재까지의 입력에 영향을 받기 때문입니다. (미래에 등장할 값은 고려하지 않습니다)</p>
+<p>(casual Figure)</p>
+<p>두번째 방법은 <code class="docutils literal notranslate"><span class="pre">masked</span> <span class="pre">language</span> <span class="pre">modeling</span></code>입니다. 문장 내에서 마스킹된 단어가 무엇인지 예측하는 방법입니다.</p>
+<p>(mlm figure)</p>
+</section>
+<section id="id3">
+<h2>트랜스포머계열의 모델들은 빅모델입니다<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<p>몇몇의 DistilBERT 같은 아웃라이어를 제외하면 더 나은 성능을 위한 보통의 전략은 모델의 크기와 학습데이터를 늘리는 것입니다.
+(modelsize figure)</p>
+<p>안타깝게도 큰 모델을 학습할수록 많은 양의 데이터가 필요하게되고 이는 시간 및 컴퓨팅 자원의 비용이 높다고 할 수 있습니다. 이를 환경 문제로 해석할땐 다음과 같은 결과를 볼 수 있습니다.
+(costgraph figure)</p>
+<p>이러한 이유로 언어모델을 모두가 처음부터 학습하기보다는 널리 공유하고, 함께 사용하는 것이 전체적인 학습비용 및 환경문제에 있어 매우 중요하다고 할 수 있습니다.</p>
+</section>
+<section id="transfer-learning">
+<h2>전이학습 (Transfer Learning)<a class="headerlink" href="#transfer-learning" title="Permalink to this heading">#</a></h2>
+<p>사전학습(<code class="docutils literal notranslate"><span class="pre">Pretraining</span></code>)은 모델을 처음부터 학습하는 행위입니다. 랜덤하게 초기화된 가중치로 사전지식 없이 모델을 처음부터 학습하는 것을 의미합니다.
+<img alt="ptr" src="https://huggingface.co/course/static/chapter1/pretraining.png" />
+보통 사전학습은 대량의 데이터에 대해 이루어지고, 학습하는데 몇주의 시간이 걸리기도 합니다.</p>
+<p>반면, 파인튜닝(<code class="docutils literal notranslate"><span class="pre">Fine-tuning</span></code>)의 경우 사전학습 이후에 진행하게 되는 학습을 의미합니다. 파인튜닝을 하기 위해선 먼저 사전학습된 언어모델이 필요하고, 우리가 하고자하는 특정 태스크에 대한 추가 데이터가 필요합니다.</p>
+<p>잠깐, 그렇다면 간단하게 직접 태스크에 대해서 학습하면 되지 않을까요? 왜 굳이 사전학습 모델을 만들고 거기에 파인튜닝을 해야할까요? 몇가지 이유가 있습니다.</p>
+<ul class="simple">
+<li><p>사전하습모델은 이미 파인튜닝에 사용하는 데이터셋과 어느정도 유사한 데이터셋에 학습이 된 상태입니다. 사전학습을 하면서 모델은 언어에 대한 일종의 이해능력을 얻게 됩니다. 그러므로 파인튜닝 과정은 사전학습을 하는 동안 초기 모델에서 얻었던 지식에 대한 이점을 활용한다고 볼 수 있습니다</p></li>
+<li><p>사전학습모델은 이미 많은 양의 데이터를 학습한 상태이므로 파인튜닝은 약간의 데이터만으로도 가능합니다</p></li>
+<li><p>좋은 결과를 얻기 위한 시간과 자원적 비용이 낮습니다</p></li>
+</ul>
+<p>예를 들면, 영어로 사전학습한 언어모델을 arXiv(논문) 문서에 파인튜닝하면 과학/연구 기반의 모델을 만들 수 있습니다. 사전학습 모델이 갖고 있던 지식도 전이(<code class="docutils literal notranslate"><span class="pre">transferred</span></code>)되는 것이죠. 이러한 이유로 전이학습(<code class="docutils literal notranslate"><span class="pre">transfer</span> <span class="pre">learning</span></code>) 이라는 표현을 사용합니다.
+(transfer learning figure)</p>
+<p>그러므로, 모델을 파인튜닝하는 것은 적은 시간, 뎅터, 재정, 환경비용등의 이점을 갖습니다. 뿐만 아니라 사전학습 대비 더 쉽고 빠르게 다른 파인튜닝 과정들을 적용할 수 있습니다.</p>
+<p>이러한 과정은 정맒 많은 데이터를 갖고 있는게 아닌이상 처음부터 학습하는 것보다 좋은 결과를 내기 때문에 사전하습 모델을 활용하는 것이 좋습니다.</p>
+</section>
+<section id="id4">
+<h2>일반적인 모델 구조<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
+<p>이번 섹션에서는 트랜스포머 모델의 일반적인 구조에 대해 다룰 예정입니다. 몇몇의 개념을 이해하지 못한다고해서 걱정하실 필요는 없습니다. 추후에 각 컴포넌트별로 더 디테일한 내용을 다룰 예정입니다.</p>
+<section id="id5">
+<h3>들어가며<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<p>모델은 크게 두가지 블록으로 이루어져있습니다.</p>
+<ul class="simple">
+<li><p><strong>인코더(Encoder)</strong>: 인코더에서는 입력되는 값을 받아서 이에 대한 표현(representation)을 생성합니다. 피쳐를 만든다고 생각하시면 되는데요. 입력을 모델이 이해하기 좋은 형태로 최적화하는 과정이라고 생각할 수 있습니다.</p></li>
+<li><p><strong>디코더(Decoder)</strong>: 디코더에서는 인코더가 만든 입력에 대한 표현(피쳐)을 사용해서 타겟 시퀀스를 생성합니다. 출력을 생성하기 위해 최적화하는 과정이라고 볼 수 있습니다.
+<img alt="" src="https://huggingface.co/course/static/chapter1/transformers_blocks.png" /></p></li>
+</ul>
+<p>인코더와 디코더는 태스크에 따라 독립적으로 사용 할 수 있습니다.</p>
+<ul class="simple">
+<li><p><strong>인코더 전용 모델(<em>Encoder-only models</em>)</strong>: 문장 분류 및 개체명인식과 같이 입력에 대한 이해가 필요한 작업에 적합합니다</p></li>
+<li><p><strong>디코더 전용 모델(<em>Decoder-only models</em>)</strong>: 텍스트 생성과 같은 작업에 적합합니다</p></li>
+<li><p><strong>인코더-디코더 모델(<em>Encoder-decoder models</em> or <em>sequence-to-sequence models</em>)</strong>: 번역 또는 요약과 같이 입력이 필요한 작업에 적합합니다</p></li>
+</ul>
+</section>
+<section id="attention-layers">
+<h3>어텐션 레이어 (Attention layers)<a class="headerlink" href="#attention-layers" title="Permalink to this heading">#</a></h3>
+<p>트랜스포머 모델의 주요 기능은 어텐션 레이어라는 특수 레이어로 구축됩니다. 사실 트랜스포머 모델을 소개하는 논문의 제목이 바로 “<strong>Attention is All You Need</strong>”입니다. 어텐션 레이어에 대한 내용은 뒤에서 더 자세히 다루도록 하겠습니다. 지금은 이 레이어가 각 단어의 표현을 처리할 때 입력한 문장의 특정 단어를 다른 단어에 비해 상대적으로 더 집중해서 보는 방법으로 언어를 이해한다고 생각하시면 됩니다.</p>
+<p>이것을 상황에 맞게 설명하려면 텍스트를 영어에서 한국어로 번역하는 작업을 고려해볼 수 있습니다. “You like this course” 입력이 주어지면 번역 모델은 “like”라는 단어에 대한 적절한 번역을 얻기 위해 인접 단어 “You”에도 주의를 기울여야 합니다. 왜냐하면 한국어에서 동사 “like”는 다음에 따라 다르게 활용되기 때문입니다. 더 복잡한 문장(및 더 복잡한 문법 규칙)을 사용하면 동일한 개념이 자연어와 관련된 모든 작업에 적용됩니다. 단어 자체에 의미가 있지만 그 의미는 문맥에 의해 크게 영향을 받습니다.</p>
+<p>어텐션 레이어가 무엇인지 이해했으므로 이제 Transformer 아키텍쳐를 자세히 살펴보겠습니다.</p>
+</section>
+<section id="id6">
+<h3>본래 Transformer 모델 구조<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<p>Transformer 아키텍쳐는 원래 번역용으로 설계되었습니다. 학습 중에 인코더는 특정 언어로 입력(문장)을 받고 디코더는 원하는 타겟 언어로 같은 의미의 문장을 입력받습니다. 인코더에서 어텐션 레이어는 문장의 모든 단어를 보며 컨텍스트를 분석할 수 있습니다. 그러나 디코더는 현재시점에서 출력된 토큰을 보면서 다음 토큰을 예측하기 때문에 순차적으로 작동하며 이미 번역된 문장의 단어에만 주의를 기울일 수 있습니다. 예를 들어 번역된 대상의 처음 세 단어를 예측했고 그 다음인 네번째 단어를 예측하려는 경우 디코더에서는 처음 세 단어를 입력으로 사용하고 다음 인코더에서는 번역하려는 언어의 모든 입력을 사용하여 네 번째 단어를 예측하려고 시도합니다.</p>
+<p>훈련 중 속도를 높이기 위해 디코더의 입력으로 전체 토큰을 제공하지만 미래 단어를 사용할 수 없도록 어텐션을 마스킹처리합니다. 예를 들어, 네 번째 단어를 예측하려고 할 때 어텐션은 토큰 1에서 3까지의 값만 활용할 수 있습니다.</p>
+<p>원래 Transformer 아키텍쳐는 왼쪽에 인코더가 있고 오른쪽에 디코더가 있는 다음과 같습니다.
+![transformer(]<a class="reference external" href="https://huggingface.co/course/static/chapter1/transformers.png">https://huggingface.co/course/static/chapter1/transformers.png</a>)</p>
+<p>디코더 블록의 첫 번째 어텐션 레이어는 디코더에 입력된 타겟 언어의 모든 (과거) 입력에 주의를 기울이지만 두 번째 어텐션레이어는 인코더 입력된 원래 언어의 출력을 사용합니다. 따라서 디코더에서는 현재 번역될 단어를 가장 잘 예측하기 위해 원래 언어의 전체 입력 문장에 접근 할 수 있습니다. 이것은 번역할 언어가 단어를 다른 순서로 배치하는 문법 규칙을 따른다던지 혹은 문장의 뒷부분에 제공된 일부 컨텍스트가 번역할 단어의 최상의 번역을 결정하는 데 도움이 될 수 있기 때문에 매우 유용합니다.</p>
+<p>어텐션 마스크는 인코더/디코더에서 모두 사용되고, 모델이 학습할때 집중하면 안되는 토큰들에 집중하지 않도록 막아주는 역할을 합니다. 예를 들어 학습할때 배치단위의 길이를 맞춰주기 위해 사용하는 특수토큰인 패딩토큰(<code class="docutils literal notranslate"><span class="pre">&lt;pad&gt;</span></code>)이라던지, 디코더에서 아직 예측하지 않은  단어를 보지 못하게 하는데 사용할 수 있습니다.</p>
+</section>
+<section id="architectures-vs-checkpoints">
+<h3>Architectures vs checkpoints<a class="headerlink" href="#architectures-vs-checkpoints" title="Permalink to this heading">#</a></h3>
+<p>이번챕터에서 트랜스포머 계열의 모델들을 정리해보았습니다. 앞으로 아키텍쳐, 체크포인트, 모델등의 여러 표현들이 나올텐데요. 간단하게 용어 정리를 해보겠습니다.</p>
+<ul class="simple">
+<li><p><strong>아키텍쳐(Architecture)</strong>: 모델의 뼈대, 구조를 의미합니다. 모델에서 사용되는 각 레이어에 대한 정의 혹은 모델 내에서 사용되는 연산을 의미합니다</p></li>
+<li><p><strong>체크포인트(Checkpoint)</strong>: 주어진 아키텍쳐에서 로딩되는 모델의 가중치를 의미합니다</p></li>
+<li><p><strong>모델(Model)</strong>: 모델은 아키텍쳐나 체크포인트 만큼 정확하게 사용되진 않는 포괄적인 용어입니다. 아키텍쳐와 체크포인트 둘다를 의미할 수도 있습니다.</p></li>
+</ul>
+<p>예를 들어, BERT는 아키텍쳐이고, <code class="docutils literal notranslate"><span class="pre">bert-base-cased</span></code>는 Google팀에서 학습한 가중치의 집합, 체크포인트입니다. 하지만 여전히 “BERT 모델” 혹은 “bert-base-cased 모델”이라고도 부를 수도 있습니다.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./TransformerModels"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+            </article>
+            
+
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="transformers.html" title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Transformers로 뭘 할 수 있을까요?</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="%EB%8B%A4%EC%96%91%ED%95%9C%EC%96%B8%EC%96%B4%EB%AA%A8%EB%8D%B8.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">언어모델의 다양한 아키텍쳐</p>
+  </div>
+  <i class="fa-solid fa-angle-right"></i>
+  </a>
+</div>
+            </footer>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   트랜스포머의 역사
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   트랜스포머 게열의 모델들은 언어모델입니다
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id3">
+   트랜스포머계열의 모델들은 빅모델입니다
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#transfer-learning">
+   전이학습 (Transfer Learning)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id4">
+   일반적인 모델 구조
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     들어가며
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#attention-layers">
+     어텐션 레이어 (Attention layers)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     본래 Transformer 모델 구조
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#architectures-vs-checkpoints">
+     Architectures vs checkpoints
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By JSYoon
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright 2022.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+Last updated on None.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </div>
+        </footer>
+        
+
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  </body>
+</html>

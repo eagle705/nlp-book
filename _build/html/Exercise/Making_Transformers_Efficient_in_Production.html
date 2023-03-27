@@ -1,0 +1,2215 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Making Transformers Efficient in Production &#8212; NLP Book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=4ec06e9971c5264fbd345897d5258098f11cc577" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=8bf782fb4ee92b3d3646425e50f299c4e1fd152d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Exercise/Making_Transformers_Efficient_in_Production';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Training Transformers from Scratch" href="Training_Transformers_from_Scratch.html" />
+    <link rel="prev" title="감성분석 (Sentiment Analysis)" href="sentiment_analysis.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../intro.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Setup/setup.html">
+                        Setup
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../NLP/nlp.html">
+                        Natural Language Processing
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/overview/overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/text_representation/text_representation.html">
+                        Text Representation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/dl_nlp/dl_nlp.html">
+                        Deep Learning for NLP
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/LM/LM.html">
+                        Language Model
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Transformer/architecture/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Transformer/architecture/transformer_family.html">
+                        Transformer Family
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../TransformerModels/introduction.html">
+                        Transformer models
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="introduction.html">
+                        Downstream Task
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="sentiment_analysis.html">
+                        감성분석 (Sentiment Analysis)
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Making Transformers Efficient in Production
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="Training_Transformers_from_Scratch.html">
+                        Training Transformers from Scratch
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../LLM/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../ChatGPT/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../DevChatGPT/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Appendix/appendix.html">
+                        Appendix
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Setup/setup.html">
+                        Setup
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../NLP/nlp.html">
+                        Natural Language Processing
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/overview/overview.html">
+                        Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/text_representation/text_representation.html">
+                        Text Representation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/dl_nlp/dl_nlp.html">
+                        Deep Learning for NLP
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../BasicNLP/LM/LM.html">
+                        Language Model
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Transformer/architecture/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Transformer/architecture/transformer_family.html">
+                        Transformer Family
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../TransformerModels/introduction.html">
+                        Transformer models
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="introduction.html">
+                        Downstream Task
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="sentiment_analysis.html">
+                        감성분석 (Sentiment Analysis)
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Making Transformers Efficient in Production
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="Training_Transformers_from_Scratch.html">
+                        Training Transformers from Scratch
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../LLM/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../ChatGPT/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../DevChatGPT/introduction.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../Appendix/appendix.html">
+                        Appendix
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item">
+  
+
+
+<a class="navbar-brand logo" href="../intro.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    </div>
+    <div class="sidebar-start-items__item">
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    들어가며
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">1장 SetUp</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Setup/setup.html">Setup</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/setup_env.html">패키지 설치 및 환경설정</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../NLP/nlp.html">Natural Language Processing</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">2장 BasicNLP</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../BasicNLP/overview/overview.html">Overview</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/overview/%ED%95%9C%EA%B8%80%EA%B3%BC%EC%9E%90%EC%97%B0%EC%96%B4%EC%B2%98%EB%A6%AC.html">한국어와 자연어처리</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/overview/%EC%9E%90%EC%97%B0%EC%96%B4%EC%B2%98%EB%A6%AC%EC%9A%A9%EC%96%B4.html">token, sentence, vector spaces, embedding</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../BasicNLP/text_representation/text_representation.html">Text Representation</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/text_representation/tf-idf.html">TF-IDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/text_representation/word2vec.html">Word2Vec &amp; GloVe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/text_representation/contextual_word_representation.html">Contextual word representation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../BasicNLP/dl_nlp/dl_nlp.html">Deep Learning for NLP</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/dl_nlp/mlp.html">MLP(Multi-Layer Perceptron)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/dl_nlp/cnn.html">CNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/dl_nlp/rnn.html">RNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/dl_nlp/attention_mechanism.html">Attention mechanism</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../BasicNLP/LM/LM.html">Language Model</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/LM/probability.html">Probability Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../BasicNLP/LM/disc_gen_model.html">Discriminative VS Generative model</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">3장 Transformer</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Transformer/architecture/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Transformer/architecture/transformer_family.html">Transformer Family</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../TransformerModels/introduction.html">Transformer models</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../TransformerModels/transformers.html">Transformers로 뭘 할 수 있을까요?</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../TransformerModels/transformers%EC%82%AC%EC%9A%A9%EB%B2%95.html">Transformer 사용법</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../TransformerModels/%EB%8B%A4%EC%96%91%ED%95%9C%EC%96%B8%EC%96%B4%EB%AA%A8%EB%8D%B8.html">언어모델의 다양한 아키텍쳐</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../TransformerModels/bias_and_limitations.html">언어모델의 편견 및 한계</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../TransformerModels/%EB%A7%BA%EC%9C%BC%EB%A9%B0.html">맺으며</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../TransformerModels/%ED%80%B4%EC%A6%88.html">챕터 끝 퀴즈</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">4장 Downstream Task</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Downstream Task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sentiment_analysis.html">감성분석 (Sentiment Analysis)</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Making Transformers Efficient in Production</a></li>
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="Training_Transformers_from_Scratch.html">Training Transformers from Scratch</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">5장 Large Language Models(LLMs)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../LLM/introduction.html">Introduction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">6장 ChatGPT</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ChatGPT/introduction.html">Introduction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">7장 나만의 ChatGPT 만들기</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../DevChatGPT/introduction.html">Introduction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">부록</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Appendix/appendix.html">Appendix</a></li>
+</ul>
+
+    </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        <label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" data-toggle="tooltip" data-placement="right" title="Toggle primary sidebar">
+            <span class="fa-solid fa-bars"></span>
+        </label>
+    </div>
+    <div class="header-article__right">
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+  </ul>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<div class="dropdown dropdown-repository-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="https://github.com/eagle705/nlp-book" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">repository</span>
+</a>
+</a>
+      
+      <li><a href="https://github.com/eagle705/nlp-book/issues/new?title=Issue%20on%20page%20%2FExercise/Making_Transformers_Efficient_in_Production.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">open issue</span>
+</a>
+</a>
+      
+  </ul>
+</div>
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="../_sources/Exercise/Making_Transformers_Efficient_in_Production.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</a>
+      
+      <li>
+<button onclick="printPdf(this)"
+  class="btn btn-sm dropdown-item"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</a>
+      
+  </ul>
+</div>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary" data-toggle="tooltip" data-placement="left" title="Toggle secondary sidebar">
+            <span class="fa-solid fa-list"></span>
+        </label>
+    </div>
+</div>
+            </div>
+            
+            
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Making Transformers Efficient in Production</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Making Transformers Efficient in Production
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#intent-detection-as-a-case-study">
+     Intent Detection as a Case Study
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creating-a-performance-benchmark">
+     Creating a Performance Benchmark
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#benchmarking-our-baseline-model">
+   Benchmarking Our Baseline Model
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#making-models-smaller-via-knowledge-distillation">
+   Making Models Smaller via Knowledge Distillation
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#knowledge-distillation-for-fine-tuning">
+     Knowledge Distillation for Fine-Tuning
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#knowledge-distillation-for-pretraining">
+     Knowledge Distillation for Pretraining
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creating-a-knowledge-distillation-trainer">
+     Creating a Knowledge Distillation Trainer
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#choosing-a-good-student-initialization">
+     Choosing a Good Student Initialization
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#finding-good-hyperparameters-with-optuna">
+   Finding Good Hyperparameters with Optuna
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#making-models-faster-with-quantization">
+   Making Models Faster with Quantization
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#benchmarking-our-quantized-model">
+   Benchmarking Our Quantized Model
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#optimizing-inference-with-onnx-and-the-onnx-runtime">
+   Optimizing Inference with ONNX and the ONNX Runtime
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+            <article class="bd-article" role="main">
+              
+  <section class="tex2jax_ignore mathjax_ignore" id="making-transformers-efficient-in-production">
+<h1>Making Transformers Efficient in Production<a class="headerlink" href="#making-transformers-efficient-in-production" title="Permalink to this heading">#</a></h1>
+<p>이번장에서는 PLM을 제품 및 서비스에 적용하기 위해 경량화하는 스킬들에 대해서 다뤄보고자합니다. 대체로 PLM은 SOTA의 좋은 성능을 갖지만, 사용하기엔 모델이 너무 크고 느려서 서비스 요구사항을 만족시키기 쉽지 않다는 어려움이 있습니다. 좀 더 빠르고 압축된 형태의 모델을 만들면 좋겠지만, 모델 크기를 줄이면 모델의 capacity 또한 감소하게 되고 전체적인 성능이 하락하게 될 수 있습니다. 이런 문제를 해결하기 위해 다음과 같은 많은 연구들이 진행되었습니다.</p>
+<ul class="simple">
+<li><p>knowledge distillation</p></li>
+<li><p>quantization</p></li>
+<li><p>pruning</p></li>
+<li><p>graph optimization</p></li>
+</ul>
+<p>로블록스 팀에서 발표한 <a class="reference external" href="https://blog.roblox.com/2020/05/scaled-bert-serve-1-billion-daily-requests-cpus/">“How We Scaled Bert To Serve 1+ Billion Daily Requests on CPUs”</a> 포스팅을 보면 knowledge distillation과 quantization을 적용했을때 30배 이상으로 처리량을 늘릴 수 있게 된것을 확인 할 수 있습니다.
+<img alt="스케일링버트" src="https://blog.roblox.com/wp-content/uploads/2020/05/bert_1a.jpg" /></p>
+<section id="intent-detection-as-a-case-study">
+<h2>Intent Detection as a Case Study<a class="headerlink" href="#intent-detection-as-a-case-study" title="Permalink to this heading">#</a></h2>
+<p>인텐트 디텍션 문제를 예로 들면서, 모델 경량화 작업을 진행해보겠습니다. 베이스라인으로 CLINC150 dataset에 파인튜닝된 BERT-base 모델을 사용하겠습니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>!pip install -q transformers[sentencepiece] datasets torch pandas optuna
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     |████████████████████████████████| 3.4 MB 10.2 MB/s 
+     |████████████████████████████████| 298 kB 75.1 MB/s 
+     |████████████████████████████████| 308 kB 87.5 MB/s 
+     |████████████████████████████████| 132 kB 79.2 MB/s 
+     |████████████████████████████████| 1.1 MB 59.6 MB/s 
+     |████████████████████████████████| 243 kB 68.9 MB/s 
+     |████████████████████████████████| 61 kB 634 kB/s 
+     |████████████████████████████████| 80 kB 10.3 MB/s 
+     |████████████████████████████████| 209 kB 77.1 MB/s 
+     |████████████████████████████████| 160 kB 69.9 MB/s 
+     |████████████████████████████████| 271 kB 72.6 MB/s 
+     |████████████████████████████████| 192 kB 72.1 MB/s 
+     |████████████████████████████████| 75 kB 5.8 MB/s 
+     |████████████████████████████████| 49 kB 7.9 MB/s 
+     |████████████████████████████████| 149 kB 93.7 MB/s 
+     |████████████████████████████████| 112 kB 84.5 MB/s 
+     |████████████████████████████████| 3.3 MB 43.1 MB/s 
+     |████████████████████████████████| 596 kB 66.0 MB/s 
+     |████████████████████████████████| 895 kB 67.4 MB/s 
+     |████████████████████████████████| 1.2 MB 56.1 MB/s 
+?25h  Building wheel for pyperclip (setup.py) ... ?25l?25hdone
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">pipeline</span>
+
+<span class="n">bert_ckpt</span> <span class="o">=</span> <span class="s2">&quot;transformersbook/bert-base-uncased-finetuned-clinc&quot;</span>
+<span class="n">pipe</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;text-classification&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">bert_ckpt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Hey, I&#39;d like to rent a vehicle from Nov 1st to Nov 15th in</span>
+<span class="s2">Paris and I need a 15 passenger van&quot;&quot;&quot;</span>
+<span class="n">pipe</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;label&#39;: &#39;car_rental&#39;, &#39;score&#39;: 0.549003541469574}]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="creating-a-performance-benchmark">
+<h2>Creating a Performance Benchmark<a class="headerlink" href="#creating-a-performance-benchmark" title="Permalink to this heading">#</a></h2>
+<p>다른 ML 모델들과 같이 트랜스포머모델을 배포하는건 몇가지 trade-off가 있습니다.</p>
+<ul class="simple">
+<li><p>Model Performance</p></li>
+<li><p>Latency</p></li>
+<li><p>Memory
+위의 항목을 측정하기 위해 간단한 벤치마크를 만들어서 모델의 성능을 측정해보겠습니다.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PerformanceBenchmark</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">optim_type</span><span class="o">=</span><span class="s2">&quot;BERT baseline&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">pipeline</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optim_type</span> <span class="o">=</span> <span class="n">optim_type</span>
+
+    <span class="k">def</span> <span class="nf">compute_accuracy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># We&#39;ll define this later</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">compute_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># We&#39;ll define this later</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">time_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># We&#39;ll define this later</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">run_benchmark</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">metrics</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">metrics</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">optim_type</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_size</span><span class="p">()</span>
+        <span class="n">metrics</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">optim_type</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_pipeline</span><span class="p">())</span>
+        <span class="n">metrics</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">optim_type</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">compute_accuracy</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">metrics</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datasets</span> <span class="kn">import</span> <span class="n">load_dataset</span>
+<span class="c1"># oos는 out-of-scope의 약자로, 도메인에서 벗어난 데이터도 포함한 버전을 의미합니다</span>
+<span class="n">clinc</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;clinc_oos&quot;</span><span class="p">,</span> <span class="s2">&quot;plus&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sample</span> <span class="o">=</span> <span class="n">clinc</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">][</span><span class="mi">42</span><span class="p">]</span>
+<span class="n">sample</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;intent&#39;: 133, &#39;text&#39;: &#39;transfer $100 from my checking to saving account&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">intents</span> <span class="o">=</span> <span class="n">clinc</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s2">&quot;intent&quot;</span><span class="p">]</span>
+<span class="n">intents</span><span class="o">.</span><span class="n">int2str</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="s2">&quot;intent&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;transfer&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>정답률을 체크하는 compute_accuracy 함수를 완성해보겠습니다</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datasets</span> <span class="kn">import</span> <span class="n">load_metric</span>
+
+<span class="n">accuracy_score</span> <span class="o">=</span> <span class="n">load_metric</span><span class="p">(</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">compute_accuracy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This overrides the PerformanceBenchmark.compute_accuracy() method&quot;&quot;&quot;</span>
+    <span class="n">preds</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">example</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">:</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="p">(</span><span class="n">example</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">])[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;label&quot;</span><span class="p">]</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">example</span><span class="p">[</span><span class="s2">&quot;intent&quot;</span><span class="p">]</span>
+        <span class="n">preds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">intents</span><span class="o">.</span><span class="n">str2int</span><span class="p">(</span><span class="n">pred</span><span class="p">))</span>
+        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">predictions</span><span class="o">=</span><span class="n">preds</span><span class="p">,</span> <span class="n">references</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy on test set - </span><span class="si">{</span><span class="n">accuracy</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">accuracy</span>
+
+<span class="n">PerformanceBenchmark</span><span class="o">.</span><span class="n">compute_accuracy</span> <span class="o">=</span> <span class="n">compute_accuracy</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>이제는 <code class="docutils literal notranslate"><span class="pre">torch.save()</span></code> 함수를 통해 모델의 크기를 측정하는 함수를 만들어보겠습니다. <code class="docutils literal notranslate"><span class="pre">torch.save()</span></code> 함수는 내부적으로 파이썬의 <code class="docutils literal notranslate"><span class="pre">pickle</span></code> 모듈을 사용합니다. 즉, 모델을 평범한 파이썬 오브젝트로 저장하는 것이 가능합니다. 파이토치에서는 모델을 저장할 때, <code class="docutils literal notranslate"><span class="pre">state_dict</span></code> 을 써서 저장하는 것을 추천하는데, <code class="docutils literal notranslate"><span class="pre">state_dict</span></code>은 파이썬 딕셔너리인데, 모델의 각 레이어와 모델의 파라미터(weight and biases)를 맵핑시켜줍니다. 예컨데, 베이스라인 모델의 state_dict에 저장된걸 확인해보면 다음과 같습니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">pipe</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">42</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;bert.encoder.layer.2.attention.self.value.weight&#39;,
+ tensor([[-1.0526e-02, -3.2215e-02,  2.2097e-02,  ..., -6.0953e-03,
+           4.6521e-03,  2.9844e-02],
+         [-1.4964e-02, -1.0915e-02,  5.2396e-04,  ...,  3.2047e-05,
+          -2.6890e-02, -2.1943e-02],
+         [-2.9640e-02, -3.7842e-03, -1.2582e-02,  ..., -1.0917e-02,
+           3.1152e-02, -9.7786e-03],
+         ...,
+         [-1.5116e-02, -3.3226e-02,  4.2063e-02,  ..., -5.2652e-03,
+           1.1093e-02,  2.9703e-03],
+         [-3.6809e-02,  5.6848e-02, -2.6544e-02,  ..., -4.0114e-02,
+           6.7487e-03,  1.0511e-03],
+         [-2.4961e-02,  1.4747e-03, -5.4271e-02,  ...,  2.0004e-02,
+           2.3981e-02, -4.2880e-02]]))
+</pre></div>
+</div>
+</div>
+</div>
+<p>모델은 다음과 같이 저장할 수 있습니다</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">pipe</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s2">&quot;model.pt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>파이썬 모듈인 <code class="docutils literal notranslate"><span class="pre">pathlib</span></code>에 있는 <code class="docutils literal notranslate"><span class="pre">Path.stat()</span></code> 함수를 통해 저장된 파일의 정보를 확인 할 수 있습니다. <code class="docutils literal notranslate"><span class="pre">Path(&quot;model.pt&quot;).stat().st_size</span></code> 를 통해 모델의 크기를 bytes 단위로 얻을 수 있습니다. 이를 기반으로 <code class="docutils literal notranslate"><span class="pre">compute_size()</span></code> 함수를 완성해보겠습니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="k">def</span> <span class="nf">compute_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This overrides the PerformanceBenchmark.compute_size() method&quot;&quot;&quot;</span>
+    <span class="n">state_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()</span>
+    <span class="n">tmp_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;model.pt&quot;</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">state_dict</span><span class="p">,</span> <span class="n">tmp_path</span><span class="p">)</span>
+    <span class="c1"># Calculate size in megabytes</span>
+    <span class="n">size_mb</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">)</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">)</span>
+    <span class="c1"># Delete temporary file</span>
+    <span class="n">tmp_path</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model size (MB) - </span><span class="si">{</span><span class="n">size_mb</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;size_mb&quot;</span><span class="p">:</span> <span class="n">size_mb</span><span class="p">}</span>
+
+<span class="n">PerformanceBenchmark</span><span class="o">.</span><span class="n">compute_size</span> <span class="o">=</span> <span class="n">compute_size</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>이제 마지막으로 <code class="docutils literal notranslate"><span class="pre">time_pipeline()</span></code> 함수를 구현해보겠습니다. 질의당 평균 latency를 계산하는 함수입니다. 간단한 방법으로는 <code class="docutils literal notranslate"><span class="pre">perf_counter()</span></code> 함수를 통해 구현할 수 있고 <code class="docutils literal notranslate"><span class="pre">time.time()</span></code> 함수 보다 더 나은 time resolution을 갖기 때문에 더 정확한 결과를 얻을 수 있습니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">perf_counter</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">pipe</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+    <span class="n">latency</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Latency (ms) - </span><span class="si">{</span><span class="mi">1000</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">latency</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Latency (ms) - 85.152
+Latency (ms) - 83.541
+Latency (ms) - 75.503
+</pre></div>
+</div>
+</div>
+</div>
+<p>실행할 때마다 결과가 조금씩 달라질 수 있기 때문에, 여러번 실행 후 분포에 대한 평균과 표준편차를 계산합니다. 제대로 된 실행시간 계산을 하기 전에 CPU를 warm up 시켜준 뒤 계산을 진행합니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">time_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="s2">&quot;What is the pin number for my account?&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This overrides the PerformanceBenchmark.time_pipeline() method&quot;&quot;&quot;</span>
+    <span class="n">latencies</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># Warmup</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+    <span class="c1"># Timed run</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="n">latency</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+        <span class="n">latencies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">latency</span><span class="p">)</span>
+    <span class="c1"># Compute run statistics</span>
+    <span class="n">time_avg_ms</span> <span class="o">=</span> <span class="mi">1000</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">latencies</span><span class="p">)</span>
+    <span class="n">time_std_ms</span> <span class="o">=</span> <span class="mi">1000</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">latencies</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average latency (ms) - </span><span class="si">{</span><span class="n">time_avg_ms</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> +\- </span><span class="si">{</span><span class="n">time_std_ms</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;time_avg_ms&quot;</span><span class="p">:</span> <span class="n">time_avg_ms</span><span class="p">,</span> <span class="s2">&quot;time_std_ms&quot;</span><span class="p">:</span> <span class="n">time_std_ms</span><span class="p">}</span>
+
+<span class="n">PerformanceBenchmark</span><span class="o">.</span><span class="n">time_pipeline</span> <span class="o">=</span> <span class="n">time_pipeline</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>간단한 테스트를 위해 <code class="docutils literal notranslate"><span class="pre">query</span></code>를 고정해서 진행하겠습니다. 보통 query length에 따라 latency가 달라지기 때문입니다. 하지만 제대로 된 평가를 원한다면 배포하고자하는 환경에서 들어오는 query로 테스트하는게 좋습니다.</p>
+<p>이제 <code class="docutils literal notranslate"><span class="pre">PerformanceBenchmark</span></code> 클래스가 완성되었습니다. 이어서 벤치마크 테스트를 진행해보겠습니다.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="benchmarking-our-baseline-model">
+<h1>Benchmarking Our Baseline Model<a class="headerlink" href="#benchmarking-our-baseline-model" title="Permalink to this heading">#</a></h1>
+<p>베이스라인에 대해 accuracy, model size, latency등은 어느정도 나오는지 측정해보겠습니다</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pb</span> <span class="o">=</span> <span class="n">PerformanceBenchmark</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">clinc</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">])</span>
+<span class="n">perf_metrics</span> <span class="o">=</span> <span class="n">pb</span><span class="o">.</span><span class="n">run_benchmark</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model size (MB) - 418.16
+Average latency (ms) - 66.91 +\- 15.54
+Accuracy on test set - 0.867
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">perf_metrics</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;BERT baseline&#39;: {&#39;accuracy&#39;: 0.8672727272727273,
+  &#39;size_mb&#39;: 418.162091255188,
+  &#39;time_avg_ms&#39;: 66.90917849000016,
+  &#39;time_std_ms&#39;: 15.54450930778012}}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="making-models-smaller-via-knowledge-distillation">
+<h1>Making Models Smaller via Knowledge Distillation<a class="headerlink" href="#making-models-smaller-via-knowledge-distillation" title="Permalink to this heading">#</a></h1>
+<p>KD는 작은 크기를 갖는 모델이 큰 크기를 갖는 모델을 학생이 선생님께 배우듯 학습하는 방법론입니다. 2006년 “Model Compression” 이라는 논문에서 소개되었고, 2015년 Hinton 논문인 “Distilling the Knowledge in a Neural Network” 에서 쓰이면서 deep neural networks에 일반적으로 적용되게 되었습니다.</p>
+<section id="knowledge-distillation-for-fine-tuning">
+<h2>Knowledge Distillation for Fine-Tuning<a class="headerlink" href="#knowledge-distillation-for-fine-tuning" title="Permalink to this heading">#</a></h2>
+<p>logits을 <span class="math notranslate nohighlight">\(\mathbf{z}(x)=\left[z_{1}(x), \ldots, z_{N}(x)\right]\)</span>라 하고, <span class="math notranslate nohighlight">\(T\)</span>를 temperature hyperparameter라고 하면 softmax 함수는 다음과 같이 표현할 수 있습니다.</p>
+<div class="math notranslate nohighlight">
+\[
+p_{i}(x)=\frac{\exp \left(z_{i}(x) / T\right)}{\sum_{j} \exp \left(z_{i}(x) / T\right)}
+\]</div>
+<p><span class="math notranslate nohighlight">\(T\)</span>는 전체적인 확률분포를 고르게 보정해주는 역할을 하는데, 값에 따라서 확률분포는 다음과 같이 변할 수 있습니다.
+<img alt="temperature_scaling" src="https://user-images.githubusercontent.com/7252598/146838210-eea51077-8916-4410-85bf-9493241d1627.png" /></p>
+<p>학생모델도 확률값을 <span class="math notranslate nohighlight">\(q_{i}(x)\)</span> 갖기 때문에 <a class="reference external" href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">Kullback–Leibler (KL) divergence</a>를 선생모델의 확률값과의 차이를 측정하는데 사용할 수 있습니다.
+$<span class="math notranslate nohighlight">\(
+D_{K L}(p, q)=\sum_{i} p_{i}(x) \log \frac{p_{i}(x)}{q_{i}(x)}
+\)</span>$</p>
+<p>KD divergence를 loss로 적용하면 다음과 같습니다. 여기서 <span class="math notranslate nohighlight">\(T^2\)</span>는 soft labels scales로 normalization factor입니다.</p>
+<div class="math notranslate nohighlight">
+\[
+L_{K D}=T^{2} D_{K L}
+\]</div>
+<p>분류 태스크에서 학생모델의 loss는 distillation loss와 일반적인 cross entropy loss인 <span class="math notranslate nohighlight">\(L_{CE}\)</span> 대한 weighted average loss입니다.</p>
+<div class="math notranslate nohighlight">
+\[
+L_{\text {student }}=\alpha L_{C E}+(1-\alpha) L_{K D}
+\]</div>
+<p><img alt="student_loss" src="https://user-images.githubusercontent.com/7252598/146839084-ef89b2f2-fe08-4811-9cc5-54566fd908f8.png" /></p>
+</section>
+<section id="knowledge-distillation-for-pretraining">
+<h2>Knowledge Distillation for Pretraining<a class="headerlink" href="#knowledge-distillation-for-pretraining" title="Permalink to this heading">#</a></h2>
+<p>MLM에 대한 knowledge를 학생모델로 옮기는 것도 가능합니다. 여러 방법이 있지만, DistilBERT 논문에서의 방법은 다음과 같습니다.</p>
+<div class="math notranslate nohighlight">
+\[
+L_{\text {DistilBERT }}=\alpha L_{m l m}+\beta L_{K D}+\gamma L_{\cos }
+\]</div>
+<p>여기서 <span class="math notranslate nohighlight">\(L_{cos} = 1 - \cos(h_{s}, h_{t})\)</span> 는 hidden state vectors의 방향을 align해주기 위한 텀입니다.</p>
+</section>
+<section id="creating-a-knowledge-distillation-trainer">
+<h2>Creating a Knowledge Distillation Trainer<a class="headerlink" href="#creating-a-knowledge-distillation-trainer" title="Permalink to this heading">#</a></h2>
+<p>이제부터 KD를 구현하기위해 기존 <code class="docutils literal notranslate"><span class="pre">Trainer</span></code>에 몇가지 기능을 추가해서 만들어보겠습니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">TrainingArguments</span>
+
+<span class="k">class</span> <span class="nc">DistillationTrainingArguments</span><span class="p">(</span><span class="n">TrainingArguments</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="o">=</span> <span class="n">temperature</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">Trainer</span>
+
+<span class="k">class</span> <span class="nc">DistillationTrainer</span><span class="p">(</span><span class="n">Trainer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">teacher_model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">teacher_model</span> <span class="o">=</span> <span class="n">teacher_model</span>
+
+    <span class="k">def</span> <span class="nf">compute_loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">return_outputs</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">outputs_stu</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="c1"># Extract cross-entropy loss and logits from student</span>
+        <span class="n">loss_ce</span> <span class="o">=</span> <span class="n">outputs_stu</span><span class="o">.</span><span class="n">loss</span>
+        <span class="n">logits_stu</span> <span class="o">=</span> <span class="n">outputs_stu</span><span class="o">.</span><span class="n">logits</span>
+        <span class="c1"># Extract logits from teacher</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">outputs_tea</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">teacher_model</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
+            <span class="n">logits_tea</span> <span class="o">=</span> <span class="n">outputs_tea</span><span class="o">.</span><span class="n">logits</span>
+        <span class="c1"># Soften probabilities and compute distillation loss</span>
+        <span class="n">loss_fct</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">KLDivLoss</span><span class="p">(</span><span class="n">reduction</span><span class="o">=</span><span class="s2">&quot;batchmean&quot;</span><span class="p">)</span>
+        <span class="n">loss_kd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">temperature</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">loss_fct</span><span class="p">(</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">log_softmax</span><span class="p">(</span><span class="n">logits_stu</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">temperature</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">logits_tea</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">temperature</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="c1"># Return weighted student loss</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">loss_ce</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">loss_kd</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">outputs_stu</span><span class="p">)</span> <span class="k">if</span> <span class="n">return_outputs</span> <span class="k">else</span> <span class="n">loss</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="choosing-a-good-student-initialization">
+<h2>Choosing a Good Student Initialization<a class="headerlink" href="#choosing-a-good-student-initialization" title="Permalink to this heading">#</a></h2>
+<p>일반적으로는 학생모델과 선생모델이 같은 모델타입을 가질때 KD가 잘 되는편입니다. 다른 모델의 경우 embedding spaces가 다르기 때문에 선생모델을 따라하기가 어렵습니다. 따라서 앞으로는 BERT 계열의 모델로 테스트를 진행하겠습니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span>
+
+<span class="n">student_ckpt</span> <span class="o">=</span> <span class="s2">&quot;distilbert-base-uncased&quot;</span>
+<span class="n">student_tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">student_ckpt</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">tokenize_text</span><span class="p">(</span><span class="n">batch</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">student_tokenizer</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">],</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">clinc_enc</span> <span class="o">=</span> <span class="n">clinc</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">tokenize_text</span><span class="p">,</span> <span class="n">batched</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">remove_columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">])</span>
+<span class="n">clinc_enc</span> <span class="o">=</span> <span class="n">clinc_enc</span><span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="s2">&quot;intent&quot;</span><span class="p">,</span> <span class="s2">&quot;labels&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># from huggingface_hub import notebook_login</span>
+
+<span class="c1"># notebook_login()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">compute_metrics</span><span class="p">(</span><span class="n">pred</span><span class="p">):</span>
+    <span class="n">predictions</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">pred</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">accuracy_score</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">predictions</span><span class="o">=</span><span class="n">predictions</span><span class="p">,</span> <span class="n">references</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>처음 warm up 스테이지에서는 <span class="math notranslate nohighlight">\(\alpha = 1\)</span>로 셋팅해서 DistilBERT가 티처모델의 도움을 받지 않을때 어느정도 해내는지 확인해보겠습니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">48</span>
+
+<span class="n">finetuned_ckpt</span> <span class="o">=</span> <span class="s2">&quot;distilbert-base-uncased-finetuned-clinc&quot;</span>
+<span class="n">student_training_args</span> <span class="o">=</span> <span class="n">DistillationTrainingArguments</span><span class="p">(</span>
+    <span class="n">output_dir</span><span class="o">=</span><span class="n">finetuned_ckpt</span><span class="p">,</span> <span class="n">evaluation_strategy</span> <span class="o">=</span> <span class="s2">&quot;epoch&quot;</span><span class="p">,</span>
+    <span class="n">num_train_epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">2e-5</span><span class="p">,</span>
+    <span class="n">per_device_train_batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+    <span class="n">per_device_eval_batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">push_to_hub</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># push를 원하면 True로 바꿔줍니다</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">id2label</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">id2label</span>
+<span class="n">label2id</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">label2id</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoConfig</span>
+
+<span class="n">num_labels</span> <span class="o">=</span> <span class="n">intents</span><span class="o">.</span><span class="n">num_classes</span>
+<span class="n">student_config</span> <span class="o">=</span> <span class="p">(</span><span class="n">AutoConfig</span>
+                  <span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">student_ckpt</span><span class="p">,</span> <span class="n">num_labels</span><span class="o">=</span><span class="n">num_labels</span><span class="p">,</span>
+                                   <span class="n">id2label</span><span class="o">=</span><span class="n">id2label</span><span class="p">,</span> <span class="n">label2id</span><span class="o">=</span><span class="n">label2id</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>trainer내에서 여러번 실행할 것이기 때문에 <code class="docutils literal notranslate"><span class="pre">student_init()</span></code>함수를 만들어줍니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoModelForSequenceClassification</span>
+
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">student_init</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">AutoModelForSequenceClassification</span>
+            <span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">student_ckpt</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">student_config</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">teacher_ckpt</span> <span class="o">=</span> <span class="s2">&quot;transformersbook/bert-base-uncased-finetuned-clinc&quot;</span>
+<span class="n">teacher_model</span> <span class="o">=</span> <span class="p">(</span><span class="n">AutoModelForSequenceClassification</span>
+                 <span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">teacher_ckpt</span><span class="p">,</span> <span class="n">num_labels</span><span class="o">=</span><span class="n">num_labels</span><span class="p">)</span>
+                 <span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distilbert_trainer</span> <span class="o">=</span> <span class="n">DistillationTrainer</span><span class="p">(</span><span class="n">model_init</span><span class="o">=</span><span class="n">student_init</span><span class="p">,</span>
+    <span class="n">teacher_model</span><span class="o">=</span><span class="n">teacher_model</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">student_training_args</span><span class="p">,</span>
+    <span class="n">train_dataset</span><span class="o">=</span><span class="n">clinc_enc</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">],</span> <span class="n">eval_dataset</span><span class="o">=</span><span class="n">clinc_enc</span><span class="p">[</span><span class="s1">&#39;validation&#39;</span><span class="p">],</span>
+    <span class="n">compute_metrics</span><span class="o">=</span><span class="n">compute_metrics</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">student_tokenizer</span><span class="p">)</span>
+
+<span class="n">distilbert_trainer</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># distilbert_trainer.push_to_hub(&quot;Training completed!&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">finetuned_ckpt</span> <span class="o">=</span> <span class="s2">&quot;transformersbook/distilbert-base-uncased-finetuned-clinc&quot;</span>
+<span class="n">pipe</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;text-classification&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">finetuned_ckpt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">optim_type</span> <span class="o">=</span> <span class="s2">&quot;DistilBERT&quot;</span>
+<span class="n">pb</span> <span class="o">=</span> <span class="n">PerformanceBenchmark</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">clinc</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">],</span> <span class="n">optim_type</span><span class="o">=</span><span class="n">optim_type</span><span class="p">)</span>
+<span class="n">perf_metrics</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">pb</span><span class="o">.</span><span class="n">run_benchmark</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model size (MB) - 255.89
+Average latency (ms) - 23.57 +\- 1.51
+Accuracy on test set - 0.858
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">perf_metrics</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;BERT baseline&#39;: {&#39;accuracy&#39;: 0.8672727272727273,
+  &#39;size_mb&#39;: 418.162091255188,
+  &#39;time_avg_ms&#39;: 66.90917849000016,
+  &#39;time_std_ms&#39;: 15.54450930778012},
+ &#39;DistilBERT&#39;: {&#39;accuracy&#39;: 0.8581818181818182,
+  &#39;size_mb&#39;: 255.8870096206665,
+  &#39;time_avg_ms&#39;: 23.56640914000309,
+  &#39;time_std_ms&#39;: 1.5127073845396601}}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="k">def</span> <span class="nf">plot_metrics</span><span class="p">(</span><span class="n">perf_metrics</span><span class="p">,</span> <span class="n">current_optim_type</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">perf_metrics</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+        <span class="n">df_opt</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="c1"># Add a dashed circle around the current optimization type</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="n">current_optim_type</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_opt</span><span class="p">[</span><span class="s2">&quot;time_avg_ms&quot;</span><span class="p">],</span> <span class="n">df_opt</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
+                        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">df_opt</span><span class="p">[</span><span class="s2">&quot;size_mb&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span>
+                        <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;$</span><span class="se">\u25CC</span><span class="s1">$&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_opt</span><span class="p">[</span><span class="s2">&quot;time_avg_ms&quot;</span><span class="p">],</span> <span class="n">df_opt</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
+                        <span class="n">s</span><span class="o">=</span><span class="n">df_opt</span><span class="p">[</span><span class="s2">&quot;size_mb&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="n">legend</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">handle</span> <span class="ow">in</span> <span class="n">legend</span><span class="o">.</span><span class="n">legendHandles</span><span class="p">:</span>
+        <span class="n">handle</span><span class="o">.</span><span class="n">set_sizes</span><span class="p">([</span><span class="mi">20</span><span class="p">])</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span><span class="mi">90</span><span class="p">)</span>
+    <span class="c1"># Use the slowest model to define the x-axis range</span>
+    <span class="n">xlim</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">perf_metrics</span><span class="p">[</span><span class="s2">&quot;BERT baseline&quot;</span><span class="p">][</span><span class="s2">&quot;time_avg_ms&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">xlim</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Accuracy (%)&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Average latency (ms)&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plot_metrics</span><span class="p">(</span><span class="n">perf_metrics</span><span class="p">,</span> <span class="n">optim_type</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c1a0340008be966b0eda7f6692f6758c23b1d0aa8ce9bd6091ef8e15df1a1905.png" src="../_images/c1a0340008be966b0eda7f6692f6758c23b1d0aa8ce9bd6091ef8e15df1a1905.png" />
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="finding-good-hyperparameters-with-optuna">
+<h1>Finding Good Hyperparameters with Optuna<a class="headerlink" href="#finding-good-hyperparameters-with-optuna" title="Permalink to this heading">#</a></h1>
+<p>각 모델과 데이터에 맞는 <span class="math notranslate nohighlight">\(\alpha\)</span>와 <span class="math notranslate nohighlight">\(T\)</span>를 찾기 위해 2D parameter space에 대해 grid search를 수행할 수 있습니다. 하지만 이보다 더 좋은 대안은 <em>Optuna</em>라는 최적화 프레임워크를 사용하는 것입니다. Optuna는 여러번의 시도를 통해 objective function을 최적화하는 방법으로 문제를 해결하빈다. 예컨데, <a class="reference external" href="https://en.wikipedia.org/wiki/Rosenbrock_function">Rosenbrock’s “banana function”</a>을 최소화하는 문제를 풀어보겠습니다.</p>
+<div class="math notranslate nohighlight">
+\[
+f(x, y)=(1-x)^{2}+100\left(y-x^{2}\right)^{2}
+\]</div>
+<p><img alt="banana_func" src="https://user-images.githubusercontent.com/7252598/146873268-5e2f431f-1e68-4e01-99e3-d2314cb143ac.png" /></p>
+<p>그림과 수식에서 볼 수 있듯이 <span class="math notranslate nohighlight">\((x, y) = (1, 1)\)</span>일 때 함수는 global minimum을 갖는것을 알 수 있습니다.</p>
+<p>Optuna에서는 <span class="math notranslate nohighlight">\(f(x,y)\)</span> 함수의 최소값을 찾기 위해 <code class="docutils literal notranslate"><span class="pre">objective()</span></code> 함수를 정의 할 수 있습니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">trial.suggest_float</span></code>은 파라미터의 특정 구간에 대해서 유니폼분포로 샘플링한 값으로 최적화된 파라미터의 값을 추정합니다. <code class="docutils literal notranslate"><span class="pre">suggest_int</span></code>, <code class="docutils literal notranslate"><span class="pre">suggest_categorical</span></code> 등의 함수도 지원합니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+
+<span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">()</span>
+<span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span> <span class="c1"># 1000</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">study</span><span class="o">.</span><span class="n">best_params</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;x&#39;: 0.5300448714793131, &#39;y&#39;: 0.3003762843294947}
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Trainer</span></code> 를 사용하면 좀 더 쉽게 hyperparameter search를 적용할 수 있습니다.
+더 높은 accuracy를 얻는 것이 목적이므로 <code class="docutils literal notranslate"><span class="pre">hyperparameter_search()</span></code> 함수 내에서 <code class="docutils literal notranslate"><span class="pre">direction=&quot;maximize&quot;</span></code>로 셋팅합니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">hp_space</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;num_train_epochs&quot;</span><span class="p">:</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_int</span><span class="p">(</span><span class="s2">&quot;num_train_epochs&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+        <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_int</span><span class="p">(</span><span class="s2">&quot;temperature&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">20</span><span class="p">)}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">best_run</span> <span class="o">=</span> <span class="n">distilbert_trainer</span><span class="o">.</span><span class="n">hyperparameter_search</span><span class="p">(</span>
+    <span class="n">n_trials</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;maximize&quot;</span><span class="p">,</span> <span class="n">hp_space</span><span class="o">=</span><span class="n">hp_space</span><span class="p">)</span> <span class="c1"># n_trials=20</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">best_run</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BestRun(run_id=&#39;0&#39;, objective=0.8941935483870967, hyperparameters={&#39;num_train_epochs&#39;: 5, &#39;alpha&#39;: 0.23624395720945324, &#39;temperature&#39;: 16})
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">best_run</span><span class="o">.</span><span class="n">hyperparameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">setattr</span><span class="p">(</span><span class="n">student_training_args</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+<span class="c1"># Define a new repository to store our distilled model</span>
+<span class="n">distilled_ckpt</span> <span class="o">=</span> <span class="s2">&quot;distilbert-base-uncased-distilled-clinc&quot;</span>
+<span class="n">student_training_args</span><span class="o">.</span><span class="n">output_dir</span> <span class="o">=</span> <span class="n">distilled_ckpt</span>
+
+<span class="c1"># Create a new Trainer with optimal parameters</span>
+<span class="n">distil_trainer</span> <span class="o">=</span> <span class="n">DistillationTrainer</span><span class="p">(</span><span class="n">model_init</span><span class="o">=</span><span class="n">student_init</span><span class="p">,</span>
+    <span class="n">teacher_model</span><span class="o">=</span><span class="n">teacher_model</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">student_training_args</span><span class="p">,</span>
+    <span class="n">train_dataset</span><span class="o">=</span><span class="n">clinc_enc</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">],</span> <span class="n">eval_dataset</span><span class="o">=</span><span class="n">clinc_enc</span><span class="p">[</span><span class="s1">&#39;validation&#39;</span><span class="p">],</span>
+    <span class="n">compute_metrics</span><span class="o">=</span><span class="n">compute_metrics</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">student_tokenizer</span><span class="p">)</span>
+
+<span class="n">distil_trainer</span><span class="o">.</span><span class="n">train</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># distil_trainer.push_to_hub(&quot;Training complete&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distilled_ckpt</span> <span class="o">=</span> <span class="s2">&quot;transformersbook/distilbert-base-uncased-distilled-clinc&quot;</span>
+<span class="n">pipe</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;text-classification&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">distilled_ckpt</span><span class="p">)</span>
+<span class="n">optim_type</span> <span class="o">=</span> <span class="s2">&quot;Distillation&quot;</span>
+<span class="n">pb</span> <span class="o">=</span> <span class="n">PerformanceBenchmark</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">clinc</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">],</span> <span class="n">optim_type</span><span class="o">=</span><span class="n">optim_type</span><span class="p">)</span>
+<span class="n">perf_metrics</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">pb</span><span class="o">.</span><span class="n">run_benchmark</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plot_metrics</span><span class="p">(</span><span class="n">perf_metrics</span><span class="p">,</span> <span class="n">optim_type</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/beb4fe726d8607e26e2d9ec9fa1edba46cd0195d9f65e3d7773fe299f97c3329.png" src="../_images/beb4fe726d8607e26e2d9ec9fa1edba46cd0195d9f65e3d7773fe299f97c3329.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="making-models-faster-with-quantization">
+<h1>Making Models Faster with Quantization<a class="headerlink" href="#making-models-faster-with-quantization" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">state_dict</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()</span>
+<span class="n">weights</span> <span class="o">=</span> <span class="n">state_dict</span><span class="p">[</span><span class="s2">&quot;distilbert.transformer.layer.0.attention.out_lin.weight&quot;</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">weights</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.3</span><span class="p">,</span><span class="mf">0.3</span><span class="p">),</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/dd6c11114729917ecb7af6ce8f5643b510fff446450ff3d7260202f206804e44.png" src="../_images/dd6c11114729917ecb7af6ce8f5643b510fff446450ff3d7260202f206804e44.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">zero_point</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">scale</span> <span class="o">=</span> <span class="p">(</span><span class="n">weights</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">weights</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="mi">127</span> <span class="o">-</span> <span class="p">(</span><span class="o">-</span><span class="mi">128</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">weights</span> <span class="o">/</span> <span class="n">scale</span> <span class="o">+</span> <span class="n">zero_point</span><span class="p">)</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="o">-</span><span class="mi">128</span><span class="p">,</span> <span class="mi">127</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">()</span><span class="o">.</span><span class="n">char</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[ -5,  -8,   0,  ...,  -6,  -4,   8],
+        [  8,   3,   1,  ...,  -4,   7,   0],
+        [ -9,  -6,   5,  ...,   1,   5,  -3],
+        ...,
+        [  6,   0,  12,  ...,   0,   6,  -1],
+        [  0,  -2, -12,  ...,  12,  -7, -13],
+        [-13,  -1, -10,  ...,   8,   2,  -2]], dtype=torch.int8)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">quantize_per_tensor</span>
+
+<span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">qint8</span>
+<span class="n">quantized_weights</span> <span class="o">=</span> <span class="n">quantize_per_tensor</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">zero_point</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+<span class="n">quantized_weights</span><span class="o">.</span><span class="n">int_repr</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[ -5,  -8,   0,  ...,  -6,  -4,   8],
+        [  8,   3,   1,  ...,  -4,   7,   0],
+        [ -9,  -6,   5,  ...,   1,   5,  -3],
+        ...,
+        [  6,   0,  12,  ...,   0,   6,  -1],
+        [  0,  -2, -12,  ...,  12,  -7, -13],
+        [-13,  -1, -10,  ...,   8,   2,  -2]], dtype=torch.int8)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">timeit</span>
+<span class="n">weights</span> <span class="o">@</span> <span class="n">weights</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100 loops, best of 5: 5.59 ms per loop
+</pre></div>
+</div>
+</div>
+</div>
+<p>quantized tensors를 위해 <code class="docutils literal notranslate"><span class="pre">QFunctional</span></code> wrapper class를 사용할 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch.nn.quantized</span> <span class="kn">import</span> <span class="n">QFunctional</span>
+
+<span class="n">q_fn</span> <span class="o">=</span> <span class="n">QFunctional</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">timeit</span>
+<span class="n">q_fn</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">quantized_weights</span><span class="p">,</span> <span class="n">quantized_weights</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The slowest run took 33.24 times longer than the fastest. This could mean that an intermediate result is being cached.
+1000 loops, best of 5: 206 µs per loop
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">weights</span><span class="o">.</span><span class="n">storage</span><span class="p">())</span> <span class="o">/</span> <span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">quantized_weights</span><span class="o">.</span><span class="n">storage</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.999633833760527
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch.quantization</span> <span class="kn">import</span> <span class="n">quantize_dynamic</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoModelForSequenceClassification</span>
+
+<span class="n">model_ckpt</span> <span class="o">=</span> <span class="s2">&quot;transformersbook/distilbert-base-uncased-distilled-clinc&quot;</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_ckpt</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="p">(</span><span class="n">AutoModelForSequenceClassification</span>
+         <span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_ckpt</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">))</span>
+
+<span class="n">model_quantized</span> <span class="o">=</span> <span class="n">quantize_dynamic</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="p">{</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">},</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">qint8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="benchmarking-our-quantized-model">
+<h1>Benchmarking Our Quantized Model<a class="headerlink" href="#benchmarking-our-quantized-model" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pipe</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;text-classification&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model_quantized</span><span class="p">,</span>
+                <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">)</span>
+<span class="n">optim_type</span> <span class="o">=</span> <span class="s2">&quot;Distillation + quantization&quot;</span>
+<span class="n">pb</span> <span class="o">=</span> <span class="n">PerformanceBenchmark</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">clinc</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">],</span> <span class="n">optim_type</span><span class="o">=</span><span class="n">optim_type</span><span class="p">)</span>
+<span class="n">perf_metrics</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">pb</span><span class="o">.</span><span class="n">run_benchmark</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model size (MB) - 132.40
+Average latency (ms) - 13.93 +\- 1.17
+Accuracy on test set - 0.876
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plot_metrics</span><span class="p">(</span><span class="n">perf_metrics</span><span class="p">,</span> <span class="n">optim_type</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/7d82dc17a0a7904ff0010c9d3e8d1c4df7dd28c81c09daa24fdf5df34febfc61.png" src="../_images/7d82dc17a0a7904ff0010c9d3e8d1c4df7dd28c81c09daa24fdf5df34febfc61.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="optimizing-inference-with-onnx-and-the-onnx-runtime">
+<h1>Optimizing Inference with ONNX and the ONNX Runtime<a class="headerlink" href="#optimizing-inference-with-onnx-and-the-onnx-runtime" title="Permalink to this heading">#</a></h1>
+<p>ONNX는 연산 그래프(computational graph)를 standardized operators와 data types들로 추출해주는 프레임워크입니다. PyTorch와 TensorFlow간의 모델도 어느정도 스위칭 할 수 있습니다.</p>
+<p><img alt="image" src="https://user-images.githubusercontent.com/7252598/146886460-851d758c-a5f4-40a0-b089-ae1cbd23ca43.png" /></p>
+<p>ONNX는 ONNX Runtime 또는 ORT 같은 accelerator와 결합될 때 빛을 바랍니다. ORT는 ONNX 그래프를 최적화하는 툴입니다.</p>
+<p><img alt="image" src="https://user-images.githubusercontent.com/7252598/146886908-f8746fbb-24f2-49d3-ac1c-2a3cb63bbfa0.png" /></p>
+<p>transformers library에는 ONNX를 <code class="docutils literal notranslate"><span class="pre">convert_graph_to_onnx.convert()</span></code>라는 빌트인함수를 통해 사용할 수 있습니다. 이 함수를 쓰기 위한 몇가지 조건은 다음과 같습니다.</p>
+<ul class="simple">
+<li><p>모델을 <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> 형태로 초기화할 것</p></li>
+<li><p>Dummy inputs을 파이프라인에 입력해서 ONNX가 연산그래프를 기록할 수 있게 할 것</p></li>
+<li><p>dynamic axes를 정의해서 dynamic sequence lengths에 대응할 수 있게 할 것</p></li>
+<li><p>그래프를 network parameters와 저장할 것</p></li>
+</ul>
+<p>onnx를 사용하기 위해선 OpenMP 환경변수를 셋팅해줘야합니다. OpenMP는 고수준의 병렬화 어플리케이션을 개발하기 위해 설계된 API입니다. 다음과 같이 셋팅합니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">psutil</span> <span class="kn">import</span> <span class="n">cpu_count</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OMP_NUM_THREADS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cpu_count</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OMP_WAIT_POLICY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ACTIVE&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>ONNX는 immutable operator 스펙을 그룹핑하기 위해 operator sets을 사용합니다. <code class="docutils literal notranslate"><span class="pre">opset=12</span></code>는 ONNX library의 특정 버전에 대응되는 값입니다. (중요)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers.convert_graph_to_onnx</span> <span class="kn">import</span> <span class="n">convert</span>
+
+<span class="n">model_ckpt</span> <span class="o">=</span> <span class="s2">&quot;transformersbook/distilbert-base-uncased-distilled-clinc&quot;</span>
+<span class="n">onnx_model_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;onnx/model.onnx&quot;</span><span class="p">)</span>
+<span class="n">convert</span><span class="p">(</span><span class="n">framework</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model_ckpt</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span>
+        <span class="n">output</span><span class="o">=</span><span class="n">onnx_model_path</span><span class="p">,</span> <span class="n">opset</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">pipeline_name</span><span class="o">=</span><span class="s2">&quot;text-classification&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>이제 모델을 저장하기 위해 inference session을 생성해서 inputs을 모델에 입력하겠습니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>!pip install onnx
+!pip install onnxruntime
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">onnxruntime</span> <span class="kn">import</span> <span class="p">(</span><span class="n">GraphOptimizationLevel</span><span class="p">,</span> <span class="n">InferenceSession</span><span class="p">,</span>
+                         <span class="n">SessionOptions</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">create_model_for_provider</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;CPUExecutionProvider&quot;</span><span class="p">):</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="n">SessionOptions</span><span class="p">()</span>
+    <span class="n">options</span><span class="o">.</span><span class="n">intra_op_num_threads</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">options</span><span class="o">.</span><span class="n">graph_optimization_level</span> <span class="o">=</span> <span class="n">GraphOptimizationLevel</span><span class="o">.</span><span class="n">ORT_ENABLE_ALL</span>
+    <span class="n">session</span> <span class="o">=</span> <span class="n">InferenceSession</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">model_path</span><span class="p">),</span> <span class="n">options</span><span class="p">,</span> <span class="n">providers</span><span class="o">=</span><span class="p">[</span><span class="n">provider</span><span class="p">])</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">disable_fallback</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">session</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">onnx_model</span> <span class="o">=</span> <span class="n">create_model_for_provider</span><span class="p">(</span><span class="n">onnx_model_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="n">clinc_enc</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">][:</span><span class="mi">1</span><span class="p">]</span>
+<span class="k">del</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">]</span>
+<span class="n">logits_onnx</span> <span class="o">=</span> <span class="n">onnx_model</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">logits_onnx</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1, 151)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">logits_onnx</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>61
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">clinc_enc</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;labels&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>61
+</pre></div>
+</div>
+</div>
+</div>
+<p>ONNX 모델은 <code class="docutils literal notranslate"><span class="pre">text-classification</span></code> pipeline과 호환되지 않기 때문에, 비슷한 기능의 클래스를 직접 생성해줍니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">softmax</span>
+
+<span class="k">class</span> <span class="nc">OnnxPipeline</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tokenizer</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="n">model_inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
+        <span class="n">inputs_onnx</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+                       <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">model_inputs</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">logits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">inputs_onnx</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">probs</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">logits</span><span class="p">)</span>
+        <span class="n">pred_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">probs</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">[{</span><span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">intents</span><span class="o">.</span><span class="n">int2str</span><span class="p">(</span><span class="n">pred_idx</span><span class="p">),</span> <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="n">probs</span><span class="p">[</span><span class="n">pred_idx</span><span class="p">]}]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pipe</span> <span class="o">=</span> <span class="n">OnnxPipeline</span><span class="p">(</span><span class="n">onnx_model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+<span class="n">pipe</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;label&#39;: &#39;car_rental&#39;, &#39;score&#39;: 0.7848334}]
+</pre></div>
+</div>
+</div>
+</div>
+<p>기존에 사용하던 <code class="docutils literal notranslate"><span class="pre">PerformanceBenchmark</span></code> 클래스의 함수들은 사용하고, <code class="docutils literal notranslate"><span class="pre">compute_size()</span></code>를 오버라이딩 해줍니다. 기존 <code class="docutils literal notranslate"><span class="pre">compute_size()</span></code> 함수는 <code class="docutils literal notranslate"><span class="pre">state_dict</span></code>과 <code class="docutils literal notranslate"><span class="pre">torch.save()</span></code> 기반으로 동작했기 때문에, ONNX에 맞게 변경합니다. <code class="docutils literal notranslate"><span class="pre">onnx_model</span></code>은 ONNX의 <code class="docutils literal notranslate"><span class="pre">InferenceSession</span></code> object기 때문에, PyTorch의 <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code> 속성에는 접근할 수 없습니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">OnnxPerformanceBenchmark</span><span class="p">(</span><span class="n">PerformanceBenchmark</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">model_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_path</span> <span class="o">=</span> <span class="n">model_path</span>
+
+    <span class="k">def</span> <span class="nf">compute_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">size_mb</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_path</span><span class="p">)</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model size (MB) - </span><span class="si">{</span><span class="n">size_mb</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;size_mb&quot;</span><span class="p">:</span> <span class="n">size_mb</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">optim_type</span> <span class="o">=</span> <span class="s2">&quot;Distillation + ORT&quot;</span>
+<span class="n">pb</span> <span class="o">=</span> <span class="n">OnnxPerformanceBenchmark</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">clinc</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">],</span> <span class="n">optim_type</span><span class="p">,</span>
+                              <span class="n">model_path</span><span class="o">=</span><span class="s2">&quot;onnx/model.onnx&quot;</span><span class="p">)</span>
+<span class="n">perf_metrics</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">pb</span><span class="o">.</span><span class="n">run_benchmark</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model size (MB) - 255.88
+Average latency (ms) - 23.09 +\- 1.07
+Accuracy on test set - 0.868
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plot_metrics</span><span class="p">(</span><span class="n">perf_metrics</span><span class="p">,</span> <span class="n">optim_type</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/83e3d729461f4b6068c4f63a7d8f31e2ada037864385c4d1fcc143b2437b899a.png" src="../_images/83e3d729461f4b6068c4f63a7d8f31e2ada037864385c4d1fcc143b2437b899a.png" />
+</div>
+</div>
+<p>quantization을 적용해서 onnx 포멧으로 변경해보겠습니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">onnxruntime.quantization</span> <span class="kn">import</span> <span class="n">quantize_dynamic</span><span class="p">,</span> <span class="n">QuantType</span>
+
+<span class="n">model_input</span> <span class="o">=</span> <span class="s2">&quot;onnx/model.onnx&quot;</span>
+<span class="n">model_output</span> <span class="o">=</span> <span class="s2">&quot;onnx/model.quant.onnx&quot;</span>
+<span class="n">quantize_dynamic</span><span class="p">(</span><span class="n">model_input</span><span class="p">,</span> <span class="n">model_output</span><span class="p">,</span> <span class="n">weight_type</span><span class="o">=</span><span class="n">QuantType</span><span class="o">.</span><span class="n">QInt8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">onnx_quantized_model</span> <span class="o">=</span> <span class="n">create_model_for_provider</span><span class="p">(</span><span class="n">model_output</span><span class="p">)</span>
+<span class="n">pipe</span> <span class="o">=</span> <span class="n">OnnxPipeline</span><span class="p">(</span><span class="n">onnx_quantized_model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+<span class="n">optim_type</span> <span class="o">=</span> <span class="s2">&quot;Distillation + ORT (quantized)&quot;</span>
+<span class="n">pb</span> <span class="o">=</span> <span class="n">OnnxPerformanceBenchmark</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">clinc</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">],</span> <span class="n">optim_type</span><span class="p">,</span>
+                              <span class="n">model_path</span><span class="o">=</span><span class="n">model_output</span><span class="p">)</span>
+<span class="n">perf_metrics</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">pb</span><span class="o">.</span><span class="n">run_benchmark</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model size (MB) - 64.20
+Average latency (ms) - 14.75 +\- 2.25
+Accuracy on test set - 0.877
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">perf_metrics</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;BERT baseline&#39;: {&#39;accuracy&#39;: 0.8672727272727273,
+  &#39;size_mb&#39;: 418.162091255188,
+  &#39;time_avg_ms&#39;: 66.90917849000016,
+  &#39;time_std_ms&#39;: 15.54450930778012},
+ &#39;DistilBERT&#39;: {&#39;accuracy&#39;: 0.8581818181818182,
+  &#39;size_mb&#39;: 255.8870096206665,
+  &#39;time_avg_ms&#39;: 23.56640914000309,
+  &#39;time_std_ms&#39;: 1.5127073845396601},
+ &#39;Distillation&#39;: {&#39;accuracy&#39;: 0.8683636363636363,
+  &#39;size_mb&#39;: 255.8870096206665,
+  &#39;time_avg_ms&#39;: 23.070342589967368,
+  &#39;time_std_ms&#39;: 1.6400368327444326},
+ &#39;Distillation + ORT&#39;: {&#39;accuracy&#39;: 0.8683636363636363,
+  &#39;size_mb&#39;: 255.88444709777832,
+  &#39;time_avg_ms&#39;: 23.087787130011748,
+  &#39;time_std_ms&#39;: 1.0705494813903838},
+ &#39;Distillation + ORT (quantized)&#39;: {&#39;accuracy&#39;: 0.8765454545454545,
+  &#39;size_mb&#39;: 64.20259952545166,
+  &#39;time_avg_ms&#39;: 14.749559870015219,
+  &#39;time_std_ms&#39;: 2.245130272348436},
+ &#39;Distillation + quantization&#39;: {&#39;accuracy&#39;: 0.8761818181818182,
+  &#39;size_mb&#39;: 132.3966302871704,
+  &#39;time_avg_ms&#39;: 13.932592399978603,
+  &#39;time_std_ms&#39;: 1.1674458359456512}}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plot_metrics</span><span class="p">(</span><span class="n">perf_metrics</span><span class="p">,</span> <span class="n">optim_type</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2974c4ba59f0c2aefe7a83da26d43fbdca4d6085e5ab81626a302cfd92c6f685.png" src="../_images/2974c4ba59f0c2aefe7a83da26d43fbdca4d6085e5ab81626a302cfd92c6f685.png" />
+</div>
+</div>
+<p>quantization을 적용할 때 모델 크기와 latency가 모두 감소하는 것을 확인할 수 있습니다. PyTorch는 <code class="docutils literal notranslate"><span class="pre">nn.Linear</span></code>모듈만 최적화하지만, ONNX는 embedding layer까지 quantization하기때문에 일반적으로는 효과가 좋습니다.</p>
+<p>이런 방법외에 다른 전략으로는 특정 weights를 지워버리는 weight pruning이라는 방법도 있습니다.</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Exercise"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+            </article>
+            
+
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="sentiment_analysis.html" title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">감성분석 (Sentiment Analysis)</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="Training_Transformers_from_Scratch.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Training Transformers from Scratch</p>
+  </div>
+  <i class="fa-solid fa-angle-right"></i>
+  </a>
+</div>
+            </footer>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Making Transformers Efficient in Production
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#intent-detection-as-a-case-study">
+     Intent Detection as a Case Study
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creating-a-performance-benchmark">
+     Creating a Performance Benchmark
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#benchmarking-our-baseline-model">
+   Benchmarking Our Baseline Model
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#making-models-smaller-via-knowledge-distillation">
+   Making Models Smaller via Knowledge Distillation
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#knowledge-distillation-for-fine-tuning">
+     Knowledge Distillation for Fine-Tuning
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#knowledge-distillation-for-pretraining">
+     Knowledge Distillation for Pretraining
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creating-a-knowledge-distillation-trainer">
+     Creating a Knowledge Distillation Trainer
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#choosing-a-good-student-initialization">
+     Choosing a Good Student Initialization
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#finding-good-hyperparameters-with-optuna">
+   Finding Good Hyperparameters with Optuna
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#making-models-faster-with-quantization">
+   Making Models Faster with Quantization
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#benchmarking-our-quantized-model">
+   Benchmarking Our Quantized Model
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#optimizing-inference-with-onnx-and-the-onnx-runtime">
+   Optimizing Inference with ONNX and the ONNX Runtime
+  </a>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By JSYoon
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright 2022.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+Last updated on None.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </div>
+        </footer>
+        
+
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  </body>
+</html>
