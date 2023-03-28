@@ -1,7 +1,7 @@
 # nlp-book
 ## 들어가며
 
-![unicorn_png](https://user-images.githubusercontent.com/7252598/227951801-036902d1-0ebb-4878-9e23-c471a7aa0b92.png)
+![unicorn](https://user-images.githubusercontent.com/7252598/228166079-13e97420-b3ee-49f2-a4e8-a40376fe09c3.png)
 
 안녕하세요, 이 사이트는 허깅페이스([HuggingFace](https://huggingface.co/)) 및 다양한 라이브러리를 통해 자연어처리를 배우고 실습하는 과정을 다룹니다. 앞부분에는 허깅페이스 튜토리얼을 참고하여 다양한 예제를 다룰 예정이고, 뒷부분에는 최근 주목받고 있는 LLMs 관련 내용을 다룰 예정입니다. 여러 자료를 취합하면서 작성할 예정이고, 이슈는 언제나 환영입니다. 감사합니다.
 
