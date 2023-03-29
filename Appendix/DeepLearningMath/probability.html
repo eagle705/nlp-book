@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Attention mechanism &#8212; NLP Book</title>
+    <title>MLE &#8212; NLP Book</title>
   
   
   
@@ -58,11 +58,9 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'BasicNLP/dl_nlp/attention_mechanism';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Appendix/DeepLearningMath/probability';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Language Model" href="../LM/LM.html" />
-    <link rel="prev" title="RNN" href="rnn.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
   </head>
@@ -151,21 +149,21 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../overview/overview.html">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/overview/overview.html">
                         Overview
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../text_representation/text_representation.html">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/text_representation/text_representation.html">
                         Text Representation
                       </a>
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="dl_nlp.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/dl_nlp/dl_nlp.html">
                         Deep Learning for NLP
                       </a>
                     </li>
@@ -177,7 +175,7 @@ const thebe_selector_output = ".output, .cell_output"
                 <div class="dropdown-menu">
                     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../LM/LM.html">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/LM/LM.html">
                         Language Model
                       </a>
                     </li>
@@ -254,14 +252,14 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/appendix.html">
+                      <a class="nav-link nav-internal" href="../appendix.html">
                         Appendix
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/calculus.html">
+                      <a class="nav-link nav-internal" href="calculus.html">
                         딥러닝 기초 수학 (미분)
                       </a>
                     </li>
@@ -312,6 +310,10 @@ const thebe_selector_output = ".output, .cell_output"
   
 
   
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
 
 </div>
   </nav>
@@ -350,21 +352,21 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../overview/overview.html">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/overview/overview.html">
                         Overview
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../text_representation/text_representation.html">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/text_representation/text_representation.html">
                         Text Representation
                       </a>
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="dl_nlp.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/dl_nlp/dl_nlp.html">
                         Deep Learning for NLP
                       </a>
                     </li>
@@ -376,7 +378,7 @@ const thebe_selector_output = ".output, .cell_output"
                 <div class="dropdown-menu">
                     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../LM/LM.html">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/LM/LM.html">
                         Language Model
                       </a>
                     </li>
@@ -453,14 +455,14 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/appendix.html">
+                      <a class="nav-link nav-internal" href="../appendix.html">
                         Appendix
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/calculus.html">
+                      <a class="nav-link nav-internal" href="calculus.html">
                         딥러닝 기초 수학 (미분)
                       </a>
                     </li>
@@ -545,28 +547,28 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../../NLP/nlp.html">Natural Language Processing</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">2장 BasicNLP</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../overview/overview.html">Overview</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../overview/%ED%95%9C%EA%B8%80%EA%B3%BC%EC%9E%90%EC%97%B0%EC%96%B4%EC%B2%98%EB%A6%AC.html">한국어와 자연어처리</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../overview/%EC%9E%90%EC%97%B0%EC%96%B4%EC%B2%98%EB%A6%AC%EC%9A%A9%EC%96%B4.html">token, sentence, vector spaces, embedding</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../BasicNLP/overview/overview.html">Overview</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/overview/%ED%95%9C%EA%B8%80%EA%B3%BC%EC%9E%90%EC%97%B0%EC%96%B4%EC%B2%98%EB%A6%AC.html">한국어와 자연어처리</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/overview/%EC%9E%90%EC%97%B0%EC%96%B4%EC%B2%98%EB%A6%AC%EC%9A%A9%EC%96%B4.html">token, sentence, vector spaces, embedding</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../text_representation/text_representation.html">Text Representation</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../text_representation/tf-idf.html">TF-IDF</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../text_representation/word2vec.html">Word2Vec &amp; GloVe</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../text_representation/contextual_word_representation.html">Contextual word representation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../BasicNLP/text_representation/text_representation.html">Text Representation</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/text_representation/tf-idf.html">TF-IDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/text_representation/word2vec.html">Word2Vec &amp; GloVe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/text_representation/contextual_word_representation.html">Contextual word representation</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="dl_nlp.html">Deep Learning for NLP</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="mlp.html">MLP(Multi-Layer Perceptron)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cnn.html">CNN</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rnn.html">RNN</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Attention mechanism</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../BasicNLP/dl_nlp/dl_nlp.html">Deep Learning for NLP</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/dl_nlp/mlp.html">MLP(Multi-Layer Perceptron)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/dl_nlp/cnn.html">CNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/dl_nlp/rnn.html">RNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/dl_nlp/attention_mechanism.html">Attention mechanism</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../LM/LM.html">Language Model</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../LM/probability.html">Probability Theory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../LM/disc_gen_model.html">Discriminative VS Generative model</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../BasicNLP/LM/LM.html">Language Model</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/LM/probability.html">Probability Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/LM/disc_gen_model.html">Discriminative VS Generative model</a></li>
 </ul>
 </li>
 </ul>
@@ -630,8 +632,8 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">부록</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/appendix.html">Appendix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/DeepLearningMath/calculus.html">딥러닝 기초 수학 (미분)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calculus.html">딥러닝 기초 수학 (미분)</a></li>
 </ul>
 
     </div>
@@ -707,7 +709,7 @@ title="Source repository"
 </a>
 </a>
       
-      <li><a href="https://github.com/eagle705/nlp-book/issues/new?title=Issue%20on%20page%20%2FBasicNLP/dl_nlp/attention_mechanism.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/eagle705/nlp-book/issues/new?title=Issue%20on%20page%20%2FAppendix/DeepLearningMath/probability.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -732,7 +734,7 @@ title="Open an issue"
     <i class="fas fa-download"></i>
   </button>
   <ul class="dropdown-menu">
-      <li><a href="../../_sources/BasicNLP/dl_nlp/attention_mechanism.md" target="_blank"
+      <li><a href="../../_sources/Appendix/DeepLearningMath/probability.md" target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -765,7 +767,9 @@ title="Print to PDF"
       
   </ul>
 </div>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary" data-toggle="tooltip" data-placement="left" title="Toggle secondary sidebar">
+            <span class="fa-solid fa-list"></span>
+        </label>
     </div>
 </div>
             </div>
@@ -773,33 +777,43 @@ title="Print to PDF"
             
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Attention mechanism</h1>
+    <h1>MLE</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   MLE
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#map">
+   MAP
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
 
             <article class="bd-article" role="main">
               
-  <section class="tex2jax_ignore mathjax_ignore" id="attention-mechanism">
-<h1>Attention mechanism<a class="headerlink" href="#attention-mechanism" title="Permalink to this heading">#</a></h1>
-<p>Attention mechanism은 딥러닝 모델에서 특정 부분에 더 집중하도록 하는 기법입니다. Attention mechanism은 기존의 RNN, LSTM, GRU 등의 모델에 적용될 수 있으며, 주로 자연어 처리(NLP) 분야에서 사용됩니다.</p>
-<p>RNN 기반 모델에서 Attention mechanism을 사용하면, 모델이 입력 시퀀스의 각 요소에 대해 다른 가중치를 부여할 수 있게 됩니다. 이를 통해 모델은 특정 요소에 더 집중하게 되며, 이는 모델의 성능을 향상시키는 데 도움이 됩니다.</p>
-<p>예를 들어, 기계 번역에서는 입력 문장과 출력 문장 간의 상응하는 단어를 찾기 위해 Attention mechanism을 사용합니다. 입력 문장의 각 단어는 모델의 현재 상태에 의해 가중치가 부여되며, 이 가중치는 출력 문장에서 해당 단어와 상응하는 위치에 가중치가 더 부여됩니다.</p>
-<p>이러한 Attention mechanism은 기계 번역뿐만 아니라, 자동 요약, 질문 응답, 감성 분석 등 다양한 자연어 처리 작업에서 사용됩니다. Attention mechanism은 기존의 RNN, LSTM, GRU 등의 모델에 적용될 수 있으며(seq2seq with attention), 모델의 성능을 향상시키는 데 큰 역할을 합니다.</p>
-<p>seq2seq with attention은 자연어 처리(NLP) 분야에서 가장 많이 사용되는 모델 중 하나입니다. 이 모델은 기계 번역, 자동 요약, 챗봇 등의 작업에서 널리 사용됩니다.</p>
-<p>seq2seq with attention은 Encoder-Decoder 구조를 기반으로 하며, Attention mechanism을 사용하여 모델의 성능을 향상시킵니다. Encoder는 입력 시퀀스를 인코딩하고, Decoder는 인코딩된 정보를 디코딩하여 출력 시퀀스를 생성합니다. Attention mechanism은 Encoder에서 생성된 인코딩 벡터를 디코딩하는 동안 사용됩니다.</p>
-<p>seq2seq with attention의 주요 특징은 다음과 같습니다.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="mle">
+<h1>MLE<a class="headerlink" href="#mle" title="Permalink to this heading">#</a></h1>
 <ul class="simple">
-<li><p>인코딩된 정보를 디코딩하는 동안, Attention mechanism을 사용하여 입력 시퀀스의 각 요소에 대한 가중치를 계산합니다.</p></li>
-<li><p>Attention mechanism은 각 디코더 단계에서 사용됩니다. 이전 단계에서 생성된 출력 시퀀스와 인코딩된 정보를 사용하여, 다음 출력 시퀀스를 생성하는 데 필요한 정보를 추출합니다.</p></li>
-<li><p>Attention mechanism은 모델이 입력 시퀀스의 중요한 부분에 더 집중하도록 도와 성능을 향상시킵니다.</p></li>
+<li><p>베이지안 관점의 기계학습</p></li>
 </ul>
-<p>seq2seq with attention은 다양한 자연어 처리 작업에 사용됩니다. 예를 들어, 기계 번역에서는 입력 문장과 출력 문장 간의 상응하는 단어를 찾기 위해 Attention mechanism을 사용하며, 이를 통해 모델은 입력 문장의 중요한 부분에 더 집중할 수 있습니다. 자동 요약에서는 입력 문장에서 중요한 문장을 추출하기 위해 Attention mechanism을 사용합니다.</p>
-<p>seq2seq with attention은 다양한 자연어 처리 작업에서 사용되는 유연하고 강력한 모델 중 하나입니다.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="map">
+<h1>MAP<a class="headerlink" href="#map" title="Permalink to this heading">#</a></h1>
 </section>
 
     <script type="text/x-thebe-config">
@@ -815,7 +829,7 @@ title="Print to PDF"
         },
         kernelOptions: {
             name: "python3",
-            path: "./BasicNLP/dl_nlp"
+            path: "./Appendix/DeepLearningMath"
         },
         predefinedOutput: true
     }
@@ -830,26 +844,38 @@ title="Print to PDF"
             <footer class="bd-footer-article">
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='left-prev' id="prev-link" href="rnn.html" title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-          <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">RNN</p>
-      </div>
-  </a>
-  <a class='right-next' id="next-link" href="../LM/LM.html" title="next page">
-  <div class="prev-next-info">
-      <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">Language Model</p>
-  </div>
-  <i class="fa-solid fa-angle-right"></i>
-  </a>
 </div>
             </footer>
             
           </div>
           
           
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   MLE
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#map">
+   MAP
+  </a>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+            </div>
           
           
         </div>
