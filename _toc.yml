@@ -63,12 +63,16 @@ parts:
   - caption: 6장 ChatGPT
     chapters:
     - file: ChatGPT/introduction
+    - file: ChatGPT/Alpaca
   - caption: 7장 나만의 ChatGPT 만들기
     chapters:
     - file: DevChatGPT/introduction
   - caption: 부록
     chapters:
     - file: Appendix/appendix    
+    - file: Appendix/DeepLearningMath/calculus
+    - file: Appendix/DeepLearningMath/MLE
+    - file: Appendix/DeepLearningMath/MAP  
 # chapters:
 # - file: UsingTransformers/Introduction
 #   sections:
