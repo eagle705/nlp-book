@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>딥러닝 기초 수학 (미분) &#8212; NLP Book</title>
+    <title>미분 &amp; Gradient &#8212; NLP Book</title>
   
   
   
@@ -61,6 +61,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'Appendix/DeepLearningMath/calculus';</script>
+    <link rel="shortcut icon" href="../../_static/favicon-16x16.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="MLE (Maximum Likelihood Estimation)" href="MLE.html" />
@@ -271,7 +272,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        딥러닝 기초 수학 (미분)
+                        미분 & Gradient
                       </a>
                     </li>
                 
@@ -495,7 +496,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        딥러닝 기초 수학 (미분)
+                        미분 & Gradient
                       </a>
                     </li>
                 
@@ -683,7 +684,7 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">부록</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendix</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">딥러닝 기초 수학 (미분)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">미분 &amp; Gradient</a></li>
 <li class="toctree-l1"><a class="reference internal" href="MLE.html">MLE (Maximum Likelihood Estimation)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="MAP.html">MAP (Maximum A P Posteriori Estimation)</a></li>
 </ul>
@@ -829,7 +830,7 @@ title="Print to PDF"
             
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>딥러닝 기초 수학 (미분)</h1>
+    <h1>미분 & Gradient</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -840,19 +841,26 @@ title="Print to PDF"
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
+  <a class="reference internal nav-link" href="#id1">
    핵심 내용
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id3">
+    <a class="reference internal nav-link" href="#id2">
      단변수 함수의 미분 정의
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
+    <a class="reference internal nav-link" href="#id3">
      다변수함수의 미분
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#chain-rule">
+       다변수 함수에서의 Chain Rule
+      </a>
+     </li>
+    </ul>
    </li>
   </ul>
  </li>
@@ -865,17 +873,17 @@ title="Print to PDF"
 
             <article class="bd-article" role="main">
               
-  <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>딥러닝 기초 수학 (미분)<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h1>
-<section id="id2">
-<h2>핵심 내용<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+  <section class="tex2jax_ignore mathjax_ignore" id="gradient">
+<h1>미분 &amp; Gradient<a class="headerlink" href="#gradient" title="Permalink to this heading">#</a></h1>
+<section id="id1">
+<h2>핵심 내용<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p>단변수 함수의 미분</p></li>
 <li><p>고차함수의 미분</p></li>
 <li><p>선형 근사와 Taylor Series</p></li>
 </ul>
-<section id="id3">
-<h3>단변수 함수의 미분 정의<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<section id="id2">
+<h3>단변수 함수의 미분 정의<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>함수가 어떤 지점에서 연속이고 극한값이 있을때, 해당 지점에서의 변화에 따른 함수 값의 변화량</p></li>
 </ul>
@@ -899,8 +907,8 @@ title="Print to PDF"
 </ul>
 <p><img alt="continuity" src="https://64.media.tumblr.com/6cdf62959b18340729980dca48deb1ce/332487a4ea1d26c6-2d/s1280x1920/904c3c12f2bb236cb96f74016b6c510fd4be30f1.gif" /></p>
 </section>
-<section id="id4">
-<h3>다변수함수의 미분<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<section id="id3">
+<h3>다변수함수의 미분<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
 <p>현실 세계의 대다수의 문제는 다변수인경우(<code class="docutils literal notranslate"><span class="pre">이미지</span></code>, <code class="docutils literal notranslate"><span class="pre">단어벡터</span></code>, …)가 많습니다. 이러한 다변수 문제를 다루기 위해 다변수 함수의 미분에 대해서 잠깐 살펴보겠습니다.</p>
 <ul class="simple">
 <li><p>편미분의 정의:</p>
@@ -939,6 +947,22 @@ title="Print to PDF"
 \end{aligned}
 \end{split}\]</div>
 <p>Gradient Descent의 원리는 결국 Gradient의 반대방향으로 파라미터의 값을 조금씩 이동(learning rate) 시킴으로써 모델의 loss function의 값을 감소시키는 것입니다.</p>
+<section id="chain-rule">
+<h4>다변수 함수에서의 Chain Rule<a class="headerlink" href="#chain-rule" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>다변수 함수의 편미분에 대해서도 Chain rule이 기존과 동일하게 동작함</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(f(u, v): f\)</span> 는 <span class="math notranslate nohighlight">\(u, v\)</span> 에 대한 함수</p></li>
+<li><p><span class="math notranslate nohighlight">\(u(x, y), v(x, y): u, v\)</span> 는 <span class="math notranslate nohighlight">\(x, y\)</span> 에 대한 함수일 때</p></li>
+</ul>
+</li>
+<li><p>Chain Rule은 Back propagation을 할때 등장하는 개념
+$<span class="math notranslate nohighlight">\(
+\frac{\partial f}{\partial x}=\frac{\partial f}{\partial u} \frac{\partial u}{\partial x}+\frac{\partial f}{\partial v} \frac{\partial v}{\partial x}
+\)</span>$
+<img alt="image" src="https://user-images.githubusercontent.com/7252598/228459323-33ca01ce-986d-4b99-95f5-9d3d35ec068f.png" /></p></li>
+</ul>
+</section>
 </section>
 </section>
 </section>
@@ -1002,19 +1026,26 @@ title="Print to PDF"
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
+  <a class="reference internal nav-link" href="#id1">
    핵심 내용
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id3">
+    <a class="reference internal nav-link" href="#id2">
      단변수 함수의 미분 정의
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
+    <a class="reference internal nav-link" href="#id3">
      다변수함수의 미분
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#chain-rule">
+       다변수 함수에서의 Chain Rule
+      </a>
+     </li>
+    </ul>
    </li>
   </ul>
  </li>
