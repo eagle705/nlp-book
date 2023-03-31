@@ -61,6 +61,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'Appendix/DeepLearningMath/MAP';</script>
+    <link rel="shortcut icon" href="../../_static/favicon-16x16.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="prev" title="MLE (Maximum Likelihood Estimation)" href="MLE.html" />
@@ -270,7 +271,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="calculus.html">
-                        딥러닝 기초 수학 (미분)
+                        미분 & Gradient
                       </a>
                     </li>
                 
@@ -494,7 +495,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="calculus.html">
-                        딥러닝 기초 수학 (미분)
+                        미분 & Gradient
                       </a>
                     </li>
                 
@@ -682,7 +683,7 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">부록</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="calculus.html">딥러닝 기초 수학 (미분)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calculus.html">미분 &amp; Gradient</a></li>
 <li class="toctree-l1"><a class="reference internal" href="MLE.html">MLE (Maximum Likelihood Estimation)</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">MAP (Maximum A P Posteriori Estimation)</a></li>
 </ul>
@@ -839,19 +840,26 @@ title="Print to PDF"
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
-   용어정리
+  <a class="reference internal nav-link" href="#mle-map">
+   MLE를 이미 배웠는데 MAP가 왜 필요할까?
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#map">
-   MAP 계산을 위한 윷놀이 예시
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
-   MAP의 장단점
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     용어정리
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#map">
+     MAP 계산을 위한 윷놀이 예시
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     MAP의 장단점
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -864,6 +872,8 @@ title="Print to PDF"
               
   <section class="tex2jax_ignore mathjax_ignore" id="map-maximum-a-p-posteriori-estimation">
 <h1>MAP (Maximum A P Posteriori Estimation)<a class="headerlink" href="#map-maximum-a-p-posteriori-estimation" title="Permalink to this heading">#</a></h1>
+<section id="mle-map">
+<h2>MLE를 이미 배웠는데 MAP가 왜 필요할까?<a class="headerlink" href="#mle-map" title="Permalink to this heading">#</a></h2>
 <p>이전 챕터에서 다뤘던 MLE의 조금 변형된 버전인 MAP에 대해서 배워보도록 하겠습니다.</p>
 <p>지난번에 배웠던 윷 던지기 예제에서는 아래와 같이 argmax 문제를 푸는 경우</p>
 <div class="math notranslate nohighlight">
@@ -877,7 +887,7 @@ title="Print to PDF"
 <p>위에서는 Prior인 <span class="math notranslate nohighlight">\(P(\theta)\)</span>를 상수로 가정했지만, 실제로도 그럴까요? 아마 실제로는 그렇지 않을 겁니다. 분명 어떤 분포를 갖거나 특징이 있겠죠. 즉 MLE는 상수로 가정한 스페셜 케이스에 대한 풀이라고 볼 수 있고 <span class="math notranslate nohighlight">\(P(\theta)\)</span>에 대한 부분도 조금 더 고려한다면 좀 더 정확한 방법으로 문제를 해결 할 수 있을 것 입니다.</p>
 <p>저희는 윷이 앞면이 나올 확률이 대략 0.5에 근접하다는 사실을 사전에 미리 알고 있습니다. 즉 직관적으로 <span class="math notranslate nohighlight">\(P(\theta = 0.5) &gt; P(\theta = 0.001)\)</span> 라는걸 알고 있는 거죠. 이미 여기서부터 <span class="math notranslate nohighlight">\(P(\theta)\)</span>는 사실 uniform distribution이라고 할 수 없고, 즉 상수라고 볼 수는 없는겁니다. 하지만 이 <span class="math notranslate nohighlight">\(P(\theta)\)</span>값을 정확히 알 방법은 없습니다. 예컨데 윷의 모양을 본다면? 앞면이 나올 확률이 딱 0.5라고 할 수 없는 것이죠. 그래도 <span class="math notranslate nohighlight">\(P(\theta)\)</span>를 적당히 가정한다면 <span class="math notranslate nohighlight">\(\hat{\theta}\)</span> 값을 구하는 과정을 보완할 수 있지 않을까요?</p>
 <section id="id1">
-<h2>용어정리<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<h3>용어정리<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
 <p>여기서 잠깐 용어를 정리하고 가겠습니다.</p>
 <ul class="simple">
 <li><p>Posterior distribution (사후 분포) <span class="math notranslate nohighlight">\(P(\theta \mid X)\)</span>: 데이터를 관측한 후의 <span class="math notranslate nohighlight">\(\theta\)</span>의 분포 (데이터를 본 후 정보를 반영한 <span class="math notranslate nohighlight">\({\theta}\)</span>의 분포)</p></li>
@@ -886,10 +896,10 @@ title="Print to PDF"
 </ul>
 </section>
 <section id="map">
-<h2>MAP 계산을 위한 윷놀이 예시<a class="headerlink" href="#map" title="Permalink to this heading">#</a></h2>
+<h3>MAP 계산을 위한 윷놀이 예시<a class="headerlink" href="#map" title="Permalink to this heading">#</a></h3>
 <p>자 그럼 이번에도 윷던지기 예시를 통해서 MAP를 계산하는 과정을 한번 살펴보고자 합니다.</p>
 <p>하나의 윷을 10번 던졌을 때, 다음과 같은 결과가 나왔다고 해보겠습니다.</p>
-<p><span class="math notranslate nohighlight">\(HHTHTTHHHT\)</span> ((H: Head 앞면, T: Tail 뒷면)</p>
+<p><span class="math notranslate nohighlight">\(HHTHTTHHHT\)</span> (H: Head 앞면, T: Tail 뒷면)</p>
 <p>윷을 수학적으로 모델링하면 다음과 같이 나타낼 수 있을것 입니다.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -935,11 +945,12 @@ P(X \mid \theta)=P\left(x_1, x_2, \ldots, x_n \mid \theta\right)=P\left(x_1 \mid
 <p><img alt="image" src="https://user-images.githubusercontent.com/7252598/229033660-f38d9b19-2744-4d84-a448-a964772af4bf.png" /></p>
 </section>
 <section id="id2">
-<h2>MAP의 장단점<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<h3>MAP의 장단점<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
 <p>MAP의 장점은 결국 적절한 사전분포를 모델링 할 수 있다면 Overfitting을 방지할 수 있다는 것입니다. 만약 윷놀이 데이터가 정말 우연치않게 3번 던졌을때 모두 앞면이 나온다면 MLE는 값이 1이 나오지만 MAP는 앞에서 사용했던 Prior를 사용한다면 0.75라는 조금 더 0.5에 가까운 값을 얻어낼 수 있게 됩니다.</p>
 <div class="math notranslate nohighlight">
 \[\hat{\theta}_{M L E}=1,  \hat{\theta}_{M A P}=0.75\]</div>
 <p>반면 MAP의 단점은 적절하지 않은 사전분포를 사용할 경우 모델링에 방해가 될 수 있습니다. 사실 윷은 모양이 볼록하기 때문에 앞면이 나올 확률이 0.5보다 작을 가능성이 높기 때문입니다. 이런 것들을 고려해서 Prior를 셋팅해야하기 때문에 MAP도 장점과 단점 모두 가지고 있다고 할 수 있습니다.</p>
+</section>
 </section>
 </section>
 
@@ -995,19 +1006,26 @@ P(X \mid \theta)=P\left(x_1, x_2, \ldots, x_n \mid \theta\right)=P\left(x_1 \mid
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
-   용어정리
+  <a class="reference internal nav-link" href="#mle-map">
+   MLE를 이미 배웠는데 MAP가 왜 필요할까?
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#map">
-   MAP 계산을 위한 윷놀이 예시
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
-   MAP의 장단점
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     용어정리
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#map">
+     MAP 계산을 위한 윷놀이 예시
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     MAP의 장단점
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 

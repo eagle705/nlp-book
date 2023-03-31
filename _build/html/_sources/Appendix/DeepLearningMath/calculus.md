@@ -1,4 +1,4 @@
-# 딥러닝 기초 수학 (미분)
+# 미분 & Gradient
 
 ## 핵심 내용
 - 단변수 함수의 미분
@@ -64,3 +64,13 @@ $$
 
 
 Gradient Descent의 원리는 결국 Gradient의 반대방향으로 파라미터의 값을 조금씩 이동(learning rate) 시킴으로써 모델의 loss function의 값을 감소시키는 것입니다.
+
+#### 다변수 함수에서의 Chain Rule
+- 다변수 함수의 편미분에 대해서도 Chain rule이 기존과 동일하게 동작함
+  - $f(u, v): f$ 는 $u, v$ 에 대한 함수
+  - $u(x, y), v(x, y): u, v$ 는 $x, y$ 에 대한 함수일 때
+- Chain Rule은 Back propagation을 할때 등장하는 개념
+$$
+\frac{\partial f}{\partial x}=\frac{\partial f}{\partial u} \frac{\partial u}{\partial x}+\frac{\partial f}{\partial v} \frac{\partial v}{\partial x}
+$$
+![image](https://user-images.githubusercontent.com/7252598/228459323-33ca01ce-986d-4b99-95f5-9d3d35ec068f.png)

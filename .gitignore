@@ -7,6 +7,7 @@ __pycache__/
 *.so
 
 assets/
+_build/
 # Distribution / packaging
 .Python
 build/

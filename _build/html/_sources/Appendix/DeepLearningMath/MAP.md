@@ -1,4 +1,5 @@
 # MAP (Maximum A P Posteriori Estimation)
+## MLE를 이미 배웠는데 MAP가 왜 필요할까?
 이전 챕터에서 다뤘던 MLE의 조금 변형된 버전인 MAP에 대해서 배워보도록 하겠습니다. 
 
 지난번에 배웠던 윷 던지기 예제에서는 아래와 같이 argmax 문제를 푸는 경우
@@ -27,7 +28,7 @@ Posterior $P(\theta \mid X)$를 $P(X \mid \theta){P(\theta)}$로 보고 문제�
 
 하나의 윷을 10번 던졌을 때, 다음과 같은 결과가 나왔다고 해보겠습니다.
 
-$HHTHTTHHHT$ ((H: Head 앞면, T: Tail 뒷면)
+$HHTHTTHHHT$ (H: Head 앞면, T: Tail 뒷면)
 
 윷을 수학적으로 모델링하면 다음과 같이 나타낼 수 있을것 입니다.
 
