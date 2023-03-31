@@ -58,8 +58,6 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'ChatGPT/Alpaca';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -953,8 +951,8 @@ Alpaca에서는 self-Instruct의 방법론을 조금 단순화하되 모델은 �
 <p><img alt="alpaca-gen-self-instruct-en" src="https://user-images.githubusercontent.com/7252598/225496953-69f90efb-a20e-4147-bf4a-df623fc33e83.gif" /></p>
 <p>위와 같은 과정을 반복하면서 사람이 직접 만든 175개의 seed 데이터셋을 기반으로 데이터를 약 52,000개까지 추가 생산을 하고, 이 데이터를 학습셋으로 활용했습니다.
 <img alt="image.png" src="https://devocean.sk.com/editorImg/2023/3/23/1ea18693744d12a835878563919dca568be6bc15017abc8541cf1e969aca5e0d" />
-데이터의 품질이 매우 뛰어나다고 할 수는 없겠지만 모델을 Alignment하기에는 어느정도 충분한 데이터를 생성한 것으로 보입니다. (52,000건의 데이터를 생성하는데는 <span class="math notranslate nohighlight">\(500 정도의 비용이 들었다고 합니다)
-self-Instruct로 생성한 데이터로 A100(80GB) 8대로 Supervised Fintuning(SFT)하면 3 epoch에 3시간정도 소요되며, 일반적인 명령어에도 잘 답변할 수 있는 모델이 탄생하게 됩니다. (이때 발생한 비용은 \)</span>100 이하로 들었다고 합니다)</p>
+데이터의 품질이 매우 뛰어나다고 할 수는 없겠지만 모델을 Alignment하기에는 어느정도 충분한 데이터를 생성한 것으로 보입니다. (52,000건의 데이터를 생성하는데는 <code class="docutils literal notranslate"><span class="pre">$500</span></code> 정도의 비용이 들었다고 합니다)
+self-Instruct로 생성한 데이터로 A100(80GB) 8대로 Supervised Fintuning(SFT)하면 3 epoch에 3시간정도 소요되며, 일반적인 명령어에도 잘 답변할 수 있는 모델이 탄생하게 됩니다. (이때 발생한 비용은 $100 이하로 들었다고 합니다)</p>
 </section>
 <section id="prompt">
 <h3>prompt<a class="headerlink" href="#prompt" title="Permalink to this heading">#</a></h3>
