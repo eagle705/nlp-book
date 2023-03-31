@@ -71,6 +71,7 @@ $$
 Likelihood는 ${\theta}$를 특정한 값으로 가정했을때, 주어진 학습 데이터 ${X}$가 얼마나 높은 확률 값을 가지는가에 대한 정보로 생각해 볼 수 있습니다. 즉, ${\theta}$가 적절하게 셋팅이 되었다면, 주어진 데이터 ${X}$가 발생할 가능성도 높아지므로 $P(X \mid \theta)$도 큰 값이 나올 것이다 라고 예상해 볼 수 있을 것입니다. 반면 ${\theta}$에 이상한 값이 셋팅되었다면 $P(X \mid \theta)$의 값은 매우 낮게 나올 것입니다.
 그러므로 우리는 기존에 구하려했던 $X$가 주어졌을때 ${\theta}$의 확률을 구하려 했던 posterior distribution $P(\theta \mid X)$를 생각하기 이전에 ${ Likelihood }:=P(X \mid \theta)$를 Objective function으로 사용해서 Likelihood를 가장 큰 확률 값으로 만들어주는 최적의 ${\theta}$ 값을 찾는 문제를 생각할 수 있습니다.
 이를 우리는 `Maximum Likelihood Estimation(MLE)`라고 부릅니다.
+
 $$
 \hat{\theta}_{M L E}=\underset{\theta}{\operatorname{argmax}} P(X \mid \theta)
 $$

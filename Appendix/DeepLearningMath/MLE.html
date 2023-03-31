@@ -63,6 +63,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'Appendix/DeepLearningMath/MLE';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="MAP (Maximum A P Posteriori Estimation)" href="MAP.html" />
     <link rel="prev" title="딥러닝 기초 수학 (미분)" href="calculus.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
@@ -248,6 +249,13 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../ChatGPT/Alpaca.html">
+                        Hello, Alpaca?
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="../../DevChatGPT/introduction.html">
                         Introduction
                       </a>
@@ -271,6 +279,13 @@ const thebe_selector_output = ".output, .cell_output"
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
                         MLE (Maximum Likelihood Estimation)
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="MAP.html">
+                        MAP (Maximum A P Posteriori Estimation)
                       </a>
                     </li>
                 
@@ -458,6 +473,13 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../ChatGPT/Alpaca.html">
+                        Hello, Alpaca?
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="../../DevChatGPT/introduction.html">
                         Introduction
                       </a>
@@ -481,6 +503,13 @@ const thebe_selector_output = ".output, .cell_output"
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
                         MLE (Maximum Likelihood Estimation)
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="MAP.html">
+                        MAP (Maximum A P Posteriori Estimation)
                       </a>
                     </li>
                 
@@ -642,6 +671,10 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">6장 ChatGPT</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../ChatGPT/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ChatGPT/Alpaca.html">Hello, Alpaca?</a></li>
+
+
+
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">7장 나만의 ChatGPT 만들기</span></p>
 <ul class="nav bd-sidenav">
@@ -652,6 +685,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendix</a></li>
 <li class="toctree-l1"><a class="reference internal" href="calculus.html">딥러닝 기초 수학 (미분)</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">MLE (Maximum Likelihood Estimation)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MAP.html">MAP (Maximum A P Posteriori Estimation)</a></li>
 </ul>
 
     </div>
@@ -888,10 +922,11 @@ P(X \mid \theta)=P\left(x_1, x_2, \ldots, x_n \mid \theta\right)=P\left(x_1 \mid
 \]</div>
 <p>Likelihood는 <span class="math notranslate nohighlight">\({\theta}\)</span>를 특정한 값으로 가정했을때, 주어진 학습 데이터 <span class="math notranslate nohighlight">\({X}\)</span>가 얼마나 높은 확률 값을 가지는가에 대한 정보로 생각해 볼 수 있습니다. 즉, <span class="math notranslate nohighlight">\({\theta}\)</span>가 적절하게 셋팅이 되었다면, 주어진 데이터 <span class="math notranslate nohighlight">\({X}\)</span>가 발생할 가능성도 높아지므로 <span class="math notranslate nohighlight">\(P(X \mid \theta)\)</span>도 큰 값이 나올 것이다 라고 예상해 볼 수 있을 것입니다. 반면 <span class="math notranslate nohighlight">\({\theta}\)</span>에 이상한 값이 셋팅되었다면 <span class="math notranslate nohighlight">\(P(X \mid \theta)\)</span>의 값은 매우 낮게 나올 것입니다.
 그러므로 우리는 기존에 구하려했던 <span class="math notranslate nohighlight">\(X\)</span>가 주어졌을때 <span class="math notranslate nohighlight">\({\theta}\)</span>의 확률을 구하려 했던 posterior distribution <span class="math notranslate nohighlight">\(P(\theta \mid X)\)</span>를 생각하기 이전에 <span class="math notranslate nohighlight">\({ Likelihood }:=P(X \mid \theta)\)</span>를 Objective function으로 사용해서 Likelihood를 가장 큰 확률 값으로 만들어주는 최적의 <span class="math notranslate nohighlight">\({\theta}\)</span> 값을 찾는 문제를 생각할 수 있습니다.
-이를 우리는 <code class="docutils literal notranslate"><span class="pre">Maximum</span> <span class="pre">Likelihood</span> <span class="pre">Estimation(MLE)</span></code>라고 부릅니다.
-$<span class="math notranslate nohighlight">\(
+이를 우리는 <code class="docutils literal notranslate"><span class="pre">Maximum</span> <span class="pre">Likelihood</span> <span class="pre">Estimation(MLE)</span></code>라고 부릅니다.</p>
+<div class="math notranslate nohighlight">
+\[
 \hat{\theta}_{M L E}=\underset{\theta}{\operatorname{argmax}} P(X \mid \theta)
-\)</span>$</p>
+\]</div>
 <p>MLE는 다음과 같은 상황에서 쓰일 수 있습니다. posterior를 최대화하는 <span class="math notranslate nohighlight">\({\theta}\)</span>를 찾는 문제는 결국 베이즈정리에 의해 아래와 같이 <span class="math notranslate nohighlight">\(P(X \mid \theta){P(\theta)}\)</span>에 대한 문제로 변경이 가능한데요.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -986,6 +1021,13 @@ P(X \mid \theta)=P\left(x_1 \mid \theta\right) P\left(x_2 \mid \theta\right) \cd
           <p class="prev-next-subtitle">previous</p>
           <p class="prev-next-title">딥러닝 기초 수학 (미분)</p>
       </div>
+  </a>
+  <a class='right-next' id="next-link" href="MAP.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">MAP (Maximum A P Posteriori Estimation)</p>
+  </div>
+  <i class="fa-solid fa-angle-right"></i>
   </a>
 </div>
             </footer>

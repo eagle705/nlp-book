@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>한국어와 자연어처리 &#8212; NLP Book</title>
+    <title>MAP (Maximum A P Posteriori Estimation) &#8212; NLP Book</title>
   
   
   
@@ -58,11 +58,12 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'BasicNLP/overview/한글과자연어처리';</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Appendix/DeepLearningMath/MAP';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="token, sentence, vector spaces, embedding" href="%EC%9E%90%EC%97%B0%EC%96%B4%EC%B2%98%EB%A6%AC%EC%9A%A9%EC%96%B4.html" />
-    <link rel="prev" title="Overview" href="overview.html" />
+    <link rel="prev" title="MLE (Maximum Likelihood Estimation)" href="MLE.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
   </head>
@@ -150,22 +151,22 @@ const thebe_selector_output = ".output, .cell_output"
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="overview.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/overview/overview.html">
                         Overview
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../text_representation/text_representation.html">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/text_representation/text_representation.html">
                         Text Representation
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../dl_nlp/dl_nlp.html">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/dl_nlp/dl_nlp.html">
                         Deep Learning for NLP
                       </a>
                     </li>
@@ -177,7 +178,7 @@ const thebe_selector_output = ".output, .cell_output"
                 <div class="dropdown-menu">
                     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../LM/LM.html">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/LM/LM.html">
                         Language Model
                       </a>
                     </li>
@@ -261,28 +262,28 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/appendix.html">
+                      <a class="nav-link nav-internal" href="../appendix.html">
                         Appendix
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/calculus.html">
+                      <a class="nav-link nav-internal" href="calculus.html">
                         딥러닝 기초 수학 (미분)
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/MLE.html">
+                      <a class="nav-link nav-internal" href="MLE.html">
                         MLE (Maximum Likelihood Estimation)
                       </a>
                     </li>
                 
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/MAP.html">
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
                         MAP (Maximum A P Posteriori Estimation)
                       </a>
                     </li>
@@ -333,10 +334,6 @@ const thebe_selector_output = ".output, .cell_output"
   
 
   
-  <label class="sidebar-toggle secondary-toggle" for="__secondary">
-      <span class="fa-solid fa-outdent"></span>
-  </label>
-  
 
 </div>
   </nav>
@@ -374,22 +371,22 @@ const thebe_selector_output = ".output, .cell_output"
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="overview.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/overview/overview.html">
                         Overview
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../text_representation/text_representation.html">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/text_representation/text_representation.html">
                         Text Representation
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../dl_nlp/dl_nlp.html">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/dl_nlp/dl_nlp.html">
                         Deep Learning for NLP
                       </a>
                     </li>
@@ -401,7 +398,7 @@ const thebe_selector_output = ".output, .cell_output"
                 <div class="dropdown-menu">
                     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../LM/LM.html">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/LM/LM.html">
                         Language Model
                       </a>
                     </li>
@@ -485,28 +482,28 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/appendix.html">
+                      <a class="nav-link nav-internal" href="../appendix.html">
                         Appendix
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/calculus.html">
+                      <a class="nav-link nav-internal" href="calculus.html">
                         딥러닝 기초 수학 (미분)
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/MLE.html">
+                      <a class="nav-link nav-internal" href="MLE.html">
                         MLE (Maximum Likelihood Estimation)
                       </a>
                     </li>
                 
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/MAP.html">
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
                         MAP (Maximum A P Posteriori Estimation)
                       </a>
                     </li>
@@ -591,28 +588,28 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../../NLP/nlp.html">Natural Language Processing</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">2장 BasicNLP</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="overview.html">Overview</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">한국어와 자연어처리</a></li>
-<li class="toctree-l2"><a class="reference internal" href="%EC%9E%90%EC%97%B0%EC%96%B4%EC%B2%98%EB%A6%AC%EC%9A%A9%EC%96%B4.html">token, sentence, vector spaces, embedding</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../BasicNLP/overview/overview.html">Overview</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/overview/%ED%95%9C%EA%B8%80%EA%B3%BC%EC%9E%90%EC%97%B0%EC%96%B4%EC%B2%98%EB%A6%AC.html">한국어와 자연어처리</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/overview/%EC%9E%90%EC%97%B0%EC%96%B4%EC%B2%98%EB%A6%AC%EC%9A%A9%EC%96%B4.html">token, sentence, vector spaces, embedding</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../text_representation/text_representation.html">Text Representation</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../text_representation/tf-idf.html">TF-IDF</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../text_representation/word2vec.html">Word2Vec &amp; GloVe</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../text_representation/contextual_word_representation.html">Contextual word representation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../BasicNLP/text_representation/text_representation.html">Text Representation</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/text_representation/tf-idf.html">TF-IDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/text_representation/word2vec.html">Word2Vec &amp; GloVe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/text_representation/contextual_word_representation.html">Contextual word representation</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../dl_nlp/dl_nlp.html">Deep Learning for NLP</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../dl_nlp/mlp.html">MLP(Multi-Layer Perceptron)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../dl_nlp/cnn.html">CNN</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../dl_nlp/rnn.html">RNN</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../dl_nlp/attention_mechanism.html">Attention mechanism</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../BasicNLP/dl_nlp/dl_nlp.html">Deep Learning for NLP</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/dl_nlp/mlp.html">MLP(Multi-Layer Perceptron)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/dl_nlp/cnn.html">CNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/dl_nlp/rnn.html">RNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/dl_nlp/attention_mechanism.html">Attention mechanism</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../LM/LM.html">Language Model</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../LM/probability.html">Probability Theory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../LM/disc_gen_model.html">Discriminative VS Generative model</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../BasicNLP/LM/LM.html">Language Model</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/LM/probability.html">Probability Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/LM/disc_gen_model.html">Discriminative VS Generative model</a></li>
 </ul>
 </li>
 </ul>
@@ -679,11 +676,11 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../../DevChatGPT/introduction.html">Introduction</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">부록</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/appendix.html">Appendix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/DeepLearningMath/calculus.html">딥러닝 기초 수학 (미분)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/DeepLearningMath/MLE.html">MLE (Maximum Likelihood Estimation)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/DeepLearningMath/MAP.html">MAP (Maximum A P Posteriori Estimation)</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calculus.html">딥러닝 기초 수학 (미분)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MLE.html">MLE (Maximum Likelihood Estimation)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">MAP (Maximum A P Posteriori Estimation)</a></li>
 </ul>
 
     </div>
@@ -759,7 +756,7 @@ title="Source repository"
 </a>
 </a>
       
-      <li><a href="https://github.com/eagle705/nlp-book/issues/new?title=Issue%20on%20page%20%2FBasicNLP/overview/한글과자연어처리.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/eagle705/nlp-book/issues/new?title=Issue%20on%20page%20%2FAppendix/DeepLearningMath/MAP.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -784,7 +781,7 @@ title="Open an issue"
     <i class="fas fa-download"></i>
   </button>
   <ul class="dropdown-menu">
-      <li><a href="../../_sources/BasicNLP/overview/한글과자연어처리.md" target="_blank"
+      <li><a href="../../_sources/Appendix/DeepLearningMath/MAP.md" target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -817,9 +814,7 @@ title="Print to PDF"
       
   </ul>
 </div>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary" data-toggle="tooltip" data-placement="left" title="Toggle secondary sidebar">
-            <span class="fa-solid fa-list"></span>
-        </label>
+
     </div>
 </div>
             </div>
@@ -827,84 +822,81 @@ title="Print to PDF"
             
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>한국어와 자연어처리</h1>
+    <h1>MAP (Maximum A P Posteriori Estimation)</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
-   1. 한글 자모 분리 및 조합
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
-   2. 교착어 특성
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id4">
-   3. 품사 부착
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id5">
-   4. 조사의 다양성
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id6">
-   5. 구문 분석의 어려움
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id7">
-   6. 띄어쓰기 오류
-  </a>
- </li>
-</ul>
-
-            </nav>
         </div>
     </div>
 </div>
 
             <article class="bd-article" role="main">
               
-  <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>한국어와 자연어처리<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h1>
-<p>한국어는 다른 언어와 비교하여 다양한 언어적 특성을 가지고 있습니다. 따라서, 한국어 자연어 처리에서는 다른 언어와는 다른 접근 방식과 기술적 해결책이 필요합니다. 이에 대해 자세히 알아보겠습니다.</p>
-<section id="id2">
-<h2>1. 한글 자모 분리 및 조합<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
-<p>한글은 자모를 분리하여 조합하여 글자를 만들어 낼 수 있습니다. 이러한 특성으로 인해 한글은 다른 언어들과는 달리 글자의 분리와 조합이 필요합니다. 이를 위해서는 한글 문장을 자모 단위로 분해하고, 조합하여 단어 단위로 인식해야 합니다.</p>
-</section>
-<section id="id3">
-<h2>2. 교착어 특성<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
-<p>한국어는 교착어로, 문장에서 단어의 의미는 어미, 조사, 어간 등 다양한 조합으로 표현됩니다. 이러한 특성으로 인해 한국어 자연어 처리에서는 형태소 분석을 통해 단어 단위로 나누는 작업이 필요합니다.</p>
-</section>
-<section id="id4">
-<h2>3. 품사 부착<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
-<p>한국어는 교착어이기 때문에 품사 정보가 단어 자체에 내포되어 있지 않습니다. 이러한 특성으로 인해 한국어 자연어 처리에서는 품사 부착 작업이 필요합니다. 이를 위해서는 형태소 분석 작업을 통해 분리된 형태소에 대해 적절한 품사 정보를 부착해야 합니다.</p>
-</section>
-<section id="id5">
-<h2>4. 조사의 다양성<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h2>
-<p>한국어는 다양한 종류의 조사가 존재합니다. 이러한 다양성으로 인해 조사의 의미 파악이 중요하며, 조사를 올바르게 분석하는 것이 중요합니다.</p>
-</section>
-<section id="id6">
-<h2>5. 구문 분석의 어려움<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h2>
-<p>한국어는 어순이 자유로우며, 주어, 서술어, 목적어 등의 구문 분석이 어렵습니다. 이러한 특성으로 인해 구문 분석 작업은 한국어 자연어 처리에서 중요한 과제 중 하나입니다.</p>
-</section>
-<section id="id7">
-<h2>6. 띄어쓰기 오류<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h2>
-<p>한국어는 띄어쓰기가 중요한데, 이를 인식하지 못하면 전혀 다른 단어가 될 수 있습니다. 그러나 사람마다 띄어쓰기 규칙을 다르게 인식하기 때문에 띄어쓰기 오류가 발생하기도 합니다.</p>
-<p>이러한 한국어의 특성들을 고려하여 자연어처리 시 문제를 최소화하고 정확도를 높이기 위해서는 한국어 특화된 전처리기와 모델을 사용하는 것이 좋습니다.</p>
-<p>최근에는  subword 방법론을 이용해 단어 분리 문제를 해결하는 것이 일반적입니다. subword 방법론은 데이터기반으로 단어를 의미 단위인 subword로 분할하여 처리하여 이러한 문제를  해결하고 있습니다.</p>
-</section>
+  <section class="tex2jax_ignore mathjax_ignore" id="map-maximum-a-p-posteriori-estimation">
+<h1>MAP (Maximum A P Posteriori Estimation)<a class="headerlink" href="#map-maximum-a-p-posteriori-estimation" title="Permalink to this heading">#</a></h1>
+<p>이전 챕터에서 다뤘던 MLE의 조금 변형된 버전인 MAP에 대해서 배워보도록 하겠습니다.</p>
+<p>지난번에 배웠던 윷 던지기 예제에서는 아래와 같이 argmax 문제를 푸는 경우
+$<span class="math notranslate nohighlight">\(
+\begin{aligned}
+\hat{\theta} &amp; =\underset{\theta}{\operatorname{argmax}} P(\theta \mid X)=\underset{\theta}{\operatorname{argmax}} \frac{P(X \mid \theta) P(\theta)}{P(X)} \\
+&amp; =\underset{\theta}{\operatorname{argmax}} P(X \mid \theta){P(\theta)} 
+\end{aligned}
+\)</span><span class="math notranslate nohighlight">\(
+Posterior \)</span>P(\theta \mid X)<span class="math notranslate nohighlight">\(를 \)</span>P(X \mid \theta){P(\theta)}<span class="math notranslate nohighlight">\(로 보고 문제를 풀 수 있고 여기서 Prior인 \)</span>P(\theta)<span class="math notranslate nohighlight">\( 값을 `상수로 가정`(어떤 \)</span>\theta<span class="math notranslate nohighlight">\(도 가질 수 있다고 생각하는 관점)하고 argmax에 영향을 주지 않는다고 보고 Likelihood \)</span>P(X \mid \theta)<span class="math notranslate nohighlight">\(에 대해만 고려해서 Likelihood를 최대로 하는 \)</span>\hat{\theta}$를 찾는 방식으로 문제를 MLE  방법론으로 치환해서 풀었었습니다.</p>
+<p>위에서는 Prior인 <span class="math notranslate nohighlight">\(P(\theta)\)</span>를 상수로 가정했지만, 실제로도 그럴까요? 아마 실제로는 그렇지 않을 겁니다. 분명 어떤 분포를 갖거나 특징이 있겠죠. 즉 MLE는 상수로 가정한 스페셜 케이스에 대한 풀이라고 볼 수 있고 <span class="math notranslate nohighlight">\(P(\theta)\)</span>에 대한 부분도 조금 더 고려한다면 좀 더 정확한 방법으로 문제를 해결 할 수 있을 것 입니다.</p>
+<p>저희는 윷이 앞면이 나올 확률이 대략 0.5에 근접하다는 사실을 사전에 미리 알고 있습니다. 즉 직관적으로 <span class="math notranslate nohighlight">\(P(\theta = 0.5) &gt; P(\theta = 0.001)\)</span> 라는걸 알고 있는 거죠. 이미 여기서부터 <span class="math notranslate nohighlight">\(P(\theta)\)</span>는 사실 uniform distribution이라고 할 수 없고, 즉 상수라고 볼 수는 없는겁니다. 하지만 이 <span class="math notranslate nohighlight">\(P(\theta)\)</span>값을 정확히 알 방법은 없습니다. 예컨데 윷의 모양을 본다면? 앞면이 나올 확률이 딱 0.5라고 할 수 없는 것이죠. 그래도 <span class="math notranslate nohighlight">\(P(\theta)\)</span>를 적당히 가정한다면 <span class="math notranslate nohighlight">\(\hat{\theta}\)</span> 값을 구하는 과정을 보완할 수 있지 않을까요?</p>
+<p>여기서 잠깐 용어를 정리하고 가겠습니다.</p>
+<ul class="simple">
+<li><p>Posterior distribution (사후 분포) <span class="math notranslate nohighlight">\(P(\theta \mid X)\)</span>: 데이터를 관측한 후의 <span class="math notranslate nohighlight">\(\theta\)</span>의 분포 (데이터를 본 후 정보를 반영한 <span class="math notranslate nohighlight">\({\theta}\)</span>의 분포)</p></li>
+<li><p>Prior distribution (사전 분포) <span class="math notranslate nohighlight">\(P(\theta)\)</span>: 데이터를 관측하기 전의 <span class="math notranslate nohighlight">\(\theta\)</span>의 분포</p></li>
+<li><p>Maximum A Posterior Estimation (MAP): Likelihood에 Prior를 곱해서 Posterior를 최대화 하는 것 (하지만 Prior를 정확히 알수 없기 때문에 <code class="docutils literal notranslate"><span class="pre">가정</span></code>해서 곱해줄 수 밖에 없음)</p></li>
+</ul>
+<p>자 그럼 이번에도 윷던지기 예시를 통해서 MAP를 계산하는 과정을 한번 살펴보고자 합니다.</p>
+<p>하나의 윷을 10번 던졌을 때, 다음과 같은 결과가 나왔다고 해보겠습니다.</p>
+<p><span class="math notranslate nohighlight">\(HHTHTTHHHT\)</span> ((H: Head 앞면, T: Tail 뒷면)</p>
+<p>윷을 수학적으로 모델링하면 다음과 같이 나타낼 수 있을것 입니다.
+$<span class="math notranslate nohighlight">\(
+\begin{gathered}
+P(x \mid \theta)=\left\{\begin{array}{cc}
+\theta, &amp; x=\mathrm{H} \\
+1-\theta, &amp; x=\mathrm{T}
+\end{array}\right. \\
+P(X \mid \theta)=P\left(x_1, x_2, \ldots, x_n \mid \theta\right)=P\left(x_1 \mid \theta\right) \times P\left(x_2 \mid \theta\right) \times \cdots \times P\left(x_n \mid \theta\right) 
+\end{gathered}
+\)</span>$</p>
+<p>윷의 경우 앞면이 나올 확률이 아마 0.5 주변에 있을 가능성이 크기 때문에 0.5일 확률이 가장 높은 임의의 분포 만들어서 <code class="docutils literal notranslate"><span class="pre">가정</span></code>해보면 다음과 같은 식을 만들 수 있을 것입니다. 이때 가정한 분포 또한 확률이므로 분포의 Probability density function의 넓이는 1을 만족해야 합니다.
+$<span class="math notranslate nohighlight">\(
+\begin{gathered}
+\text { 사전 분포 } P(\theta)=-4|\theta-0.5|+2
+\end{gathered}
+\)</span>$</p>
+<p><img alt="image" src="https://user-images.githubusercontent.com/7252598/229012700-59bc5fa9-a805-4e7a-a5ba-4227906193e8.png" /></p>
+<p>MAP 관점에서 최적의 <span class="math notranslate nohighlight">\(\theta\)</span>는 어떻게 될까요?</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\hat{\theta}_{M A P} &amp; =\underset{\theta}{\operatorname{argmax}} P(X \mid \theta) P(\theta) \\
+&amp; =\underset{\theta}{\operatorname{argmax}} \theta^6(1-\theta)^4(-4|\theta-0.5|+2)
+\end{aligned}
+\end{split}\]</div>
+<p>위와 같이 표현할 수 있을 것입니다. 위 식을 풀기 위해 미분을 하면 다음과 같이 정리할 수 있습니다.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{array}{ll}
+\frac{d}{d \theta} \theta^6(1-\theta)^4(-4 \theta)=4 \theta^6(11 \theta-7)(1-\theta)^3=0 &amp; \theta \in[0,0.5] \\
+\frac{d}{d \theta} \theta^6(1-\theta)^4(-4 \theta+4)=-4 \theta^5(11-6 \theta)(1-\theta)^4=0 &amp; \theta \in[0.5,1]
+\end{array}
+\end{split}\]</div>
+<p>첫번째 범위에 해당하는 미분식에서 <span class="math notranslate nohighlight">\(\theta=0\)</span>, 1<span class="math notranslate nohighlight">\(인 지점은 극소값에 해당하고 \)</span>\theta=\frac{7}{11}<span class="math notranslate nohighlight">\( 은 범위 밖에 해당하므로 제외할 수 있습니다. 두번째 범위에 해당하는 미분식에서는 \)</span>\theta=\frac{6}{11}<span class="math notranslate nohighlight">\( 인 지점이 극대값에 해당하므로 다음과 같이 \)</span>\hat{\theta}<span class="math notranslate nohighlight">\(를 구하기 위한 MAP를 계산하면 아래와 같은 결과를 얻을 수 있습니다.
+\)</span><span class="math notranslate nohighlight">\(
+\therefore \hat{\theta}_{M A P}=\frac{6}{11}
+\)</span>$</p>
+<p>그래프로 확인해보면 아래와 같이 Likelihood의 분포가 특정 분포로 가정된 Prior 분포와 곱해지면서 아래와 같이 보정된 Posterior 분포를 얻을 수 있습니다.</p>
+<p><img alt="image" src="https://user-images.githubusercontent.com/7252598/229033660-f38d9b19-2744-4d84-a448-a964772af4bf.png" /></p>
+<p>MAP의 장점은 결국 적절한 사전분포를 모델링 할 수 있다면 Overfitting을 방지할 수 있다는 것입니다. 만약 윷놀이 데이터가 정말 우연치않게 3번 던졌을때 모두 앞면이 나온다면 MLE는 값이 1이 나오지만 MAP는 앞에서 사용했던 Prior를 사용한다면 0.75라는 조금 더 0.5에 가까운 값을 얻어낼 수 있게 됩니다.
+$<span class="math notranslate nohighlight">\(\hat{\theta}_{M L E}=1,  \hat{\theta}_{M A P}=0.75\)</span>$</p>
+<p>반면 MAP의 단점은 적절하지 않은 사전분포를 사용할 경우 모델링에 방해가 될 수 있습니다. 사실 윷은 모양이 볼록하기 때문에 앞면이 나올 확률이 0.5보다 작을 가능성이 높기 때문입니다. 이런 것들을 고려해서 Prior를 셋팅해야하기 때문에 MAP도 장점과 단점 모두 가지고 있다고 할 수 있습니다.</p>
 </section>
 
     <script type="text/x-thebe-config">
@@ -920,7 +912,7 @@ title="Print to PDF"
         },
         kernelOptions: {
             name: "python3",
-            path: "./BasicNLP/overview"
+            path: "./Appendix/DeepLearningMath"
         },
         predefinedOutput: true
     }
@@ -935,19 +927,12 @@ title="Print to PDF"
             <footer class="bd-footer-article">
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='left-prev' id="prev-link" href="overview.html" title="previous page">
+  <a class='left-prev' id="prev-link" href="MLE.html" title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
           <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">Overview</p>
+          <p class="prev-next-title">MLE (Maximum Likelihood Estimation)</p>
       </div>
-  </a>
-  <a class='right-next' id="next-link" href="%EC%9E%90%EC%97%B0%EC%96%B4%EC%B2%98%EB%A6%AC%EC%9A%A9%EC%96%B4.html" title="next page">
-  <div class="prev-next-info">
-      <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">token, sentence, vector spaces, embedding</p>
-  </div>
-  <i class="fa-solid fa-angle-right"></i>
   </a>
 </div>
             </footer>
@@ -955,52 +940,6 @@ title="Print to PDF"
           </div>
           
           
-          
-            <div class="bd-sidebar-secondary bd-toc">
-              
-<div class="toc-item">
-  
-<div class="tocsection onthispage">
-    <i class="fa-solid fa-list"></i> On this page
-</div>
-<nav id="bd-toc-nav" class="page-toc">
-    <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
-   1. 한글 자모 분리 및 조합
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
-   2. 교착어 특성
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id4">
-   3. 품사 부착
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id5">
-   4. 조사의 다양성
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id6">
-   5. 구문 분석의 어려움
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id7">
-   6. 띄어쓰기 오류
-  </a>
- </li>
-</ul>
-
-</nav>
-</div>
-
-            </div>
           
           
         </div>
