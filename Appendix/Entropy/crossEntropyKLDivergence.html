@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Introduction &#8212; NLP Book</title>
+    <title>Cross Entropy and KL Divergence &#8212; NLP Book</title>
   
   
   
@@ -58,12 +58,10 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'Transformer/architecture/introduction';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Appendix/Entropy/crossEntropyKLDivergence';</script>
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Transformer Family" href="transformer_family.html" />
-    <link rel="prev" title="Discriminative VS Generative model" href="../../BasicNLP/LM/disc_gen_model.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
   </head>
@@ -184,15 +182,15 @@ const thebe_selector_output = ".output, .cell_output"
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../Transformer/architecture/introduction.html">
                         Introduction
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="transformer_family.html">
+                      <a class="nav-link nav-internal" href="../../Transformer/architecture/transformer_family.html">
                         Transformer Family
                       </a>
                     </li>
@@ -262,42 +260,42 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/appendix.html">
+                      <a class="nav-link nav-internal" href="../appendix.html">
                         Appendix
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/calculus.html">
+                      <a class="nav-link nav-internal" href="../DeepLearningMath/calculus.html">
                         미분과 그래디언트
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/MLE.html">
+                      <a class="nav-link nav-internal" href="../DeepLearningMath/MLE.html">
                         MLE (Maximum Likelihood Estimation)
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/MAP.html">
+                      <a class="nav-link nav-internal" href="../DeepLearningMath/MAP.html">
                         MAP (Maximum A P Posteriori Estimation)
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/naiveBayesClassifier.html">
+                      <a class="nav-link nav-internal" href="../DeepLearningMath/naiveBayesClassifier.html">
                         Naive Bayes Classifier
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/Entropy/informationEntropy.html">
+                      <a class="nav-link nav-internal" href="informationEntropy.html">
                         정보와 엔트로피
                       </a>
                     </li>
@@ -418,15 +416,15 @@ const thebe_selector_output = ".output, .cell_output"
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../Transformer/architecture/introduction.html">
                         Introduction
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="transformer_family.html">
+                      <a class="nav-link nav-internal" href="../../Transformer/architecture/transformer_family.html">
                         Transformer Family
                       </a>
                     </li>
@@ -496,42 +494,42 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/appendix.html">
+                      <a class="nav-link nav-internal" href="../appendix.html">
                         Appendix
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/calculus.html">
+                      <a class="nav-link nav-internal" href="../DeepLearningMath/calculus.html">
                         미분과 그래디언트
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/MLE.html">
+                      <a class="nav-link nav-internal" href="../DeepLearningMath/MLE.html">
                         MLE (Maximum Likelihood Estimation)
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/MAP.html">
+                      <a class="nav-link nav-internal" href="../DeepLearningMath/MAP.html">
                         MAP (Maximum A P Posteriori Estimation)
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/naiveBayesClassifier.html">
+                      <a class="nav-link nav-internal" href="../DeepLearningMath/naiveBayesClassifier.html">
                         Naive Bayes Classifier
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/Entropy/informationEntropy.html">
+                      <a class="nav-link nav-internal" href="informationEntropy.html">
                         정보와 엔트로피
                       </a>
                     </li>
@@ -642,9 +640,9 @@ const thebe_selector_output = ".output, .cell_output"
 </li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">3장 Transformer</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transformer_family.html">Transformer Family</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../Transformer/architecture/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Transformer/architecture/transformer_family.html">Transformer Family</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../TransformerModels/introduction.html">Transformer models</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../TransformerModels/transformers.html">Transformers로 뭘 할 수 있을까요?</a></li>
 
@@ -705,12 +703,12 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">부록</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/appendix.html">Appendix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/DeepLearningMath/calculus.html">미분과 그래디언트</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/DeepLearningMath/MLE.html">MLE (Maximum Likelihood Estimation)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/DeepLearningMath/MAP.html">MAP (Maximum A P Posteriori Estimation)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/DeepLearningMath/naiveBayesClassifier.html">Naive Bayes Classifier</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/Entropy/informationEntropy.html">정보와 엔트로피</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DeepLearningMath/calculus.html">미분과 그래디언트</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DeepLearningMath/MLE.html">MLE (Maximum Likelihood Estimation)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DeepLearningMath/MAP.html">MAP (Maximum A P Posteriori Estimation)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DeepLearningMath/naiveBayesClassifier.html">Naive Bayes Classifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="informationEntropy.html">정보와 엔트로피</a></li>
 </ul>
 
     </div>
@@ -786,7 +784,7 @@ title="Source repository"
 </a>
 </a>
       
-      <li><a href="https://github.com/eagle705/nlp-book/issues/new?title=Issue%20on%20page%20%2FTransformer/architecture/introduction.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/eagle705/nlp-book/issues/new?title=Issue%20on%20page%20%2FAppendix/Entropy/crossEntropyKLDivergence.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -811,7 +809,7 @@ title="Open an issue"
     <i class="fas fa-download"></i>
   </button>
   <ul class="dropdown-menu">
-      <li><a href="../../_sources/Transformer/architecture/introduction.md" target="_blank"
+      <li><a href="../../_sources/Appendix/Entropy/crossEntropyKLDivergence.md" target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -852,7 +850,7 @@ title="Print to PDF"
             
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Introduction</h1>
+    <h1>Cross Entropy and KL Divergence</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -863,17 +861,8 @@ title="Print to PDF"
 
             <article class="bd-article" role="main">
               
-  <section class="tex2jax_ignore mathjax_ignore" id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h1>
-<p>Transformer는 자연어 처리 분야에서 가장 혁신적인 딥러닝 아키텍처 중 하나로, 2017년에 발표된 논문 <code class="docutils literal notranslate"><span class="pre">&quot;Attention</span> <span class="pre">is</span> <span class="pre">All</span> <span class="pre">You</span> <span class="pre">Need&quot;</span></code>에서 처음 소개되었습니다. 기존의 순환 신경망(RNN)과 달리, Transformer는 self-attention 메커니즘을 사용하여 입력 시퀀스 내의 모든 위치들 간의 상호작용을 쉽게 학습할 수 있습니다.</p>
-<p>Transformer는 기계 번역, 질문 답변, 요약 등 다양한 자연어 처리 태스크에서 뛰어난 성능을 보이며, 이는 이전까지 RNN이 가지고 있던 장점과 함께, 더 빠른 학습과 높은 병렬성 등의 이점을 제공합니다. 또한, Transformer는 GPT, BERT 등의 대표적인 언어 모델 구조의 기반으로 사용되어, 자연어 처리 분야에서 큰 영향력을 발휘하고 있습니다.</p>
-<p>Transformer는 인코더와 디코더로 구성되며, 인코더는 입력 시퀀스를 인코딩하여 특성 벡터를 생성하고, 디코더는 생성된 특성 벡터를 바탕으로 출력 시퀀스를 생성합니다. Transformer에서는 인코더와 디코더 내부에 여러 개의 층(layer)을 쌓아서 특성 벡터를 추출하고 출력을 생성합니다.</p>
-<p>이러한 Transformer의 구조와 동작 방식은 자연어 처리 분야에서 큰 혁신을 가져왔으며, 딥러닝을 이용한 자연어 처리 분야의 연구와 산업에서 널리 활용되고 있습니다.</p>
-<p>참고로, 최근에는 이러한 Transformer의 아키텍쳐 자체를 수정한 모델들도 발표되었었는데요. Scaling law 관점에서 Vanilla Transformer가 제일 괜찮은 성능을 보여주었다는 연구 결과도 있습니다.</p>
-<p><img alt="image" src="https://user-images.githubusercontent.com/7252598/227702765-b4d575b0-b32a-43a3-926f-ca18d7a4fe1c.png" /></p>
-<ul class="simple">
-<li><p>Tay, Yi, et al. “Scaling Laws vs Model Architectures: How does Inductive Bias Influence Scaling?.” arXiv preprint arXiv:2207.10551 (2022).</p></li>
-</ul>
+  <section class="tex2jax_ignore mathjax_ignore" id="cross-entropy-and-kl-divergence">
+<h1>Cross Entropy and KL Divergence<a class="headerlink" href="#cross-entropy-and-kl-divergence" title="Permalink to this heading">#</a></h1>
 </section>
 
     <script type="text/x-thebe-config">
@@ -889,7 +878,7 @@ title="Print to PDF"
         },
         kernelOptions: {
             name: "python3",
-            path: "./Transformer/architecture"
+            path: "./Appendix/Entropy"
         },
         predefinedOutput: true
     }
@@ -904,20 +893,6 @@ title="Print to PDF"
             <footer class="bd-footer-article">
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='left-prev' id="prev-link" href="../../BasicNLP/LM/disc_gen_model.html" title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-          <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">Discriminative VS Generative model</p>
-      </div>
-  </a>
-  <a class='right-next' id="next-link" href="transformer_family.html" title="next page">
-  <div class="prev-next-info">
-      <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">Transformer Family</p>
-  </div>
-  <i class="fa-solid fa-angle-right"></i>
-  </a>
 </div>
             </footer>
             
