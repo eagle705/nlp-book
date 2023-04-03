@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Introduction &#8212; NLP Book</title>
+    <title>SLURM &#8212; NLP Book</title>
   
   
   
@@ -58,12 +58,12 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'LLM/introduction';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'LLM/slurm';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="SLURM" href="slurm.html" />
-    <link rel="prev" title="Training Transformers from Scratch" href="../Exercise/Training_Transformers_from_Scratch.html" />
+    <link rel="next" title="Introduction" href="../ChatGPT/introduction.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
   </head>
@@ -233,15 +233,15 @@ const thebe_selector_output = ".output, .cell_output"
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="introduction.html">
                         Introduction
                       </a>
                     </li>
                 
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="slurm.html">
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
                         SLURM
                       </a>
                     </li>
@@ -488,15 +488,15 @@ const thebe_selector_output = ".output, .cell_output"
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="introduction.html">
                         Introduction
                       </a>
                     </li>
                 
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="slurm.html">
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
                         SLURM
                       </a>
                     </li>
@@ -731,8 +731,8 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">5장 Large Language Models(LLMs)</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="slurm.html">SLURM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">SLURM</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">6장 ChatGPT</span></p>
 <ul class="nav bd-sidenav">
@@ -831,7 +831,7 @@ title="Source repository"
 </a>
 </a>
       
-      <li><a href="https://github.com/eagle705/nlp-book/issues/new?title=Issue%20on%20page%20%2FLLM/introduction.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/eagle705/nlp-book/issues/new?title=Issue%20on%20page%20%2FLLM/slurm.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -856,7 +856,7 @@ title="Open an issue"
     <i class="fas fa-download"></i>
   </button>
   <ul class="dropdown-menu">
-      <li><a href="../_sources/LLM/introduction.md" target="_blank"
+      <li><a href="../_sources/LLM/slurm.md" target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -897,7 +897,7 @@ title="Print to PDF"
             
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Introduction</h1>
+    <h1>SLURM</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -908,12 +908,93 @@ title="Print to PDF"
 
             <article class="bd-article" role="main">
               
-  <section class="tex2jax_ignore mathjax_ignore" id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h1>
-<p>Large Language Model (LLM)은 인공지능의 한 분야로, 대량의 텍스트 데이터를 학습하여 자연어 처리(Natural Language Processing, NLP) 작업을 수행하는 모델입니다.</p>
-<p>LLM은 일반적으로 딥러닝 기술 중 하나인 인공신경망을 기반으로 구현되며, 수억 개 이상의 문장과 단어를 학습하여 인간이 사용하는 언어의 문법, 어휘, 문맥 등을 이해하고 생성할 수 있습니다. 이러한 LLM 모델은 대화 시스템, 기계 번역, 자동 요약, 질문 답변 등 다양한 NLP 작업에서 사용됩니다.</p>
-<p>가장 대표적인 LLM은 OpenAI가 개발한 GPT-3 (Generative Pre-trained Transformer) 모델입니다. GPT-3 모델은 대량의 인터넷 문서에서 학습되며, 입력된 문장 다음에 올 말을 자연스럽게 생성하는 능력을 갖추고 있습니다. 이러한 LLM 모델은 최근에는 다양한 분야에서 활용되고 있으며, NLP 기술의 발전을 이끌어내고 있습니다.</p>
-<p>LLM 모델은 대량의 파라미터와 데이터를 가지고 있기 때문에, 분산 학습과 병렬 처리 기술을 활용하여 학습 시간을 단축시키고 성능을 향상시킬 수 있습니다. 여러가지 기술이 있지만 Tensor Parallel, Data Parallel, Pipeline Parallel등의 방법이 대표적인 분산 학습과 병렬 처리 기법입니다.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="slurm">
+<h1>SLURM<a class="headerlink" href="#slurm" title="Permalink to this heading">#</a></h1>
+<p>Slurm은 리눅스 운영 체제에서 작업 스케줄링과 관리를 위한 오픈 소스 클러스터 관리 시스템입니다. Slurm은 Supercomputing, High Performance Computing (HPC), 및 클러스터 환경에서 많이 사용됩니다.</p>
+<p>Slurm은 사용자가 여러 노드에서 실행되는 다수의 작업을 제출하고 추적할 수 있도록하는 작업 스케줄러입니다. 또한 노드 리소스의 사용률을 모니터링하고 시스템의 사용 가능한 자원을 최대한 활용하여 효율적으로 작업을 배치합니다.</p>
+<p>Slurm은 사용자가 작업을 제출하고 대기열에 추가하는 데 사용되는 명령 줄 인터페이스와, 작업 및 작업 진행 상황을 모니터링하는 데 사용되는 웹 기반 사용자 인터페이스를 제공합니다. 또한 사용자가 작업을 중단하거나 삭제하거나 우선순위를 지정하는 등의 기능도 제공합니다.</p>
+<p>Slurm은 대부분의 리눅스 배포판에서 사용할 수 있으며, 많은 HPC 클러스터 시스템에서 사용되고 있습니다. Slurm은 또한 다양한 기능과 유연성을 제공하기 때문에, 다양한 연구 분야에서 사용됩니다.</p>
+<p>Slurm을 사용하여 간단한 예제 작업을 제출하는 방법입니다.</p>
+<ol class="arabic simple">
+<li><p>작업 스크립트 작성<br />
+먼저 작업 스크립트를 작성해야 합니다. 이 예제에서는 “hello_world.sh” 라는 이름의 스크립트를 사용하겠습니다. 이 스크립트는 단순히 “Hello, World!”를 출력합니다.</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Hello, World!&quot;</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>작업 제출
+다음으로, 작업을 제출해야 합니다. 이를 위해 다음 명령어를 사용합니다.</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbatch<span class="w"> </span>hello_world.sh
+</pre></div>
+</div>
+<p>이 명령은 “hello_world.sh” 파일을 제출하고 작업 ID를 반환합니다.</p>
+<ol class="arabic simple" start="3">
+<li><p>작업 상태 확인
+작업이 제출되면 현재 작업 상태를 확인할 수 있습니다. 이를 위해 다음 명령어를 사용합니다.</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>squeue<span class="w"> </span>-u<span class="w"> </span><span class="o">[</span>사용자명<span class="o">]</span>
+</pre></div>
+</div>
+<p>위 명령어는 현재 대기열에서 실행 중인 모든 작업을 보여줍니다. 작업이 실행되면 작업 ID와 함께 상태 정보가 표시됩니다.</p>
+<ol class="arabic simple" start="4">
+<li><p>작업 결과 확인
+작업이 완료되면 결과를 확인할 수 있습니다. 이를 위해 작업이 실행되는 노드의 로그 파일을 확인합니다.</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>less<span class="w"> </span><span class="o">[</span>작업ID<span class="o">]</span>.out
+</pre></div>
+</div>
+<p>위 명령어는 작업이 출력한 결과를 볼 수 있습니다.</p>
+<p>이렇게 Slurm을 사용하여 간단한 작업을 제출하고 결과를 확인할 수 있습니다. Slurm은 이러한 기능 외에도 다양한 옵션을 제공하므로 더 복잡한 작업도 처리할 수 있습니다.</p>
+<p>대형언어모델은 다음과 같은 예시 스크립트로 실행할 수 있습니다.</p>
+<ul class="simple">
+<li><p>스크립트(job.slurm)</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH --job-name=megatronlm    # 작업 이름</span>
+<span class="c1">#SBATCH --nodes=4                # 사용할 노드 수</span>
+<span class="c1">#SBATCH --ntasks-per-node=8      # 각 노드에서 실행할 태스크 수</span>
+<span class="c1">#SBATCH --cpus-per-task=10       # 각 태스크에서 사용할 CPU 수</span>
+<span class="c1">#SBATCH --time=24:00:00          # 예상 실행 시간</span>
+<span class="c1">#SBATCH --mem=0                  # 사용할 메모리 양 (0은 제한 없음)</span>
+<span class="c1">#SBATCH --partition=gpu          # 사용할 파티션 이름</span>
+<span class="c1">#SBATCH --gres=gpu:8             # 사용할 GPU 수</span>
+
+module<span class="w"> </span>load<span class="w"> </span>cuda/11.4
+module<span class="w"> </span>load<span class="w"> </span>nccl/2.9
+
+mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_NTASKS</span><span class="w"> </span>--npernode<span class="w"> </span><span class="nv">$SLURM_NTASKS_PER_NODE</span><span class="w"> </span><span class="se">\</span>
+python<span class="w"> </span>train.py<span class="w"> </span><span class="se">\</span>
+--model-parallel-size<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+--num-layers<span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="se">\</span>
+--hidden-size<span class="w"> </span><span class="m">3072</span><span class="w"> </span><span class="se">\</span>
+--batch-size<span class="w"> </span><span class="m">8</span><span class="w"> </span><span class="se">\</span>
+--seq-length<span class="w"> </span><span class="m">1024</span><span class="w"> </span><span class="se">\</span>
+--lr<span class="w"> </span><span class="m">0</span>.00015<span class="w"> </span><span class="se">\</span>
+--lr-decay-iters<span class="w"> </span><span class="m">320000</span><span class="w"> </span><span class="se">\</span>
+--lr-decay-style<span class="w"> </span>cosine<span class="w"> </span><span class="se">\</span>
+--min-lr<span class="w"> </span><span class="m">0</span>.0<span class="w"> </span><span class="se">\</span>
+--warmup<span class="w"> </span>.01<span class="w"> </span><span class="se">\</span>
+--optimizer<span class="w"> </span>adamw<span class="w"> </span><span class="se">\</span>
+--adam-eps<span class="w"> </span>1e-06<span class="w"> </span><span class="se">\</span>
+--weight-decay<span class="w"> </span><span class="m">0</span>.1<span class="w"> </span><span class="se">\</span>
+--clip-grad<span class="w"> </span><span class="m">1</span>.0<span class="w"> </span><span class="se">\</span>
+--skip-invalid-size-inputs-valid-test<span class="w"> </span><span class="se">\</span>
+--log-interval<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+--save-interval<span class="w"> </span><span class="m">1000</span><span class="w"> </span><span class="se">\</span>
+--eval-interval<span class="w"> </span><span class="m">1000</span><span class="w"> </span><span class="se">\</span>
+--tensor-model-parallel-size<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+--pipeline-model-parallel-size<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+--distributed-backend<span class="w"> </span>nccl<span class="w"> </span><span class="se">\</span>
+--deepspeed
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>작업 제출
+<code class="docutils literal notranslate"><span class="pre">sbatch</span> <span class="pre">job.slurm</span></code></p></li>
+</ul>
 </section>
 
     <script type="text/x-thebe-config">
@@ -944,17 +1025,17 @@ title="Print to PDF"
             <footer class="bd-footer-article">
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='left-prev' id="prev-link" href="../Exercise/Training_Transformers_from_Scratch.html" title="previous page">
+  <a class='left-prev' id="prev-link" href="introduction.html" title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
           <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">Training Transformers from Scratch</p>
+          <p class="prev-next-title">Introduction</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="slurm.html" title="next page">
+  <a class='right-next' id="next-link" href="../ChatGPT/introduction.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">SLURM</p>
+      <p class="prev-next-title">Introduction</p>
   </div>
   <i class="fa-solid fa-angle-right"></i>
   </a>
