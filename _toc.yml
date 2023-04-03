@@ -60,6 +60,7 @@ parts:
   - caption: 5장 Large Language Models(LLMs)
     chapters:
     - file: LLM/introduction
+    - file: LLM/slurm
   - caption: 6장 ChatGPT
     chapters:
     - file: ChatGPT/introduction
@@ -75,6 +76,7 @@ parts:
     - file: Appendix/DeepLearningMath/MAP  
     - file: Appendix/DeepLearningMath/naiveBayesClassifier
     - file: Appendix/Entropy/informationEntropy
+    - file: Appendix/Entropy/jointEntropy    
     - file: Appendix/Entropy/crossEntropyKLDivergence
     
     
