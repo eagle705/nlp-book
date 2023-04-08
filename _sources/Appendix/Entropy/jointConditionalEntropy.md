@@ -21,6 +21,7 @@ $
 Joint Entropy에는 몇가지 성질이 있는데요, 제일 먼저 $X=Y$ 일때의 경우에 대해서 알아보겠습니다.
 
 #### $X=Y$ 인 경우
+
 $$
 \begin{aligned}
 &\begin{array}{r}
@@ -29,15 +30,17 @@ H(X)=H(Y)=H(X, Y)
 \end{array}\\
 \end{aligned}
 $$
+
 증명은 아래와 같습니다.
+
 $$
 \begin{aligned}
 H(X, Y) & =-\sum_i p_{X, Y}\left(x_i, y_i\right) \log p_{X, Y}\left(x_i, y_i\right) \\
 & =-\sum_i p_X\left(x_i\right) \log p_X\left(x_i\right)=H(X) \\
 & =-\sum_i p_Y\left(y_i\right) \log p_Y\left(y_i\right)=H(Y)
-
 \end{aligned}
 $$
+
 이에 대한 직관적인 의미는 다음과 같은데요.   
 첫번째는, $X$와 $Y$가 같으므로 $X$를 알아냄을 통해서 얻을 수 있는 정보량은 $Y$를 알아냄을 통해서 얻을 수 있는 정보량과 같다. 즉 $H(X)=H(Y)$를 나타냅니다.   
 두번째는, $X$만 아라앤도 $Y$를 자동으로 알 수 있으므로 $X$를 알아내어 얻는 정보량과 $X,Y$를 알아내어 얻는 정보량이 같다. 즉 $H(X)=H(X,Y)$를 나타냅니다.

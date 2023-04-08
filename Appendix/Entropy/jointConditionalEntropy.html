@@ -762,6 +762,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="informationEntropy.html">정보와 엔트로피</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Joint Entropy와 Conditional Entropy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="crossEntropyKLDivergence.html">Mutual Information, Cross Entropy 그리고 KL Divergence까지</a></li>
+
+
 </ul>
 
     </div>
@@ -1005,17 +1007,18 @@ H(X)=H(Y)=H(X, Y)
 \end{array}\\
 \end{aligned}
 \end{split}\]</div>
-<p>증명은 아래와 같습니다.
-$$
+<p>증명은 아래와 같습니다.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 \begin{aligned}
-H(X, Y) &amp; =-\sum_i p_{X, Y}\left(x_i, y_i\right) \log p_{X, Y}\left(x_i, y_i\right) \
-&amp; =-\sum_i p_X\left(x_i\right) \log p_X\left(x_i\right)=H(X) \
-&amp; =-\sum_i p_Y\left(y_i\right) \log p_Y\left(y_i\right)=H(Y)</p>
-<p>\end{aligned}
-$<span class="math notranslate nohighlight">\(
-이에 대한 직관적인 의미는 다음과 같은데요.   
-첫번째는, \)</span>X<span class="math notranslate nohighlight">\(와 \)</span>Y<span class="math notranslate nohighlight">\(가 같으므로 \)</span>X<span class="math notranslate nohighlight">\(를 알아냄을 통해서 얻을 수 있는 정보량은 \)</span>Y<span class="math notranslate nohighlight">\(를 알아냄을 통해서 얻을 수 있는 정보량과 같다. 즉 \)</span>H(X)=H(Y)<span class="math notranslate nohighlight">\(를 나타냅니다.   
-두번째는, \)</span>X<span class="math notranslate nohighlight">\(만 아라앤도 \)</span>Y<span class="math notranslate nohighlight">\(를 자동으로 알 수 있으므로 \)</span>X<span class="math notranslate nohighlight">\(를 알아내어 얻는 정보량과 \)</span>X,Y<span class="math notranslate nohighlight">\(를 알아내어 얻는 정보량이 같다. 즉 \)</span>H(X)=H(X,Y)$를 나타냅니다.</p>
+H(X, Y) &amp; =-\sum_i p_{X, Y}\left(x_i, y_i\right) \log p_{X, Y}\left(x_i, y_i\right) \\
+&amp; =-\sum_i p_X\left(x_i\right) \log p_X\left(x_i\right)=H(X) \\
+&amp; =-\sum_i p_Y\left(y_i\right) \log p_Y\left(y_i\right)=H(Y)
+\end{aligned}
+\end{split}\]</div>
+<p>이에 대한 직관적인 의미는 다음과 같은데요.<br />
+첫번째는, <span class="math notranslate nohighlight">\(X\)</span>와 <span class="math notranslate nohighlight">\(Y\)</span>가 같으므로 <span class="math notranslate nohighlight">\(X\)</span>를 알아냄을 통해서 얻을 수 있는 정보량은 <span class="math notranslate nohighlight">\(Y\)</span>를 알아냄을 통해서 얻을 수 있는 정보량과 같다. 즉 <span class="math notranslate nohighlight">\(H(X)=H(Y)\)</span>를 나타냅니다.<br />
+두번째는, <span class="math notranslate nohighlight">\(X\)</span>만 아라앤도 <span class="math notranslate nohighlight">\(Y\)</span>를 자동으로 알 수 있으므로 <span class="math notranslate nohighlight">\(X\)</span>를 알아내어 얻는 정보량과 <span class="math notranslate nohighlight">\(X,Y\)</span>를 알아내어 얻는 정보량이 같다. 즉 <span class="math notranslate nohighlight">\(H(X)=H(X,Y)\)</span>를 나타냅니다.</p>
 </section>
 <section id="id2">
 <h4><span class="math notranslate nohighlight">\(X, Y\)</span>가 통계적 독립인 경우<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h4>

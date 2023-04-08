@@ -370,6 +370,10 @@ const thebe_selector_output = ".output, .cell_output"
   
 
   
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
 
 </div>
   </nav>
@@ -757,6 +761,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="informationEntropy.html">정보와 엔트로피</a></li>
 <li class="toctree-l1"><a class="reference internal" href="jointConditionalEntropy.html">Joint Entropy와 Conditional Entropy</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Mutual Information, Cross Entropy 그리고 KL Divergence까지</a></li>
+
+
 </ul>
 
     </div>
@@ -890,7 +896,9 @@ title="Print to PDF"
       
   </ul>
 </div>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary" data-toggle="tooltip" data-placement="left" title="Toggle secondary sidebar">
+            <span class="fa-solid fa-list"></span>
+        </label>
     </div>
 </div>
             </div>
@@ -903,6 +911,29 @@ title="Print to PDF"
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Mutual Information, Cross Entropy 그리고 KL Divergence까지
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cross-entropy">
+   Cross Entropy (크로스 엔트로피)
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#kullback-leibler-divergence-kl-divergence">
+   Kullback-Leibler Divergence (KL divergence)
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -911,9 +942,10 @@ title="Print to PDF"
               
   <section class="tex2jax_ignore mathjax_ignore" id="mutual-information-cross-entropy-kl-divergence">
 <h1>Mutual Information, Cross Entropy 그리고 KL Divergence까지<a class="headerlink" href="#mutual-information-cross-entropy-kl-divergence" title="Permalink to this heading">#</a></h1>
-<p>Mutual Information <span class="math notranslate nohighlight">\(I(X, Y)\)</span>은 <span class="math notranslate nohighlight">\(X\)</span>와 <span class="math notranslate nohighlight">\(Y\)</span>에 대해서 공통으로 얻을 수 있는 정보량을 뜻합니다.</p>
+<p>Mutual Information <span class="math notranslate nohighlight">\(I(X, Y)\)</span>은 <span class="math notranslate nohighlight">\(X\)</span>와 <span class="math notranslate nohighlight">\(Y\)</span>에 대해서 공통으로 얻을 수 있는 정보량을 뜻합니다.<br />
+예를 들어, 오늘 비가 왔는지에 대한 정보는 내일 비가오는지에 대한 정보 <span class="math notranslate nohighlight">\(X\)</span>와 모레 비가 오는지에 대한 정보 <span class="math notranslate nohighlight">\(Y\)</span>, 모두를 알아내는데 도움이 되는 Mutual Information이라고 할 수 있습니다.</p>
 <p>Mutual Information <span class="math notranslate nohighlight">\(I(X, Y)\)</span>와 Joint Entorpy <span class="math notranslate nohighlight">\(H(X, Y)\)</span>, Conditional Entropy <span class="math notranslate nohighlight">\(H(X|Y)\)</span>의 관계는 다음과 같습니다.<br />
-<img alt="mutual-information" src="https://user-images.githubusercontent.com/7252598/230711668-e5617283-21b7-4328-9532-b1cf6de6d35d.svg" /></p>
+<img alt="image" src="https://user-images.githubusercontent.com/7252598/230729182-6f231b4c-b87b-4cf5-a527-c92aab6b63e6.png" /></p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{aligned}
@@ -924,6 +956,62 @@ I(X, Y) &amp; :=H(X, Y)-H(X \mid Y)-H(Y \mid X) \\
 &amp; =\mathbb{E}_{x, y \sim p(X, Y)}\left[\log \frac{p_{X, Y}(x, y)}{p_X(x) p_Y(y)}\right]
 \end{aligned}
 \end{split}\]</div>
+<p><span class="math notranslate nohighlight">\(X, Y\)</span>에 대한 정보를 모두 모은 후에 <span class="math notranslate nohighlight">\(X\)</span>에서 <span class="math notranslate nohighlight">\(Y\)</span>와 관계된 정보가 빠진 정보량과 반대로 <span class="math notranslate nohighlight">\(Y\)</span>에서 <span class="math notranslate nohighlight">\(X\)</span>와 관계된 정보가 빠진 정보량을 빼는 것으로 구할 수 있습니다. 여기서 기호 <span class="math notranslate nohighlight">\(I\)</span>는 Mutual information을 의미합니다.</p>
+<div class="math notranslate nohighlight">
+\[
+I(X, Y):=H(X, Y)-H(X \mid Y)-H(Y \mid X)
+\]</div>
+<p>Mutual information은 Conditional Entropy를 통해서도 계산할 수 있는데요. <span class="math notranslate nohighlight">\(X, Y\)</span>가 연관되어 있는 정보들을 모두 모으는 또 다른 방법으로 <span class="math notranslate nohighlight">\(Y\)</span>의 총 정보량에서 <span class="math notranslate nohighlight">\(X\)</span>를 알려줬을때의 <span class="math notranslate nohighlight">\(Y\)</span>에 대한 정보량을 빼는 것으로 구할 수 있습니다.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+I(X, Y) &amp; =H(Y)-H(Y \mid X) \\
+&amp; =H(X)-H(X \mid Y)
+\end{aligned}
+\end{split}\]</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="cross-entropy">
+<h1>Cross Entropy (크로스 엔트로피)<a class="headerlink" href="#cross-entropy" title="Permalink to this heading">#</a></h1>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{CE}(P, Q)=-\mathbb{E}_{x \sim p(x)}[\log q(x)]
+\]</div>
+<p>여기서 <span class="math notranslate nohighlight">\(P, Q\)</span>는 각각 <span class="math notranslate nohighlight">\(p(x), q(x)\)</span>를 따르는 확률 변수입니다.<br />
+크로스 엔트로피는 엔트로피의 두번째 특성에서 언급했던 <span class="math notranslate nohighlight">\(-\mathbb{E}_{x \sim p(x)}[\log q(x)]\)</span>를 활용합니다.<br />
+두번째 특성은 다음과 같았습니다.</p>
+<div class="math notranslate nohighlight">
+\[
+H(X)=\mathbb{E}_{x \sim p(x)}[-\log p(x)] \leq \mathbb{E}_{x \sim p(x)}[-\log q(x)]
+\]</div>
+<p>크로스 엔트로피는 <span class="math notranslate nohighlight">\(p(x)\)</span>에서 뽑히는 <span class="math notranslate nohighlight">\(x\)</span>를 가지고 <span class="math notranslate nohighlight">\(q(x)\)</span>로 놀라고 있는 것이라고 이해할 수 있는데요. <span class="math notranslate nohighlight">\(-\mathbb{E}_{x \sim p(x)}[\log q(x)]\)</span>의 하한은 <span class="math notranslate nohighlight">\(H(P)\)</span>이며 등호는 <span class="math notranslate nohighlight">\(p(x)=q(x)\)</span>일 때 성립됩니다.
+이러한 상황에서 <span class="math notranslate nohighlight">\(q(x)\)</span>를 모델링 할때, <span class="math notranslate nohighlight">\(CE(P, Q)\)</span>를 최소화하면 <span class="math notranslate nohighlight">\(q(x)\)</span>를 <span class="math notranslate nohighlight">\(p(x)\)</span>와 <code class="docutils literal notranslate"><span class="pre">최대한</span> <span class="pre">같도록</span></code> 모델링 할 수 있게됩니다! 이러한 원리를 활용해서 머신러닝 방법론에서 Cross entropy loss를 많이 사용하게 되었습니다.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="kullback-leibler-divergence-kl-divergence">
+<h1>Kullback-Leibler Divergence (KL divergence)<a class="headerlink" href="#kullback-leibler-divergence-kl-divergence" title="Permalink to this heading">#</a></h1>
+<p>KL divergence는 한 분포에서 다른 분포까지 떨어진 확률 분포간의 거리라고 말하곤 하는데요. 대칭적이지 않기 때문에(<span class="math notranslate nohighlight">\(D_{K L}(P \| Q) \neq D_{K L}(Q \| P)\)</span>) 엄밀하게 말하면 거리는 아닙니다만, 사용하기에 좋은 여러가지 특징들이 존재합니다.</p>
+<div class="math notranslate nohighlight">
+\[
+D_{K L}(P \| Q):=\mathbb{E}_{x \sim p(x)}\left[\log \frac{p(x)}{q(x)}\right]
+\]</div>
+<p>크로스 엔트로피와의 관계는 다음과 같습니다.</p>
+<div class="math notranslate nohighlight">
+\[
+D_{K L}(P \| Q)=\operatorname{CE}(P, Q)-H(P)
+\]</div>
+<p>그러므로 <span class="math notranslate nohighlight">\(q(x)\)</span>를 모델링 할 때 크로스 엔트로피를 최소화하는 것은 KL divergence를 최소화 하는 것과 동일하게 동작한다고 할 수 있습니다.</p>
+<div class="math notranslate nohighlight">
+\[
+\underset{q(x)}{\operatorname{argmin}} \operatorname{CE}(P, Q)=\underset{q(x)}{\operatorname{argmin}}\left(D_{K L}(P \| Q)+H(P)\right)=\underset{q(x)}{\operatorname{argmin}} D_{K L}(P \| Q)
+\]</div>
+<p>KL divergence의 특징중 하나는 위에서 얘기했던것 처럼 대칭적이지 않기 때문에(<span class="math notranslate nohighlight">\(D_{K L}(P \| Q) \neq D_{K L}(Q \| P)\)</span>) 교환법칙이 성립하지 않습니다. 또 하나의 특징으로는 모든 <span class="math notranslate nohighlight">\(P, Q\)</span>에 대해서 <span class="math notranslate nohighlight">\(D_{K L}(P \| Q) \geq 0\)</span> 이며 등호성립조건은 <span class="math notranslate nohighlight">\(P = Q\)</span>입니다. 이러한 특징은 KL divergence가 항상 음이 아닌 실수라는 의미이고, 두 분포간의 거리 개념으로 쓰일 수 있게 합니다. 등호성립조건을 활용해서 <span class="math notranslate nohighlight">\(D_{K L}(P \| Q) &gt; 0\)</span>인 경우 <span class="math notranslate nohighlight">\(P \neq Q\)</span>라는 것도 유추해낼 수 있습니다. 증명은 다음과 같습니다.</p>
+<ol class="arabic simple">
+<li><p>Entropy의 특성 2: <span class="math notranslate nohighlight">\(H(P)\)</span> 는 <span class="math notranslate nohighlight">\(-\mathbb{E}_{x \sim p(x)}[\log q(x)]\)</span> (Cross-entropy)의 하한이다</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathrm{KL}\)</span> divergence와 Cross-entropy와의 관계: <span class="math notranslate nohighlight">\(D_{K L}(P \| Q)=\operatorname{CE}(P, Q)-H(P)\)</span>
+$<span class="math notranslate nohighlight">\(
+\therefore D_{K L}(P \| Q)=\operatorname{CE}(P, Q)-H(P)=-\mathbb{E}_{x \sim p(x)}[\log q(x)]-H(P) \geq 0
+\)</span>$</p></li>
+</ol>
+<p>마지막으로 또 하나의 특징은 <span class="math notranslate nohighlight">\(p(x) &gt; 0\)</span>이고 <span class="math notranslate nohighlight">\(q(x) = 0\)</span>인 지점이 존재할 경우 <span class="math notranslate nohighlight">\(D_{K L}(P \| Q)=\infty\)</span>라고 할 수 있습니다. <span class="math notranslate nohighlight">\(q(x)=0\)</span>인 지점에서 <span class="math notranslate nohighlight">\(x\)</span>가 뽑히면 무한히 놀랍다 라고 해석할 수 있습니다. <span class="math notranslate nohighlight">\(D_{K L}(P \| Q)\)</span>을 줄이는 경우에는 보통 <span class="math notranslate nohighlight">\(p(x)&gt;0\)</span>이고 <span class="math notranslate nohighlight">\(q(x)=0\)</span>인 지점부터 없애려고 합니다.</p>
 </section>
 
     <script type="text/x-thebe-config">
@@ -967,6 +1055,37 @@ I(X, Y) &amp; :=H(X, Y)-H(X \mid Y)-H(Y \mid X) \\
           </div>
           
           
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Mutual Information, Cross Entropy 그리고 KL Divergence까지
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cross-entropy">
+   Cross Entropy (크로스 엔트로피)
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#kullback-leibler-divergence-kl-divergence">
+   Kullback-Leibler Divergence (KL divergence)
+  </a>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+            </div>
           
           
         </div>
