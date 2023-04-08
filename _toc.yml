@@ -76,7 +76,7 @@ parts:
     - file: Appendix/DeepLearningMath/MAP  
     - file: Appendix/DeepLearningMath/naiveBayesClassifier
     - file: Appendix/Entropy/informationEntropy
-    - file: Appendix/Entropy/jointEntropy    
+    - file: Appendix/Entropy/jointConditionalEntropy    
     - file: Appendix/Entropy/crossEntropyKLDivergence
     
     
