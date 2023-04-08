@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Cross Entropy and KL Divergence &#8212; NLP Book</title>
+    <title>Mutual Information, Cross Entropy 그리고 KL Divergence까지 &#8212; NLP Book</title>
   
   
   
@@ -58,11 +58,13 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'Appendix/Entropy/crossEntropyKLDivergence';</script>
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="prev" title="Joint Entropy" href="jointEntropy.html" />
+    <link rel="prev" title="Joint Entropy와 Conditional Entropy" href="jointConditionalEntropy.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
   </head>
@@ -310,15 +312,15 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="jointEntropy.html">
-                        Joint Entropy
+                      <a class="nav-link nav-internal" href="jointConditionalEntropy.html">
+                        Joint Entropy와 Conditional Entropy
                       </a>
                     </li>
                 
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        Cross Entropy and KL Divergence
+                        Mutual Information, Cross Entropy 그리고 KL Divergence까지
                       </a>
                     </li>
                 
@@ -565,15 +567,15 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="jointEntropy.html">
-                        Joint Entropy
+                      <a class="nav-link nav-internal" href="jointConditionalEntropy.html">
+                        Joint Entropy와 Conditional Entropy
                       </a>
                     </li>
                 
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        Cross Entropy and KL Divergence
+                        Mutual Information, Cross Entropy 그리고 KL Divergence까지
                       </a>
                     </li>
                 
@@ -753,8 +755,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../DeepLearningMath/MAP.html">MAP (Maximum A P Posteriori Estimation)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../DeepLearningMath/naiveBayesClassifier.html">Naive Bayes Classifier</a></li>
 <li class="toctree-l1"><a class="reference internal" href="informationEntropy.html">정보와 엔트로피</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jointEntropy.html">Joint Entropy</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Cross Entropy and KL Divergence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jointConditionalEntropy.html">Joint Entropy와 Conditional Entropy</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Mutual Information, Cross Entropy 그리고 KL Divergence까지</a></li>
 </ul>
 
     </div>
@@ -896,7 +898,7 @@ title="Print to PDF"
             
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Cross Entropy and KL Divergence</h1>
+    <h1>Mutual Information, Cross Entropy 그리고 KL Divergence까지</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -907,8 +909,21 @@ title="Print to PDF"
 
             <article class="bd-article" role="main">
               
-  <section class="tex2jax_ignore mathjax_ignore" id="cross-entropy-and-kl-divergence">
-<h1>Cross Entropy and KL Divergence<a class="headerlink" href="#cross-entropy-and-kl-divergence" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="mutual-information-cross-entropy-kl-divergence">
+<h1>Mutual Information, Cross Entropy 그리고 KL Divergence까지<a class="headerlink" href="#mutual-information-cross-entropy-kl-divergence" title="Permalink to this heading">#</a></h1>
+<p>Mutual Information <span class="math notranslate nohighlight">\(I(X, Y)\)</span>은 <span class="math notranslate nohighlight">\(X\)</span>와 <span class="math notranslate nohighlight">\(Y\)</span>에 대해서 공통으로 얻을 수 있는 정보량을 뜻합니다.</p>
+<p>Mutual Information <span class="math notranslate nohighlight">\(I(X, Y)\)</span>와 Joint Entorpy <span class="math notranslate nohighlight">\(H(X, Y)\)</span>, Conditional Entropy <span class="math notranslate nohighlight">\(H(X|Y)\)</span>의 관계는 다음과 같습니다.<br />
+<img alt="mutual-information" src="https://user-images.githubusercontent.com/7252598/230711668-e5617283-21b7-4328-9532-b1cf6de6d35d.svg" /></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+I(X, Y) &amp; :=H(X, Y)-H(X \mid Y)-H(Y \mid X) \\
+&amp; =H(X)-H(X \mid Y) \\
+&amp; =H(Y)-H(Y \mid X) \\
+&amp; =H(X)+H(Y)-H(X, Y) \\
+&amp; =\mathbb{E}_{x, y \sim p(X, Y)}\left[\log \frac{p_{X, Y}(x, y)}{p_X(x) p_Y(y)}\right]
+\end{aligned}
+\end{split}\]</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -939,11 +954,11 @@ title="Print to PDF"
             <footer class="bd-footer-article">
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='left-prev' id="prev-link" href="jointEntropy.html" title="previous page">
+  <a class='left-prev' id="prev-link" href="jointConditionalEntropy.html" title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
           <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">Joint Entropy</p>
+          <p class="prev-next-title">Joint Entropy와 Conditional Entropy</p>
       </div>
   </a>
 </div>
