@@ -31,3 +31,4 @@ html:
   favicon: favicon.ico/favicon.ico # favicon-16x16.png
   use_issues_button: true
   use_repository_button: true
+  google_analytics_id: G-RCPD8XLR5D
