@@ -65,6 +65,7 @@ parts:
     chapters:
     - file: ChatGPT/introduction
     - file: ChatGPT/Alpaca
+    - file: ChatGPT/PEFT
   - caption: 7장 나만의 ChatGPT 만들기
     chapters:
     - file: DevChatGPT/introduction
