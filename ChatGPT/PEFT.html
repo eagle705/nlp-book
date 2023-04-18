@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Introduction &#8212; NLP Book</title>
+    <title>PEFT(Parameter Efficient Fine-Tuning) &#8212; NLP Book</title>
   
   
   
@@ -272,7 +272,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        Introduction
+                        PEFT(Parameter Efficient Fine-Tuning)
                       </a>
                     </li>
                 
@@ -538,7 +538,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        Introduction
+                        PEFT(Parameter Efficient Fine-Tuning)
                       </a>
                     </li>
                 
@@ -768,8 +768,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Introduction</a></li>
-
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">PEFT(Parameter Efficient Fine-Tuning)</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">7장 나만의 ChatGPT 만들기</span></p>
 <ul class="nav bd-sidenav">
@@ -930,7 +929,7 @@ title="Print to PDF"
             
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Introduction</h1>
+    <h1>PEFT(Parameter Efficient Fine-Tuning)</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -940,34 +939,25 @@ title="Print to PDF"
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Introduction
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#peft">
+   라지 언어 모델의 발전과 PEFT의 필요성 대두
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#peft">
-     라지 언어 모델의 발전과 PEFT의 필요성 대두
-    </a>
-   </li>
-  </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#background">
-   Background
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   PEFT 기법들
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#peft-parameter-efficient-fine-tuning">
-     PEFT(Parameter Efficient Fine-Tuning)
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#lora">
-     LoRA
-    </a>
-   </li>
-  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#lora">
+   LoRA
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ia3-infused-adapter-by-inhibiting-and-amplifying-inner-activations">
+   IA3(Infused Adapter by Inhibiting and Amplifying Inner Activations)
+  </a>
  </li>
 </ul>
 
@@ -978,8 +968,8 @@ title="Print to PDF"
 
             <article class="bd-article" role="main">
               
-  <section class="tex2jax_ignore mathjax_ignore" id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="peft-parameter-efficient-fine-tuning">
+<h1>PEFT(Parameter Efficient Fine-Tuning)<a class="headerlink" href="#peft-parameter-efficient-fine-tuning" title="Permalink to this heading">#</a></h1>
 <p>안녕하세요, 오늘은 PEFT(Parameter Efficient Fine-Tuning)이라고 불리우는 기법에 대해서 알아보도록 하겠습니다. PEFT 기법중에서 가장 많이 알려진 것은 LoRA라는 기법인데요. 오늘은 LoRA에 대해서 간단하게 배우고 더 나아가 IA3라는 방법론에 대해서도 리뷰해보도록 하겠습니다.</p>
 <section id="peft">
 <h2>라지 언어 모델의 발전과 PEFT의 필요성 대두<a class="headerlink" href="#peft" title="Permalink to this heading">#</a></h2>
@@ -988,11 +978,8 @@ title="Print to PDF"
 <p>그러나 이러한 ICL은 매번 미리 예제를 입력해주어야하기 때문에 계산적인 부분이나 메모리, 저장비용들이 발생하게 된다는 단점이 있습니다. 또한 어떤 연구에서는 incorrect labels을 예제로 넣어주더라도 문제를 잘 해결하기도 하더라 라는 내용도 있어서 ICL의 결과를 온전히 신뢰하기 어렵다 라는 의견도 있습니다.</p>
 <p>오늘 다루게 되는 <code class="docutils literal notranslate"><span class="pre">PEFT(Parameter</span> <span class="pre">Efficient</span> <span class="pre">Fine-Tuning)</span></code>은 이러한 단점을 보완하는 대안적인 패러다임중 하나이고 적은양 파라미터(예를 들면 0.01%)를 학습함으로써 새로운 문제를 거의 비슷한 성능으로 풀 수 있게 하자는게 주된 목표입니다. PEFT에는 현재 다양한 방법론들이 연구되고 있고, 가장 유명한 방법론으로 LoRA가 있습니다. LoRA를 개선한 방법론들도 많이 나오고 있는 상황인만큼, LoRA에 대해서 간단하게 리뷰하고 IA3라는 더 개선된 방법에 대해서도 살펴보겠습니다.</p>
 </section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="background">
-<h1>Background<a class="headerlink" href="#background" title="Permalink to this heading">#</a></h1>
-<section id="peft-parameter-efficient-fine-tuning">
-<h2>PEFT(Parameter Efficient Fine-Tuning)<a class="headerlink" href="#peft-parameter-efficient-fine-tuning" title="Permalink to this heading">#</a></h2>
+<section id="id1">
+<h2>PEFT 기법들<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
 <p>초기에 PEFT을 위해 제안되었던 방법은 어댑터(<code class="docutils literal notranslate"><span class="pre">adapters</span></code>)를 사용하는 것입니다. 여기서 말하는 <code class="docutils literal notranslate"><span class="pre">adapater</span></code>란 기존에 이미 학습이 완료된 모델(pre-trained model)의 사이사이에 학습 가능한 작은 feed-forward networks를 삽입하는 구조를 말합니다. 이때 pre-trained model의 weights는 고정해놓고 학습 가능한 작은 feed-forward networks만 아키텍쳐 중간중간마다 추가함으로써 적은 수의 파라미터로 모델을 튜닝하는 기법입니다.<br />
 이러한 어댑터기반의 방법론 외에도 <code class="docutils literal notranslate"><span class="pre">LoRA</span></code>, <code class="docutils literal notranslate"><span class="pre">prompt</span> <span class="pre">tuning</span></code>, <code class="docutils literal notranslate"><span class="pre">prefix</span> <span class="pre">tuning</span></code>등 다양한 방법론이 제안되었습니다.<br />
 여러 방법론이 있지만 Stable diffusion이나 LLaMA, Alapaca에서도 많이 적용되는 Microsoft에서 공개한 <code class="docutils literal notranslate"><span class="pre">LoRA</span></code>라는 방법론이 현재로서는 제일 유명한 것 같습니다.</p>
@@ -1088,7 +1075,99 @@ title="Print to PDF"
 <p>LoRA가 행렬 연산을 기반으로 하기 때문에 기존 행렬 <span class="math notranslate nohighlight">\(W\)</span>를 LoRA에서 사용하는 <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span> 행렬을 기반으로 <span class="math notranslate nohighlight">\(W'\)</span>로 다음과 같이 재구성할 수 있습니다.</p>
 <div class="math notranslate nohighlight">
 \[W = W_0 + BA\]</div>
-<p>이렇게 함으로써 얻을 수 있는 이점은 새롭게 학습한 파라미터를 기존에 학습된 pretrained model에 합쳐줌으로써 추가적인 연산이 필요하지 않게 되어 속도도 그대로 유지하면서 아키텍쳐의 변경도 필요없어진다는 것입니다.</p>
+<p>이렇게 함으로써 얻을 수 있는 이점은 새롭게 학습한 파라미터를 기존에 학습된 pretrained model에 합쳐줌으로써 추가적인 연산이 필요하지 않게 되어 속도도 그대로 유지하면서 아키텍쳐의 변경도 필요없어지게 됩니다.</p>
+</section>
+<section id="ia3-infused-adapter-by-inhibiting-and-amplifying-inner-activations">
+<h2>IA3(Infused Adapter by Inhibiting and Amplifying Inner Activations)<a class="headerlink" href="#ia3-infused-adapter-by-inhibiting-and-amplifying-inner-activations" title="Permalink to this heading">#</a></h2>
+<p>IA3도 LoRA와 비슷한 방법으로 적은 파라미터만을 추가해서 모델을 튜닝할 수 있는 방법론 입니다. LoRA의 경우에는 hidden state에 새로운 값을 더해주는 기법이었다면 IA3의 경우에는 Attention에서 Key, Value 값을 rescale해주는 벡터와 position-wise feed-forward network의 값에 rescale을 해주는 벡터를 추가해서 모델을 튜닝해주는 기법입니다.</p>
+<p><img alt="IA3" src="https://user-images.githubusercontent.com/7252598/230011306-0e6184ac-af46-4920-b483-03e2481d0457.png" /></p>
+<p>IA3는 기존에 공개된 LoRA보다 적은 파라미터를 사용하면서 높은 성능을 내는 것으로 알려져있습니다.</p>
+<p><img alt="ia3_performance" src="https://user-images.githubusercontent.com/7252598/230011771-6be13446-6fd8-4a6d-a558-219cdd975eee.png" /></p>
+<p>IA3도 LoRA와 마찬가지로 Linear Layer를 커스텀 구현체로 변경함으로써 구현이 가능하며, LoRA Layer에 대한 configuration을 수정해서 구현할 수 있습니다. 다음은 IA3에 대한 구현체입니다.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/configs/ia3.json</span></code></p></li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;lora_scaling_rank&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;lora_rank&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;lora_init_scale&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;lora_modules&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.*SelfAttention|.*EncDecAttention|.*DenseReluDense&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;lora_layers&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;k|v|wi_1.*&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;trainable_param_names&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.*lora_b.*&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;model_modifier&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lora&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;lr&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3e-3</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;num_steps&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>lora기반 ia3 구현체</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<span class="k">def</span> <span class="nf">modify_with_lora</span><span class="p">(</span><span class="n">transformer</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">m_name</span><span class="p">,</span> <span class="n">module</span> <span class="ow">in</span> <span class="nb">dict</span><span class="p">(</span><span class="n">transformer</span><span class="o">.</span><span class="n">named_modules</span><span class="p">())</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">lora_modules</span><span class="p">,</span> <span class="n">m_name</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">c_name</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">dict</span><span class="p">(</span><span class="n">module</span><span class="o">.</span><span class="n">named_children</span><span class="p">())</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">lora_layers</span><span class="p">,</span> <span class="n">c_name</span><span class="p">):</span>
+                    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span>
+                        <span class="n">layer</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span>
+                    <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;LoRA can only be applied to torch.nn.Linear, but </span><span class="si">{</span><span class="n">layer</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+                    <span class="nb">setattr</span><span class="p">(</span>
+                        <span class="n">module</span><span class="p">,</span>
+                        <span class="n">c_name</span><span class="p">,</span>
+                        <span class="n">LoRALinear</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">lora_rank</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">lora_scaling_rank</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">lora_init_scale</span><span class="p">),</span>
+                    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">transformer</span>
+
+<span class="k">class</span> <span class="nc">LoRALinear</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">linear_layer</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">scaling_rank</span><span class="p">,</span> <span class="n">init_scale</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">in_features</span> <span class="o">=</span> <span class="n">linear_layer</span><span class="o">.</span><span class="n">in_features</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out_features</span> <span class="o">=</span> <span class="n">linear_layer</span><span class="o">.</span><span class="n">out_features</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rank</span> <span class="o">=</span> <span class="n">rank</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaling_rank</span> <span class="o">=</span> <span class="n">scaling_rank</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">linear_layer</span><span class="o">.</span><span class="n">weight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="n">linear_layer</span><span class="o">.</span><span class="n">bias</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rank</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lora_a</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">rank</span><span class="p">,</span> <span class="n">linear_layer</span><span class="o">.</span><span class="n">in_features</span><span class="p">)</span> <span class="o">*</span> <span class="n">init_scale</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">init_scale</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">lora_b</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">linear_layer</span><span class="o">.</span><span class="n">out_features</span><span class="p">,</span> <span class="n">rank</span><span class="p">)</span> <span class="o">*</span> <span class="n">init_scale</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">lora_b</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">linear_layer</span><span class="o">.</span><span class="n">out_features</span><span class="p">,</span> <span class="n">rank</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_rank</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">multi_lora_a</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span>
+                <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scaling_rank</span><span class="p">,</span> <span class="n">linear_layer</span><span class="o">.</span><span class="n">in_features</span><span class="p">)</span>
+                <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scaling_rank</span><span class="p">,</span> <span class="n">linear_layer</span><span class="o">.</span><span class="n">in_features</span><span class="p">)</span> <span class="o">*</span> <span class="n">init_scale</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">init_scale</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">multi_lora_b</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span>
+                    <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">linear_layer</span><span class="o">.</span><span class="n">out_features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_rank</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">linear_layer</span><span class="o">.</span><span class="n">out_features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_rank</span><span class="p">)</span> <span class="o">*</span> <span class="n">init_scale</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">multi_lora_b</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">linear_layer</span><span class="o">.</span><span class="n">out_features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_rank</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_rank</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># parsimonious implementation for ia3 and lora scaling</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">multi_lora_a</span><span class="o">.</span><span class="n">requires_grad</span><span class="p">:</span>
+                <span class="c1"># 이 부분에서 IA3의 곱하기가 일어나는듯!!</span>
+                <span class="n">hidden</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">linear</span><span class="p">((</span><span class="nb">input</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">multi_lora_a</span><span class="o">.</span><span class="n">flatten</span><span class="p">()),</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">hidden</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">multi_lora_b</span><span class="o">.</span><span class="n">requires_grad</span><span class="p">:</span>
+                <span class="n">hidden</span> <span class="o">=</span> <span class="n">hidden</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">multi_lora_b</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">hidden</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># general implementation for lora (adding and scaling)</span>
+            <span class="n">weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_rank</span><span class="p">:</span>
+                <span class="n">weight</span> <span class="o">=</span> <span class="n">weight</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">multi_lora_b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">multi_lora_a</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_rank</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rank</span><span class="p">:</span>
+                <span class="n">weight</span> <span class="o">=</span> <span class="n">weight</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lora_b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lora_a</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">rank</span>
+            <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -1150,34 +1229,25 @@ title="Print to PDF"
 </div>
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Introduction
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#peft">
+   라지 언어 모델의 발전과 PEFT의 필요성 대두
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#peft">
-     라지 언어 모델의 발전과 PEFT의 필요성 대두
-    </a>
-   </li>
-  </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#background">
-   Background
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   PEFT 기법들
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#peft-parameter-efficient-fine-tuning">
-     PEFT(Parameter Efficient Fine-Tuning)
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#lora">
-     LoRA
-    </a>
-   </li>
-  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#lora">
+   LoRA
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ia3-infused-adapter-by-inhibiting-and-amplifying-inner-activations">
+   IA3(Infused Adapter by Inhibiting and Amplifying Inner Activations)
+  </a>
  </li>
 </ul>
 
