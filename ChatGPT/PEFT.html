@@ -1099,7 +1099,7 @@ title="Print to PDF"
         <span class="bp">self</span><span class="o">.</span><span class="n">merged</span> <span class="o">=</span> <span class="kc">True</span>
 </pre></div>
 </div>
-<p>LoRA가 행렬 연산을 기반으로 하기 때문에 기존 행렬 <span class="math notranslate nohighlight">\(W\)</span>를 LoRA에서 사용하는 <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span> 행렬을 기반으로 <span class="math notranslate nohighlight">\(W'\)</span>로 다음과 같이 재구성할 수 있습니다.</p>
+<p>LoRA가 행렬 연산을 기반으로 하기 때문에 기존 행렬 <span class="math notranslate nohighlight">\(W_0\)</span>를 LoRA에서 사용하는 <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(B\)</span> 행렬을 기반으로 다음과 같이 재구성할 수 있습니다.</p>
 <div class="math notranslate nohighlight">
 \[W = W_0 + BA\]</div>
 <p>이렇게 함으로써 얻을 수 있는 이점은 새롭게 학습한 파라미터를 기존에 학습된 pretrained model에 합쳐줌으로써 추가적인 연산이 필요하지 않게 되어 속도도 그대로 유지하면서 아키텍쳐의 변경도 필요없어지게 됩니다.</p>
