@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Overview &#8212; NLP Book</title>
+    <title>Eigenvector와 Eigenvalue를 활용한 PCA 예시 &#8212; NLP Book</title>
   
   
   
@@ -65,12 +65,11 @@ const thebe_selector_output = ".output, .cell_output"
                 gtag('js', new Date());
                 gtag('config', 'G-RCPD8XLR5D');
             </script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'BasicNLP/overview/overview';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Appendix/LinearAlgebra/eigen_example';</script>
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="한국어와 자연어처리" href="%ED%95%9C%EA%B8%80%EA%B3%BC%EC%9E%90%EC%97%B0%EC%96%B4%EC%B2%98%EB%A6%AC.html" />
-    <link rel="prev" title="Natural Language Processing" href="../../NLP/nlp.html" />
+    <link rel="prev" title="Eigenvector와 Eigenvalue" href="eigenvectorvalue.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
   </head>
@@ -158,22 +157,22 @@ const thebe_selector_output = ".output, .cell_output"
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/overview/overview.html">
                         Overview
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../text_representation/text_representation.html">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/text_representation/text_representation.html">
                         Text Representation
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../dl_nlp/dl_nlp.html">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/dl_nlp/dl_nlp.html">
                         Deep Learning for NLP
                       </a>
                     </li>
@@ -185,7 +184,7 @@ const thebe_selector_output = ".output, .cell_output"
                 <div class="dropdown-menu">
                     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../LM/LM.html">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/LM/LM.html">
                         Language Model
                       </a>
                     </li>
@@ -283,70 +282,70 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/appendix.html">
+                      <a class="nav-link nav-internal" href="../appendix.html">
                         Appendix
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/calculus.html">
+                      <a class="nav-link nav-internal" href="../DeepLearningMath/calculus.html">
                         미분과 그래디언트
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/MLE.html">
+                      <a class="nav-link nav-internal" href="../DeepLearningMath/MLE.html">
                         MLE (Maximum Likelihood Estimation)
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/MAP.html">
+                      <a class="nav-link nav-internal" href="../DeepLearningMath/MAP.html">
                         MAP (Maximum A P Posteriori Estimation)
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/naiveBayesClassifier.html">
+                      <a class="nav-link nav-internal" href="../DeepLearningMath/naiveBayesClassifier.html">
                         Naive Bayes Classifier
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/Entropy/informationEntropy.html">
+                      <a class="nav-link nav-internal" href="../Entropy/informationEntropy.html">
                         정보와 엔트로피
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/Entropy/jointConditionalEntropy.html">
+                      <a class="nav-link nav-internal" href="../Entropy/jointConditionalEntropy.html">
                         Joint Entropy와 Conditional Entropy
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/Entropy/crossEntropyKLDivergence.html">
+                      <a class="nav-link nav-internal" href="../Entropy/crossEntropyKLDivergence.html">
                         Mutual Information, Cross Entropy 그리고 KL Divergence까지
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/LinearAlgebra/eigenvectorvalue.html">
+                      <a class="nav-link nav-internal" href="eigenvectorvalue.html">
                         Eigenvector와 Eigenvalue
                       </a>
                     </li>
                 
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/LinearAlgebra/eigen_example.html">
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
                         Eigenvector와 Eigenvalue를 활용한 PCA 예시
                       </a>
                     </li>
@@ -438,22 +437,22 @@ const thebe_selector_output = ".output, .cell_output"
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/overview/overview.html">
                         Overview
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../text_representation/text_representation.html">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/text_representation/text_representation.html">
                         Text Representation
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../dl_nlp/dl_nlp.html">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/dl_nlp/dl_nlp.html">
                         Deep Learning for NLP
                       </a>
                     </li>
@@ -465,7 +464,7 @@ const thebe_selector_output = ".output, .cell_output"
                 <div class="dropdown-menu">
                     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../LM/LM.html">
+                      <a class="nav-link nav-internal" href="../../BasicNLP/LM/LM.html">
                         Language Model
                       </a>
                     </li>
@@ -563,70 +562,70 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/appendix.html">
+                      <a class="nav-link nav-internal" href="../appendix.html">
                         Appendix
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/calculus.html">
+                      <a class="nav-link nav-internal" href="../DeepLearningMath/calculus.html">
                         미분과 그래디언트
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/MLE.html">
+                      <a class="nav-link nav-internal" href="../DeepLearningMath/MLE.html">
                         MLE (Maximum Likelihood Estimation)
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/MAP.html">
+                      <a class="nav-link nav-internal" href="../DeepLearningMath/MAP.html">
                         MAP (Maximum A P Posteriori Estimation)
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/DeepLearningMath/naiveBayesClassifier.html">
+                      <a class="nav-link nav-internal" href="../DeepLearningMath/naiveBayesClassifier.html">
                         Naive Bayes Classifier
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/Entropy/informationEntropy.html">
+                      <a class="nav-link nav-internal" href="../Entropy/informationEntropy.html">
                         정보와 엔트로피
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/Entropy/jointConditionalEntropy.html">
+                      <a class="nav-link nav-internal" href="../Entropy/jointConditionalEntropy.html">
                         Joint Entropy와 Conditional Entropy
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/Entropy/crossEntropyKLDivergence.html">
+                      <a class="nav-link nav-internal" href="../Entropy/crossEntropyKLDivergence.html">
                         Mutual Information, Cross Entropy 그리고 KL Divergence까지
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/LinearAlgebra/eigenvectorvalue.html">
+                      <a class="nav-link nav-internal" href="eigenvectorvalue.html">
                         Eigenvector와 Eigenvalue
                       </a>
                     </li>
                 
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../Appendix/LinearAlgebra/eigen_example.html">
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
                         Eigenvector와 Eigenvalue를 활용한 PCA 예시
                       </a>
                     </li>
@@ -711,28 +710,28 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../../NLP/nlp.html">Natural Language Processing</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">2장 BasicNLP</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Overview</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="%ED%95%9C%EA%B8%80%EA%B3%BC%EC%9E%90%EC%97%B0%EC%96%B4%EC%B2%98%EB%A6%AC.html">한국어와 자연어처리</a></li>
-<li class="toctree-l2"><a class="reference internal" href="%EC%9E%90%EC%97%B0%EC%96%B4%EC%B2%98%EB%A6%AC%EC%9A%A9%EC%96%B4.html">token, sentence, vector spaces, embedding</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../BasicNLP/overview/overview.html">Overview</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/overview/%ED%95%9C%EA%B8%80%EA%B3%BC%EC%9E%90%EC%97%B0%EC%96%B4%EC%B2%98%EB%A6%AC.html">한국어와 자연어처리</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/overview/%EC%9E%90%EC%97%B0%EC%96%B4%EC%B2%98%EB%A6%AC%EC%9A%A9%EC%96%B4.html">token, sentence, vector spaces, embedding</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../text_representation/text_representation.html">Text Representation</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../text_representation/tf-idf.html">TF-IDF</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../text_representation/word2vec.html">Word2Vec &amp; GloVe</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../text_representation/contextual_word_representation.html">Contextual word representation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../BasicNLP/text_representation/text_representation.html">Text Representation</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/text_representation/tf-idf.html">TF-IDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/text_representation/word2vec.html">Word2Vec &amp; GloVe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/text_representation/contextual_word_representation.html">Contextual word representation</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../dl_nlp/dl_nlp.html">Deep Learning for NLP</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../dl_nlp/mlp.html">MLP(Multi-Layer Perceptron)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../dl_nlp/cnn.html">CNN</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../dl_nlp/rnn.html">RNN</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../dl_nlp/attention_mechanism.html">Attention mechanism</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../BasicNLP/dl_nlp/dl_nlp.html">Deep Learning for NLP</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/dl_nlp/mlp.html">MLP(Multi-Layer Perceptron)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/dl_nlp/cnn.html">CNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/dl_nlp/rnn.html">RNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/dl_nlp/attention_mechanism.html">Attention mechanism</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../LM/LM.html">Language Model</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../LM/probability.html">Probability Theory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../LM/disc_gen_model.html">Discriminative VS Generative model</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../BasicNLP/LM/LM.html">Language Model</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/LM/probability.html">Probability Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../BasicNLP/LM/disc_gen_model.html">Discriminative VS Generative model</a></li>
 </ul>
 </li>
 </ul>
@@ -802,19 +801,19 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../../DevChatGPT/introduction.html">Introduction</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">부록</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/appendix.html">Appendix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/DeepLearningMath/calculus.html">미분과 그래디언트</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/DeepLearningMath/MLE.html">MLE (Maximum Likelihood Estimation)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/DeepLearningMath/MAP.html">MAP (Maximum A P Posteriori Estimation)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/DeepLearningMath/naiveBayesClassifier.html">Naive Bayes Classifier</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/Entropy/informationEntropy.html">정보와 엔트로피</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/Entropy/jointConditionalEntropy.html">Joint Entropy와 Conditional Entropy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/Entropy/crossEntropyKLDivergence.html">Mutual Information, Cross Entropy 그리고 KL Divergence까지</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html">Appendix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DeepLearningMath/calculus.html">미분과 그래디언트</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DeepLearningMath/MLE.html">MLE (Maximum Likelihood Estimation)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DeepLearningMath/MAP.html">MAP (Maximum A P Posteriori Estimation)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../DeepLearningMath/naiveBayesClassifier.html">Naive Bayes Classifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Entropy/informationEntropy.html">정보와 엔트로피</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Entropy/jointConditionalEntropy.html">Joint Entropy와 Conditional Entropy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Entropy/crossEntropyKLDivergence.html">Mutual Information, Cross Entropy 그리고 KL Divergence까지</a></li>
 
 
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/LinearAlgebra/eigenvectorvalue.html">Eigenvector와 Eigenvalue</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Appendix/LinearAlgebra/eigen_example.html">Eigenvector와 Eigenvalue를 활용한 PCA 예시</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eigenvectorvalue.html">Eigenvector와 Eigenvalue</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Eigenvector와 Eigenvalue를 활용한 PCA 예시</a></li>
 </ul>
 
     </div>
@@ -854,6 +853,16 @@ const thebe_selector_output = ".output, .cell_output"
         </label>
     </div>
     <div class="header-article__right">
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+  </ul>
+</div>
+
 <button onclick="toggleFullScreen()"
   class="btn btn-sm"
   data-toggle="tooltip"
@@ -890,7 +899,7 @@ title="Source repository"
 </a>
 </a>
       
-      <li><a href="https://github.com/eagle705/nlp-book/issues/new?title=Issue%20on%20page%20%2FBasicNLP/overview/overview.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/eagle705/nlp-book/issues/new?title=Issue%20on%20page%20%2FAppendix/LinearAlgebra/eigen_example.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -915,7 +924,7 @@ title="Open an issue"
     <i class="fas fa-download"></i>
   </button>
   <ul class="dropdown-menu">
-      <li><a href="../../_sources/BasicNLP/overview/overview.md" target="_blank"
+      <li><a href="../../_sources/Appendix/LinearAlgebra/eigen_example.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -926,7 +935,7 @@ title="Download source file"
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.md</span>
+<span class="btn__text-container">.ipynb</span>
 </a>
 </a>
       
@@ -958,7 +967,7 @@ title="Print to PDF"
             
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Overview</h1>
+    <h1>Eigenvector와 Eigenvalue를 활용한 PCA 예시</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -969,29 +978,16 @@ title="Print to PDF"
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
-   1. 규칙 기반 (1950년대~1980년대)
+  <a class="reference internal nav-link" href="#digits-pca">
+   digits 데이터셋에 대한 PCA 예시
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
-   2. 통계 기반 (1990년대~2010년대 초)
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
-   3. 딥러닝 기반 (2010년대 후반~현재)
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id4">
-   4. 사전 훈련 기반 자연어 처리 (2018년~현재)
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id5">
-   5. 대형 언어 모델 기반 자연어 처리 (2020년~현재)
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pca">
+     PCA 조금 더 살펴보기
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -1002,32 +998,169 @@ title="Print to PDF"
 
             <article class="bd-article" role="main">
               
-  <section class="tex2jax_ignore mathjax_ignore" id="overview">
-<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h1>
-<p>자연어 처리(Natural Language Processing, NLP)는 인간 언어를 이해하고 처리하는 인공지능 기술로, 현재는 다양한 분야에서 활용되고 있습니다. NLP의 발전 역사는 굉장히 오래되었지만, 이를 크게 세 가지 시기로 나누어 볼 수 있습니다.</p>
-<section id="id1">
-<h2>1. 규칙 기반 (1950년대~1980년대)<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
-<p>NLP의 초기에는 규칙 기반 방법이 주로 사용되었습니다. 이 방법은 언어를 처리하기 위한 규칙을 사람이 수작업으로 작성하고, 이를 컴퓨터가 처리하는 방법입니다. 대표적인 예가 ELIZA입니다. ELIZA는 사용자와의 대화를 통해 상담을 제공하는 프로그램으로, 입력된 문장에서 일부 키워드를 추출하여 관련된 응답을 생성하는 방식으로 작동했습니다. 규칙 기반 방식은 문법적인 오류를 줄일 수 있으나, 모든 자연어를 커버하는 규칙을 작성하는 것은 어려움이 있었습니다.</p>
-</section>
-<section id="id2">
-<h2>2. 통계 기반 (1990년대~2010년대 초)<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
-<p>1990년대 이후부터는 통계 기반 방법이 대세가 되었습니다. Bag-of-Words (BoW)와 함께 발전한 방법으로, BoW는 단어 빈도를 이용하여 문서를 벡터로 표현하고, 이를 이용하여 문서 분류 및 유사성 검색 등을 수행할 수 있습니다. BOW는 간단하고 이해하기 쉬우며, 현재까지도 많이 사용됩니다.
-통계 기반 방법은 자연어 데이터를 바탕으로 통계 모델을 학습하고, 이를 이용하여 자연어를 처리합니다. 대표적으로는 히든 마르코프 모델(Hidden Markov Model), 조건부 랜덤 필드(Conditional Random Fields), 나이브 베이즈(Naive Bayes) 분류기 등이 있습니다.</p>
-</section>
-<section id="id3">
-<h2>3. 딥러닝 기반 (2010년대 후반~현재)<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
-<p>딥 러닝 기반 자연어 처리는 2010년대 이후 발전한 방법으로, 특히 딥 러닝의 발전과 함께 더욱 발전해왔습니다. 이 방법은 딥 러닝 모델을 이용하여 자연어를 처리하는 것으로, 대표적인 예로는 CNN이나 LSTM이 있습니다. 이 방법은 통계 기반 방식보다 더욱 정확한 처리가 가능하며, 최근에는 다양한 자연어 처리 태스크에서 SOTA(Sate-of-the-Art) 성능을 보이고 있습니다.</p>
-</section>
-<section id="id4">
-<h2>4. 사전 훈련 기반 자연어 처리 (2018년~현재)<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
-<p>사전 훈련 기반 자연어 처리는 대규모의 텍스트 데이터를 이용하여 모델을 사전 훈련시킨 다음, 이를 다른 자연어 처리 태스크에 fine-tuning을 통해 이용하는 방법입니다. 이 방법은 전이 학습과 밀접한 관련이 있으며, 대표적인 예로는 BERT와 GPT가 있습니다. 이 방법은 대규모의 자연어 처리 태스크에서 높은 성능을 보이고 있으며, 다양한 자연어 처리 태스크에서 사용되고 있습니다.</p>
-</section>
-<section id="id5">
-<h2>5. 대형 언어 모델 기반 자연어 처리 (2020년~현재)<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h2>
-<p>대형 언어 모델 기반 자연어 처리는 대규모의 데이터를 이용하여 사전 훈련시킨 후 다양한 자연어 처리 태스크를 수행하는 방식으로 동작합니다. 이 방법은 LLMs(Language Models)라고도 불리며, 대표적인 예로는 GPT-3가 있습니다. LLMs는 in-context learning과 instruction tuning을 포함하여 학습된 모델을 의미하며, 이 방법은 다양한 자연어 처리 태스크에서 높은 성능을 보이고 있습니다. 특히 자연어 생성 분야에서 큰 주목을 받고 있으며, 최근에는 다양한 분야에서 활용될 것으로 기대됩니다.</p>
-</section>
-<div class="toctree-wrapper compound">
+  <section class="tex2jax_ignore mathjax_ignore" id="eigenvector-eigenvalue-pca">
+<h1>Eigenvector와 Eigenvalue를 활용한 PCA 예시<a class="headerlink" href="#eigenvector-eigenvalue-pca" title="Permalink to this heading">#</a></h1>
+<p>다음과 같은 3차원 데이터셋이 있다고 가정해보겠습니다. 이 데이터셋은 3개의 특성(feature)을 가지는 50개의 샘플(sample)로 구성되어 있습니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># 3차원 데이터셋 (50 x 3)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;샘플) X[:5]: </span><span class="si">{</span><span class="n">X</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>샘플) X[:5]: [[-1.05972015 -0.87586436  0.39186562]
+ [-0.3842238  -2.42856111  0.13301577]
+ [-1.16993285 -1.13603941 -0.98881077]
+ [ 1.47463104  1.72301311  1.52158802]
+ [-0.12913024  1.07254923 -0.10847643]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>이 데이터셋을 표준화(standardization)하여 모든 특성이 평균 0, 분산 1을 가지도록 만들어줍니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 표준화</span>
+<span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;샘플) X[:5]: </span><span class="si">{</span><span class="n">X</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>샘플) X[:5]: [[-1.0885339  -0.82085485  0.39026489]
+ [-0.4970428  -2.25164449  0.08589564]
+ [-1.18504046 -1.06060274 -1.23320691]
+ [ 1.13064341  1.57397656  1.71865181]
+ [-0.27367287  0.97458265 -0.19806357]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>이제, Eigenvalue와 Eigenvector를 계산하여 PCA를 수행해보겠습니다. 이를 위해 다음과 같은 코드를 사용합니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 공분산 행렬 계산</span>
+<span class="n">covariance_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+<span class="c1"># Eigenvalue와 Eigenvector 계산</span>
+<span class="n">eigenvalues</span><span class="p">,</span> <span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">covariance_matrix</span><span class="p">)</span>
+
+<span class="c1"># 주성분(PC) 개수 설정</span>
+<span class="n">n_components</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="c1"># 주성분(PC) 추출</span>
+<span class="n">components</span> <span class="o">=</span> <span class="n">eigenvectors</span><span class="p">[:,</span> <span class="p">:</span><span class="n">n_components</span><span class="p">]</span>
+
+<span class="c1"># 새로운 차원으로 변환</span>
+<span class="n">X_pca</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">components</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>위 코드에서, np.cov 함수를 사용하여 데이터셋의 공분산 행렬을 계산합니다. 이후, np.linalg.eig 함수를 사용하여 공분산 행렬의 Eigenvalue와 Eigenvector를 계산합니다. 이때, Eigenvalue는 eigenvectors 배열의 대각선에 위치한 값으로 저장되며, Eigenvector는 eigenvectors 배열의 각 열에 위치한 값으로 저장됩니다.</p>
+<p>PCA를 수행할 때는, 축소할 주성분(PC)의 개수를 설정해야 합니다. 위 코드에서는 n_components 변수를 사용하여 주성분의 개수를 2로 설정하였습니다. 이후, components 변수에는 계산된 Eigenvector 중 상위 n_components개를 저장합니다.</p>
+<p>마지막으로, 새로운 차원으로 변환된 데이터셋 X_pca를 얻기 위해, 원래 데이터셋 X와 components를 행렬곱(np.dot)하여 곱셈 결과를 저장합니다.</p>
+<p>이렇게 PCA를 수행하여 데이터셋을 축소한 결과, 3차원 데이터셋이 2차원으로 축소되었습니다. 이를 시각적으로 표현하면 다음과 같습니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># 2차원 PCA 결과 시각화</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_pca</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_pca</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;PC1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;PC2&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/3f115f9d1b6412a0b00ffcd0d423e0b43f89e519da6b443f68a5ca132088125a.png" src="../../_images/3f115f9d1b6412a0b00ffcd0d423e0b43f89e519da6b443f68a5ca132088125a.png" />
+</div>
+</div>
+<section id="digits-pca">
+<h2>digits 데이터셋에 대한 PCA 예시<a class="headerlink" href="#digits-pca" title="Permalink to this heading">#</a></h2>
+<p>다음은 scikit-learn 라이브러리에서 제공하는 digits 데이터셋을 사용한 예시입니다. 이 데이터셋은 0부터 9까지의 손글씨 이미지 데이터셋으로, 총 1797개의 이미지 데이터가 있습니다. 각 이미지 데이터는 8x8 크기의 픽셀로 구성되어 있습니다. 이 데이터셋을 이용하여 PCA를 수행하고, 그 결과를 시각화해보겠습니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+
+<span class="c1"># digits 데이터셋 로드</span>
+<span class="n">digits</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_digits</span><span class="p">()</span>
+
+<span class="c1"># 데이터셋 분리</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">digits</span><span class="o">.</span><span class="n">data</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">digits</span><span class="o">.</span><span class="n">target</span>
+
+<span class="c1"># PCA 수행</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">X_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># 시각화</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_pca</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_pca</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Set1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;PC1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;PC2&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/ab295b1a639ddc637acb8764cb3a88bc8de82fa5bac346c4946c0a0128bd1a6e.png" src="../../_images/ab295b1a639ddc637acb8764cb3a88bc8de82fa5bac346c4946c0a0128bd1a6e.png" />
+</div>
+</div>
+<p>위 코드에서, digits 데이터셋을 불러와 X에는 이미지 데이터, y에는 각 이미지에 대한 레이블 정보를 저장합니다. 이후, PCA를 수행하고, 주성분(PC)의 개수를 2로 설정하여 2차원 공간으로 축소합니다. 이렇게 축소된 데이터를 scatter plot으로 시각화합니다. 이때, 각 데이터 포인트의 색상은 해당 이미지의 레이블 정보를 나타냅니다.</p>
+<p>위 그래프에서 볼 수 있듯이, PCA를 통해 64차원 이미지 데이터셋을 2차원으로 축소한 결과, 각 숫자 이미지들이 서로 다른 영역에 잘 분포되어 있는 것을 확인할 수 있습니다. 이를 통해, PCA를 사용하여 차원을 축소하면 데이터를 시각화하거나, 분류 등의 작업을 수행할 때 유용하게 사용할 수 있음을 알 수 있습니다.</p>
+<section id="pca">
+<h3>PCA 조금 더 살펴보기<a class="headerlink" href="#pca" title="Permalink to this heading">#</a></h3>
+<p>PCA에서 <code class="docutils literal notranslate"><span class="pre">n_components=2</span></code>로 설정하면, 64차원의 이미지 데이터셋에서 주성분(PC) 2개로 차원을 축소합니다. 이는 2개의 새로운 축을 생성하고, 각 이미지 데이터를 이 새로운 축으로 투영한 결과를 나타내게 됩니다. 따라서, 주성분 2개를 제외한 나머지 62개의 차원에 대한 데이터는 무시됩니다.</p>
+<p>PCA를 수행하는 과정에서, 각 주성분의 계수를 나타내는 eigenvector가 생성됩니다. 이 eigenvector는 원본 데이터셋의 차원과 같은 크기를 가지며, 이 벡터를 사용하여 데이터를 새로운 축으로 투영합니다. 따라서, 위 예시에서 64차원 데이터셋의 경우, 64개의 eigenvector가 생성됩니다.</p>
+<p>이를 행렬 계산식으로 나타내면 다음과 같습니다. 우선, 원본 데이터셋을 <code class="docutils literal notranslate"><span class="pre">X</span></code>라 하고, <code class="docutils literal notranslate"><span class="pre">X</span></code>의 공분산 행렬을 <code class="docutils literal notranslate"><span class="pre">C</span></code>라고 합니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>이후, <code class="docutils literal notranslate"><span class="pre">C</span></code>의 eigenvalue와 eigenvector를 계산합니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eigenvalues</span><span class="p">,</span> <span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span> <span class="c1"># sorting되서 나옴</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[179.0069301  163.71774688 141.78843909 101.1003752   69.51316559]
+</pre></div>
+</div>
+</div>
+</div>
+<p>이때, eigenvalues는 C의 주성분(PC)의 중요도를 나타내는 값이고, eigenvectors는 C의 주성분(PC)을 나타내는 벡터입니다. eigenvectors의 각 열이 주성분(PC)을 나타내므로, 이 벡터 중 n_components개의 열만 선택하여 새로운 eigenvector 행렬 <code class="docutils literal notranslate"><span class="pre">E</span></code>를 생성합니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">E</span> <span class="o">=</span> <span class="n">eigenvectors</span><span class="p">[:,</span> <span class="p">:</span><span class="n">n_components</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>이후, <code class="docutils literal notranslate"><span class="pre">X</span></code>를 <code class="docutils literal notranslate"><span class="pre">E</span></code>로 곱하여 새로운 축으로 투영한 결과인 X_pca를 계산합니다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_pca</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>위 과정을 수행하면, X_pca는 n_components개의 열을 가지는 새로운 데이터셋이 생성됩니다. 이때, n_components개의 열을 제외한 나머지 열은 무시됩니다.</p>
+</section>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -1043,7 +1176,7 @@ title="Print to PDF"
         },
         kernelOptions: {
             name: "python3",
-            path: "./BasicNLP/overview"
+            path: "./Appendix/LinearAlgebra"
         },
         predefinedOutput: true
     }
@@ -1058,19 +1191,12 @@ title="Print to PDF"
             <footer class="bd-footer-article">
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='left-prev' id="prev-link" href="../../NLP/nlp.html" title="previous page">
+  <a class='left-prev' id="prev-link" href="eigenvectorvalue.html" title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
           <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">Natural Language Processing</p>
+          <p class="prev-next-title">Eigenvector와 Eigenvalue</p>
       </div>
-  </a>
-  <a class='right-next' id="next-link" href="%ED%95%9C%EA%B8%80%EA%B3%BC%EC%9E%90%EC%97%B0%EC%96%B4%EC%B2%98%EB%A6%AC.html" title="next page">
-  <div class="prev-next-info">
-      <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">한국어와 자연어처리</p>
-  </div>
-  <i class="fa-solid fa-angle-right"></i>
   </a>
 </div>
             </footer>
@@ -1089,29 +1215,16 @@ title="Print to PDF"
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
-   1. 규칙 기반 (1950년대~1980년대)
+  <a class="reference internal nav-link" href="#digits-pca">
+   digits 데이터셋에 대한 PCA 예시
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
-   2. 통계 기반 (1990년대~2010년대 초)
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
-   3. 딥러닝 기반 (2010년대 후반~현재)
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id4">
-   4. 사전 훈련 기반 자연어 처리 (2018년~현재)
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id5">
-   5. 대형 언어 모델 기반 자연어 처리 (2020년~현재)
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pca">
+     PCA 조금 더 살펴보기
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
