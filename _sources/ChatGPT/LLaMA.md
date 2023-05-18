@@ -9,6 +9,7 @@ LLaMA가 공개되면서 오픈소스 진영에서도 다양한 모델들 예를
 
 두번째 특징은 학습에 사용한 Corpus의 양입니다. 언어모델을 학습할때 필요한 자원과 언어모델의 크기간의 관계에 대해서 연구한 딥마인드의 Chinchilla 논문에서는 모델의 크기가 10B정도의 수준일때 205.1B개의 토큰이 필요하다고 주장했었는데요. 
 <img width="480" alt="image" src="https://github.com/eagle705/nlp-book/assets/7252598/aaaf5425-b0b8-4e8d-9463-54bc65946852">
+
 LLaMA에서는 그보다 많이 학습해도 성능이 계속 올라간다는것을 알아냈습니다. 총 1T 토큰을 학습함으로써 모델 크기에 따라 어느정도의 토큰이 필요한지 알 수 있게 해주었습니다. LLaMA를 재현하는 프로젝트인 RedPajama에서도 이와 같은 조건으로 학습을 진행했었는데요. 
 <img width="785" alt="image" src="https://github.com/eagle705/nlp-book/assets/7252598/f3422adb-6991-47e1-b7bc-fcdc4f5e270c">
 
@@ -31,7 +32,7 @@ LLaMA 모델에서는 아래와 같이 크게 3가지 부분에서 변화를 주
 ### Rotary Embedding
 GPT에서는 Absolute, learnable, Rotary, ALiBi등 다양한 Positional Embedding이 사용되고 있었습니다. 하지만 최근에 나온 여러 연구에서는 주로 Rotary Embedding을 쓰고 있습니다. Rotary Embedding은 오픈소스 진영인 EleutherAI에서 만든 GPTNeo에서 제안된 방법론이며 Embedding의 각도를 이동시켜 위치정보를 주입하는 방법을 통해 적용됩니다.
 
-<img width="198" alt="image" src="https://github.com/eagle705/nlp-book/assets/7252598/a129b308-3f8b-451a-9e90-f2cf0ddbf7f8">
+![image](https://github.com/eagle705/nlp-book/assets/7252598/3f2299c6-e9e0-4620-a322-118ebef90c58)
 
 ## 마치며
 LLaMA는 Meta에서 연구목적으로 공개한 SOTA 성능을 가진 LLM입니다. 공개된 Corpus로만 학습을 했고 같은 크기의 Chinchilla나 PaLM, GPT-3에 비해서도 좋은성능을 내는 결과를 보여주었습니다. 허깅페이스를 통해서는 다음과 같이 사용할 수 있습니다.
